@@ -21,7 +21,7 @@
     "aphrodite": "^2.4.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "bootstrap": "^5.1.0",
-    "i": "^0.3.6",
+    "i": "^0.3.7",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-optipng": "^8.0.0",
     "isomorphic-unfetch": "^3.1.0",
