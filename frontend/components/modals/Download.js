@@ -221,7 +221,7 @@ const DownloadModal = () => (
                 </Row>
                 <Tabs tabs={tabs} initiallyActive={0} />
                 <p>
-                    For older releases, see <a href="yhttps://github.com/cryfs/cryfs/releases">here</a>.
+                    For older releases, see <a href="https://github.com/cryfs/cryfs/releases">here</a>.
                 </p>
             </Container>
         </ModalBody>
