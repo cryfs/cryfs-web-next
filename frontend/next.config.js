@@ -52,4 +52,3 @@ module.exports = withPlugins([
         extension: /\.mdx?$/
     }), {/* config */}],
 ], config);
-
