@@ -45,15 +45,11 @@ functions:
       - http:
           path: newsletter/register
           method: post
-          cors:
-            origin: 'www.cryfs.org'
-            allowCredentials: false
+          cors: true
   contactSend:
     handler: contact.send
     events:
       - http:
           path: contact/send
           method: post
-          cors:
-            origin: 'www.cryfs.org'
-            allowCredentials: false
+          cors: true
