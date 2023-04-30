@@ -19,17 +19,22 @@ custom:
 package:
   individually: true
 
+# TODO This is likely the default and can be removed in serverless v4
+configValidationMode: error
+
 # The `provider` block defines where your service will be deployed
 provider:
   name: aws
   runtime: nodejs18.x
-  iamRoleStatements:
-    - Effect: 'Allow'
-      Action: 'ssm:GetParameters'
-      Resource:
-        - 'arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_API_TOKEN'
-        - 'arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_LIST_ID'
-        - 'arn:aws:ssm:us-east-1:171839190218:parameter/SENDGRID_API_KEY'
+  iam:
+    role:
+      statements:
+      - Effect: 'Allow'
+        Action: 'ssm:GetParameters'
+        Resource:
+          - 'arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_API_TOKEN'
+          - 'arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_LIST_ID'
+          - 'arn:aws:ssm:us-east-1:171839190218:parameter/SENDGRID_API_KEY'
 
 
 # The `functions` block defines what code to deploy

@@ -6,3 +6,4 @@ out
 jspm_packages
 .serverless
 .webpack
+backend/artifacts
