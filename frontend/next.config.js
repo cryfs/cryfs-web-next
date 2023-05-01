@@ -1,8 +1,7 @@
 "use strict";
 
-const { withPlugins } = require('next-compose-plugins');
-const optimizedImages = require('next-optimized-images');
-const withMDX = require('@next/mdx')
+const withOptimizedImages = require('next-optimized-images');
+const mdx = require('@next/mdx')
 const fs = require('fs');
 const { join } = require('path');
 const { VersionNumber } = require('./config/CryfsVersion.js');
@@ -51,9 +50,8 @@ const config = {
     }
 }
 
-module.exports = withPlugins([
-    [optimizedImages, {/* config */ }],
-    [withMDX({
-        extension: /\.mdx?$/
-    }), {/* config */ }],
-], config);
+const withMdx = mdx({
+    extension: /\.mdx?$/
+})
+
+module.exports = withOptimizedImages(withMdx(config))
