@@ -79,4 +79,4 @@ jobs:
           path: /tmp/artifacts
       - name: Deploy
         working-directory: backend
-        run: ./serverless deploy --package /tmp/artifacts --stage prod --conceal --verbose
+        run: ./serverless deploy --package /tmp/artifacts --stage prod --conceal --verbose --debug=*
