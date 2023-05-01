@@ -11,7 +11,8 @@ on:
 # Allow one concurrent deployment
 concurrency:
   group: "backend"
-  cancel-in-progress: true
+  # Don't cancel in-progress deploys because that might leave AWS in an unclean state
+  cancel-in-progress: false
 
 jobs:
   build:
