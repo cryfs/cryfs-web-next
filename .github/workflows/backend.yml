@@ -25,16 +25,8 @@ jobs:
         with:
           # TODO Should be node v18, but https://stackoverflow.com/a/69699772/829568 . Upgrade once fixed.
           node-version: 16.x
-      - name: Generate package.json checksum
-        id: package_json_checksum
-        run: |
-          echo "PACKAGE_JSON_CHECKSUM=$(shasum -a 512 backend/package.json | awk '{ print $1 }')" >> $GITHUB_OUTPUT
-      - name: Cache Dependencies
-        id: cache-dependencies
-        uses: actions/cache@v3
-        with:
-          path: backend/node_modules
-          key: v1-dependency-cache-backend-${{ steps.package_json_checksum.outputs.PACKAGE_JSON_CHECKSUM }}
+          cache: npm
+          cache-dependency-path: backend/package.json
       - name: Install Dependencies
         working-directory: backend
         run: npm install
@@ -60,16 +52,8 @@ jobs:
         with:
           # TODO Should be node v18, but https://stackoverflow.com/a/69699772/829568 . Upgrade once fixed.
           node-version: 16.x
-      - name: Generate package.json checksum
-        id: package_json_checksum
-        run: |
-          echo "PACKAGE_JSON_CHECKSUM=$(shasum -a 512 backend/package.json | awk '{ print $1 }')" >> $GITHUB_OUTPUT
-      - name: Cache Dependencies
-        id: cache-dependencies
-        uses: actions/cache@v3
-        with:
-          path: backend/node_modules
-          key: v1-dependency-cache-backend-${{ steps.package_json_checksum.outputs.PACKAGE_JSON_CHECKSUM }}
+          cache: npm
+          cache-dependency-path: backend/package.json
       - name: Install Dependencies
         working-directory: backend
         run: npm install
