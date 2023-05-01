@@ -18,7 +18,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
     "@mdx-js/loader": "^2.3.0",
-    "@next/mdx": "^11.1.4",
+    "@next/mdx": "^12.2.6",
     "aphrodite": "^2.4.0",
     "bootstrap": "^5.1.0",
     "i": "^0.3.6",
@@ -26,7 +26,7 @@
     "imagemin-optipng": "^8.0.0",
     "isomorphic-unfetch": "^3.1.0",
     "ncp": "^2.0.0",
-    "next": "^11.1.4",
+    "next": "^12.2.6",
     "next-optimized-images": "^2.6.2",
     "npm": "^7.21.1",
     "react": "^17.0.2",
@@ -39,6 +39,6 @@
   },
   "devDependencies": {
     "eslint": "^7.32.0",
-    "eslint-config-next": "^11.1.4"
+    "eslint-config-next": "^12.2.6"
   }
 }
