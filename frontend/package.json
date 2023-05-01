@@ -17,7 +17,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
-    "@mdx-js/loader": "^1.6.22",
+    "@mdx-js/loader": "^2.3.0",
     "@next/mdx": "^11.1.4",
     "aphrodite": "^2.4.0",
     "bootstrap": "^5.1.0",
