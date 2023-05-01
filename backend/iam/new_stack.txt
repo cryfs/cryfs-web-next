@@ -12,8 +12,9 @@
                 "iam:DeleteRole",
                 "iam:DeleteRolePolicy",
                 "iam:GetRole",
-                "iam:PassRole",
+                "iam:GetRolePolicy",
                 "iam:PutRolePolicy",
+                "iam:PassRole",
                 "iam:TagRole"
             ],
             "Resource": [
@@ -78,6 +79,7 @@
                 "lambda:DeleteFunction",
                 "lambda:UpdateFunctionConfiguration",
                 "lambda:TagResource",
+                "lambda:ListTags",
                 "lambda:ListVersionsByFunction",
                 "lambda:PublishVersion",
                 "lambda:UpdateFunctionCode",
