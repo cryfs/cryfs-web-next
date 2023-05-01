@@ -20,7 +20,6 @@
     "@mdx-js/loader": "^1.6.22",
     "@next/mdx": "^11.1.4",
     "aphrodite": "^2.4.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
     "bootstrap": "^5.1.0",
     "i": "^0.3.6",
     "imagemin-mozjpeg": "^9.0.0",
