@@ -64,7 +64,7 @@ Let's take a look.
 First, we create a file and a directory in <var>mountdir</var>.
 <Console>
     <ConsoleCommand>cd mountdir</ConsoleCommand>
-    <ConsoleCommand>echo "My file content" > myfile</ConsoleCommand>
+    <ConsoleCommand>echo "My file content" &gt; myfile</ConsoleCommand>
     <ConsoleCommand>mkdir mydirectory</ConsoleCommand>
 </Console>
 
@@ -152,7 +152,7 @@ and upload it to the cloud.
 
 As before, let's add a file to it.
 <Console>
-    <ConsoleCommand>echo "My file content" > mountdir/myfile</ConsoleCommand>
+    <ConsoleCommand>echo "My file content" &gt; mountdir/myfile</ConsoleCommand>
 </Console>
 
 To check that synchronization works, we can add a second client on another computer.
