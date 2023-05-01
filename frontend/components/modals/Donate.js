@@ -4,6 +4,7 @@ import React from 'react';
 import { ModalBody } from 'reactstrap';
 import { StyleSheet, css } from 'aphrodite/no-important'
 import RouteHashBasedModal from './RouteHashBasedModal'
+import Script from 'next/script'
 
 const style = StyleSheet.create({
     dialog: {
@@ -28,7 +29,7 @@ const style = StyleSheet.create({
 
 const DonateModal = () => (
     <RouteHashBasedModal hash="#donate" labelledBy="donateModalTitle" className={css(style.dialog)}>
-        <script src="https://donorbox.org/widget.js" type="text/javascript" />
+        <Script src="https://donorbox.org/widget.js" type="text/javascript" />
         <ModalBody>
             <div className="text-center">
                 <iframe

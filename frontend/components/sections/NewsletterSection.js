@@ -1,12 +1,12 @@
 "use strict";
 
-import {css, StyleSheet} from "aphrodite";
-import {Col, Collapse, Container, Form, FormGroup, Input, Label} from "reactstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDoubleRight} from "@fortawesome/free-solid-svg-icons";
+import { css, StyleSheet } from "aphrodite";
+import { Col, Collapse, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
 import fetch from 'unfetch'
 import AsyncButton from "../AsyncButton";
-import {logAnalyticsEvent} from '../Analytics'
+import { logAnalyticsEvent } from '../Analytics'
 import React from 'react';
 
 const style = StyleSheet.create({
@@ -59,7 +59,7 @@ class NewsletterSection extends React.Component {
         try {
             const response = await fetch('https://backend.cryfs.org/newsletter/register', {
                 method: 'POST',
-                header: {'Content-Type': 'application/json'},
+                header: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: this.state.email,
                     token: 'fd0kAn1zns',
@@ -106,13 +106,13 @@ class NewsletterSection extends React.Component {
                     <FormGroup>
                         <Label for="inputEmail" className="sr-only">Email Address:</Label>
                         <Input type="email" name="email" id="inputEmail" placeholder="Enter email" required={true}
-                               autoComplete="off" value={this.state.email} onChange={this.onEmailChange} />
+                            autoComplete="off" value={this.state.email} onChange={this.onEmailChange} />
                     </FormGroup>
-                    <Col md={{size: '2', offset: 0}}>
+                    <Col md={{ size: '2', offset: 0 }}>
                         <FormGroup>
                             <AsyncButton type="Submit" onClick={this.onSubmit} color="primary" block={true}>
                                 Get Notified &nbsp;
-                                <FontAwesomeIcon icon={faAngleDoubleRight}/>
+                                <FontAwesomeIcon icon={faAngleDoubleRight} />
                             </AsyncButton>
                         </FormGroup>
                     </Col>
@@ -120,13 +120,13 @@ class NewsletterSection extends React.Component {
                 <Collapse isOpen={this.state.notification != ''} className={css(style.notificationArea)}>
                     {/*TODO Translate*/}
                     <Collapse isOpen={this.state.notification == 'success'} className={`lead ${css(style.notification_success)}`}>
-                        Thank you. You'll get a confirmation email shortly.
+                        Thank you. You&apos;ll get a confirmation email shortly.
                     </Collapse>
                     <Collapse isOpen={this.state.notification == 'error_invalid_email'} className={`lead ${css(style.notification_error)}`}>
                         Invalid email address.
                     </Collapse>
                     <Collapse isOpen={this.state.notification == 'error_unsubscribed'} className={`lead ${css(style.notification_error)}`}>
-                        You've unsubscribed before and we can't resubscribe you to protect against spam. Please send an
+                        You&apos;ve unsubscribed before and we can&apos;t resubscribe you to protect against spam. Please send an
                         email to messmer@cryfs.org.
                     </Collapse>
                     <Collapse isOpen={this.state.notification == 'error_unknown'} className={`lead ${css(style.notification_error)}`}>

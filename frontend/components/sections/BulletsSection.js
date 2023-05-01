@@ -1,10 +1,10 @@
 "use strict";
 
-import {css, StyleSheet} from "aphrodite";
-import {Button, Col, Container, Row} from "reactstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { css, StyleSheet } from "aphrodite";
+import { Button, Col, Container, Row } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import {faAngleDoubleRight, faComments, faLightbulb, faLock} from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleRight, faComments, faLightbulb, faLock } from "@fortawesome/free-solid-svg-icons";
 
 const bulletStyle = StyleSheet.create({
     icon: {
@@ -23,18 +23,18 @@ const BulletPoint = (props) => (
             <h2 className={css(bulletStyle.title)}>{props.title}</h2>
             {props.children}
             <p>
-                { (!props.external_link) ?
+                {(!props.external_link) ?
                     <Link href={props.details_link_target}>
                         <Button outline color="secondary">
                             {/*TODO Translate*/}
                             Details &nbsp;
-                            <FontAwesomeIcon icon={faAngleDoubleRight}/>
+                            <FontAwesomeIcon icon={faAngleDoubleRight} />
                         </Button>
                     </Link> :
                     <Button outline color="secondary" href={props.details_link_target}>
                         {/*TODO Translate*/}
                         Details &nbsp;
-                        <FontAwesomeIcon icon={faAngleDoubleRight}/>
+                        <FontAwesomeIcon icon={faAngleDoubleRight} />
                     </Button>
                 }
             </p>
@@ -47,7 +47,7 @@ const BulletsSection = () => (
         <Row>
             {/*TODO Translate*/}
             <BulletPoint title="Simple" icon={faLightbulb} details_link_target="/tutorial">
-                <p>Easy to setup and works with a lot of cloud storage providers. It runs in the background - you won't notice it when accessing your files in your daily workflow.</p>
+                <p>Easy to setup and works with a lot of cloud storage providers. It runs in the background - you won&apos;t notice it when accessing your files in your daily workflow.</p>
             </BulletPoint>
             <BulletPoint title="Secure" icon={faLock} details_link_target="/howitworks">
                 <p>Your data only leaves your computer in encrypted form. File contents, metadata and directory structure are all secure from someone who hacked your cloud.</p>

@@ -45,6 +45,7 @@ const config = {
     },
     pageExtensions: ['js', 'md'],
     // TODO Use next/image from https://nextjs.org/docs/upgrading#nextconfigjs-customization-to-import-images instead of disableStaticImages: true
+    //      (also disabled by getInitialProps? https://nextjs.org/docs/api-reference/data-fetching/get-initial-props )
     images: {
         disableStaticImages: true,
     }

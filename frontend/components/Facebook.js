@@ -88,13 +88,16 @@ export class FacebookRoot extends React.Component {
 }
 
 export class FacebookLikeButton extends React.Component {
+    selfRef = React.createRef(null)
+
     componentDidMount = async () => {
         const api = await FacebookAPI()
-        api.XFBML.parse(ReactDOM.findDOMNode(this))
+        const self = this.selfRef.current
+        api.XFBML.parse(self)
     }
 
     render = () => (
-        <div>
+        <div ref={this.selfRef}>
             <div id="fb-like" className="fb-like" {...this.props} />
         </div>
     )

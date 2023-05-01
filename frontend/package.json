@@ -6,7 +6,8 @@
     "dev": "next",
     "build": "next build",
     "start": "npm run build && next start",
-    "export": "npm run build && next export && touch out/.nojekyll"
+    "export": "npm run build && next export && touch out/.nojekyll",
+    "lint": "next lint"
   },
   "keywords": [],
   "author": "Sebastian Messmer",
@@ -37,5 +38,9 @@
     "sass": "^1.38.2",
     "unfetch": "^4.2.0",
     "url-parse": "^1.5.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^11.1.4"
   }
 }
