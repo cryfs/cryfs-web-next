@@ -16,15 +16,6 @@ import MetaTags from '../components/MetaTags'
 <section>
 <Container>
 
-## This site is operated by
-
-<address>
-Sebastian Messmer <br />
-Leopoldstr. 3 <br />
-D-76133 Karlsruhe <br />
-Germany
-</address>
-
 The following paragraphs are in german to comply with german law.
 
 ## Haftungsausschluss
