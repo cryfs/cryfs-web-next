@@ -20,7 +20,7 @@ export const send = LambdaFunction(async (body) => {
     return {
         statusCode: 200,
         body: JSON.stringify({
-            'success': "bla",
+            'success': true,
         }),
     }
 })
