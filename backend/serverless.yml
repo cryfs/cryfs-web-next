@@ -9,6 +9,8 @@ frameworkVersion: "=3.30.1"
 plugins:
   - serverless-webpack
 
+# TODO Set up custom domain via serverless, see https://www.serverless.com/blog/serverless-api-gateway-domain/ and https://www.npmjs.com/package/serverless-domain-manager
+
 # The `service` block is the name of the service
 service: cryfs-web-backend
 

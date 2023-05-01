@@ -2,6 +2,12 @@ Installation
 -------------
 Run "npm install" to install dependencies
 
+
+AWS Setup
+-------------
+See `iam` folder for required IAM permissions
+
+
 Serverless commands
 -------------
 First set AWS environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_KEY.
