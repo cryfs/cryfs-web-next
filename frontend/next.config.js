@@ -1,11 +1,11 @@
 "use strict";
 
-const {withPlugins} = require('next-compose-plugins');
+const { withPlugins } = require('next-compose-plugins');
 const optimizedImages = require('next-optimized-images');
 const withMDX = require('@next/mdx')
 const fs = require('fs');
 const { join } = require('path');
-const {VersionNumber} = require('./config/CryfsVersion.js');
+const { VersionNumber } = require('./config/CryfsVersion.js');
 const ncp = require('ncp').ncp
 
 const config = {
@@ -21,13 +21,13 @@ const config = {
 
         // Create the /version_info.json file in the export
         const version_info = JSON.stringify({
-            "version_info":{
+            "version_info": {
                 "current": VersionNumber,
             },
-            "warnings":{},
+            "warnings": {},
         })
-        fs.writeFile(join(outDir, 'version_info.json'), version_info, function(err) {
-            if(err) {
+        fs.writeFile(join(outDir, 'version_info.json'), version_info, function (err) {
+            if (err) {
                 throw err
             }
             console.log("Written version_info.json");
@@ -44,11 +44,15 @@ const config = {
         return defaultPathMap;
     },
     pageExtensions: ['js', 'md'],
+    // TODO Use next/image from https://nextjs.org/docs/upgrading#nextconfigjs-customization-to-import-images instead of disableStaticImages: true
+    images: {
+        disableStaticImages: true,
+    }
 }
 
 module.exports = withPlugins([
-    [optimizedImages, {/* config */}],
+    [optimizedImages, {/* config */ }],
     [withMDX({
         extension: /\.mdx?$/
-    }), {/* config */}],
+    }), {/* config */ }],
 ], config);

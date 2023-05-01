@@ -1,9 +1,9 @@
 "use strict";
 
-import {css, StyleSheet} from "aphrodite";
-import {Button} from "reactstrap";
+import { css, StyleSheet } from "aphrodite";
+import { Button } from "reactstrap";
 import Link from "next/link";
-import {logAnalyticsEvent} from './Analytics'
+import { logAnalyticsEvent } from './Analytics'
 
 const teaser_width = 5308
 const teaser_height = 2636
@@ -20,13 +20,13 @@ const mdStyle = StyleSheet.create({
         position: 'absolute',
         right: '0px',
         height: `${wanted_teaser_height_md}px`,
-        width: `${Math.floor(teaser_width/teaser_height*wanted_teaser_height_md)}px`,
+        width: `${Math.floor(teaser_width / teaser_height * wanted_teaser_height_md)}px`,
     },
     image: {
         position: 'absolute',
-        width: `${Math.floor(teaser_width/teaser_height*wanted_teaser_height_md)}px`,
+        width: `${Math.floor(teaser_width / teaser_height * wanted_teaser_height_md)}px`,
         height: wanted_teaser_height_md,
-        backgroundSize: `${Math.floor(teaser_width/teaser_height*wanted_teaser_height_md)}px ${wanted_teaser_height_md}px`,
+        backgroundSize: `${Math.floor(teaser_width / teaser_height * wanted_teaser_height_md)}px ${wanted_teaser_height_md}px`,
         backgroundImage: `url(${require('../assets/images/teaser.jpg')})`,
         backgroundRepeat: 'no-repeat',
     },
@@ -82,7 +82,7 @@ const tutorialBtnStyle = StyleSheet.create({
     },
 })
 
-{/*TODO Translate*/}
+{/*TODO Translate*/ }
 const teaser_header = "Keep your data safe in the cloud"
 const teaser_paragraph1 = "CryFS encrypts your files, so you can safely store them anywhere. It works well together with cloud services like Dropbox, iCloud, OneDrive and others."
 
@@ -94,7 +94,7 @@ const onTutorialButtonClick = async () => {
     await logAnalyticsEvent('buttons', 'click_tutorial_button')
 }
 
-export default () => (
+const Teaser = () => (
     <>
         <section className={`${css(mdStyle.teaser)} d-none d-lg-block`}>
             <div className="clearfix">
@@ -131,3 +131,5 @@ export default () => (
         </section>
     </>
 )
+
+export default Teaser
