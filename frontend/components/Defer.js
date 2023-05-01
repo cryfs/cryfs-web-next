@@ -7,7 +7,7 @@
    promise.resolve("value")
    const value = await promise
  */
-export default () => {
+const Defer = () => {
     let deferred = {
         promise: null,
         resolve: null,
@@ -21,3 +21,5 @@ export default () => {
 
     return deferred
 }
+
+export default Defer

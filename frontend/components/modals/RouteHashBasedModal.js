@@ -1,8 +1,8 @@
 "use strict";
 
-import { withRouter} from "next/dist/client/router";
+import { withRouter } from "next/dist/client/router";
 import Url from "url-parse";
-import {Modal, ModalHeader, ModalFooter, Button} from "reactstrap";
+import { Modal, ModalHeader, ModalFooter, Button } from "reactstrap";
 import { RoutingListener } from '../RoutingListener'
 import React from 'react';
 
@@ -47,22 +47,24 @@ class RouteHashBasedModal extends React.Component {
     }
 
     render = () => {
-        let {labelledBy, header, showCloseButtonInFooter, ...forwardProps} = this.props
+        let { labelledBy, header, showCloseButtonInFooter, ...forwardProps } = this.props
 
         return <Modal isOpen={this.state.show} toggle={this.toggle} {...forwardProps}>
             {(typeof this.props.header != 'undefined') &&
-            <ModalHeader id={labelledBy} toggle={this.toggle}>
-                {header}
-            </ModalHeader>
+                <ModalHeader id={labelledBy} toggle={this.toggle}>
+                    {header}
+                </ModalHeader>
             }
             {this.props.children}
             {(showCloseButtonInFooter) &&
-            <ModalFooter>
-                <Button outline color="secondary" onClick={this.toggle}>Close</Button>
-            </ModalFooter>
+                <ModalFooter>
+                    <Button outline color="secondary" onClick={this.toggle}>Close</Button>
+                </ModalFooter>
             }
         </Modal>
     }
 }
 
-export default withRouter(RouteHashBasedModal)
+const RouteHashBasedModalWithRouter = withRouter(RouteHashBasedModal)
+
+export default RouteHashBasedModalWithRouter

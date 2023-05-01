@@ -1,6 +1,6 @@
 "use strict";
 
-import {css, StyleSheet} from "aphrodite"
+import { css, StyleSheet } from "aphrodite"
 import React from 'react';
 
 const styles = [
@@ -22,7 +22,7 @@ const styles = [
     }),
 ]
 
-export default (props) => {
+const AlternatingSections = (props) => {
     let styleIndex = (typeof props.start_index === 'undefined') ? 0 : props.start_index
 
     return <> {
@@ -35,7 +35,9 @@ export default (props) => {
             }
             const style = styles[styleIndex]
             styleIndex = (styleIndex + 1) % styles.length
-            return React.cloneElement(child, {className: oldClassName + css(style.section)})
+            return React.cloneElement(child, { className: oldClassName + css(style.section) })
         })
     } </>
 }
+
+export default AlternatingSections
