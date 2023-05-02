@@ -18,6 +18,8 @@ import {
 import { StyleSheet, css } from 'aphrodite/no-important'
 import { AnalyticsSetup } from '../components/Analytics'
 import { FacebookRoot, FacebookLikeButton } from '../components/Facebook'
+import Favicon from '../assets/images/favicon.png'
+import GithubRibbonImage from '../assets/images/github_ribbon.png'
 
 if (typeof window !== 'undefined') {
     /* StyleSheet.rehydrate takes an array of rendered classnames,
@@ -99,9 +101,8 @@ const githubRibbonStyle = StyleSheet.create({
 const GithubRibbon = props => (
     <a href="https://github.com/cryfs/cryfs">
         {/*TODO Translate*/}
-        <img src={require("../assets/images/github_ribbon.png")}
+        <img src={GithubRibbonImage.src}
             alt="Fork me on GitHub"
-            data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
             className={css(githubRibbonStyle.ribbon)} />
     </a>
 )
@@ -149,8 +150,8 @@ const Layout = (props) => (
     <>
         <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <link rel="shortcut icon" type="image/png" href={require("../assets/images/favicon.png")} />
-            <link rel="apple-touch-icon" type="image/png" href={require("../assets/images/favicon.png")} />
+            <link rel="shortcut icon" type="image/png" href={Favicon.src} />
+            <link rel="apple-touch-icon" type="image/png" href={Favicon.src} />
         </Head>
         <FacebookRoot /> { /* FacebookRoot must be in Layout and not in _document because otherwise componentDidMount isn't executed */}
         <AnalyticsSetup /> { /* AnalyticsSetup must be in Layout and not in _document because otherwise componentDidMount isn't executed */}

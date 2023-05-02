@@ -4,6 +4,8 @@ import { css, StyleSheet } from "aphrodite";
 import { Button } from "reactstrap";
 import Link from "next/link";
 import { logAnalyticsEvent } from './Analytics'
+import Logo from '../assets/images/logo.png'
+import TeaserImage from '../assets/images/teaser.jpg'
 
 const teaser_width = 5308
 const teaser_height = 2636
@@ -27,7 +29,7 @@ const mdStyle = StyleSheet.create({
         width: `${Math.floor(teaser_width / teaser_height * wanted_teaser_height_md)}px`,
         height: wanted_teaser_height_md,
         backgroundSize: `${Math.floor(teaser_width / teaser_height * wanted_teaser_height_md)}px ${wanted_teaser_height_md}px`,
-        backgroundImage: `url(${require('../assets/images/teaser.jpg')})`,
+        backgroundImage: `url(${TeaserImage.src})`,
         backgroundRepeat: 'no-repeat',
     },
     title_text: {
@@ -120,7 +122,7 @@ const Teaser = () => (
             <div className="clearfix">
                 <div className={css(smStyle.content)}>
                     <div className={`${smStyle.image} text-center`}>
-                        <img src={require('../assets/images/logo.png')} alt="Logo" width="200" height="150" />
+                        <img src={Logo.src} alt="Logo" width="200" height="150" />
                         <div className="lead text-center title-text">
                             <h1 className={css(smStyle.title_text_h1)}>{teaser_header}</h1>
                             <p className={css(smStyle.title_text_p)}>{teaser_paragraph1}</p>
