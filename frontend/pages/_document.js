@@ -13,7 +13,7 @@ class MyDocument extends Document {
         return { ...html, css, ids }
     }
 
-    constructor (props) {
+    constructor(props) {
         super(props)
         /* Take the renderedClassNames from aphrodite (as generated
         in getInitialProps) and assign them to __NEXT_DATA__ so that they
