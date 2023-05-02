@@ -24,7 +24,9 @@ export const logMatomoAnalyticsEvent = (category: string, action: string) => {
 
 export const logMatomoAnalyticsPageview = (path: string) => {
     // @ts-ignore
-    window._paq.push(['trackPageView', path]);
+    window._paq.push(['setCustomUrl', path])
+    // @ts-ignore
+    window._paq.push(['trackPageView', path])
     // window.gtag('config', google_analytics_id, {
     //     'page_path': path,
     // })
