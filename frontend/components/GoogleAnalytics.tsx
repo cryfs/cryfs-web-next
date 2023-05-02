@@ -1,5 +1,3 @@
-"use strict";
-
 import Head from 'next/head'
 
 const google_analytics_id = "UA-65863982-1"

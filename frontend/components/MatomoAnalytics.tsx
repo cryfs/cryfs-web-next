@@ -1,5 +1,3 @@
-"use strict";
-
 import Head from 'next/head'
 
 const matomo_analytics_init = `
