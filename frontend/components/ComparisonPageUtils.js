@@ -1,8 +1,10 @@
 "use strict";
 
+// TODO Convert this file to typescript. But we need reactstrap v9 for that because of https://github.com/reactstrap/reactstrap/issues/2501
+
 import { StyleSheet, css } from 'aphrodite/no-important'
-import {Table} from 'reactstrap'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { Table } from 'reactstrap'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faCircle } from '@fortawesome/free-solid-svg-icons'
 
 export const style = StyleSheet.create({
@@ -121,7 +123,7 @@ export const ComparisonTable = (props) => (
 export const ComparisonTableHead = (props) => (
     <thead>
         <tr className={css(tableStyle.headerRow)}>
-            <th className={css(tableStyle.headerTh)}/>
+            <th className={css(tableStyle.headerTh)} />
             {props.children}
         </tr>
     </thead>
@@ -165,7 +167,7 @@ export const ComparisonTableCell = (props) => {
     }
     return <td className={className}>
         <FontAwesomeIcon icon={icon} />
-        { (typeof props.footnote != "undefined") &&
+        {(typeof props.footnote != "undefined") &&
             <span className={css(tableStyle.footnoteMark)}>{props.footnote}</span>
         }
     </td>

@@ -1,7 +1,5 @@
-"use strict";
-
 // A Promise that resolves after a given timeout
-export const timeout = (delayMs) => {
+export const timeout = (delayMs: number): Promise<void> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve()
@@ -9,12 +7,12 @@ export const timeout = (delayMs) => {
     })
 }
 
-export const promiseWithTimeout = async (promise, waitMsUntilCancelled) => {
-    let timeoutId = undefined
-    const failureCase = new Promise((resolve, reject) => {
+export const promiseWithTimeout = async <T,>(promise: Promise<T>, waitMsUntilCancelled: number): Promise<T> => {
+    let timeoutId: any = undefined
+    const failureCase: Promise<T> = new Promise((resolve, reject) => {
         timeoutId = setTimeout(() => reject("Timeout waiting for promise"), waitMsUntilCancelled)
     })
-    const successCase = promise.finally(() => {
+    const successCase: Promise<T> = promise.finally(() => {
         clearTimeout(timeoutId)
     })
 

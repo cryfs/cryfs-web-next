@@ -1,5 +1,3 @@
-"use strict";
-
 import { StyleSheet, css } from 'aphrodite/no-important'
 
 const style = StyleSheet.create({
@@ -27,20 +25,32 @@ const style = StyleSheet.create({
     },
 })
 
-export const Console = (props) => (
+type ConsoleProps = {
+    children: React.ReactNode
+}
+
+export const Console = (props: ConsoleProps) => (
     <pre className={css(style.console)}>
         {props.children}
     </pre>
 )
 
-export const ConsoleCommand = (props) => (
+type ConsoleCommandProps = {
+    children: React.ReactNode
+}
+
+export const ConsoleCommand = (props: ConsoleCommandProps) => (
     <div className={css(style.line)} {...props}>
         <span className={css(style.linestart)}>$</span>
         {props.children}
     </div>
 )
 
-export const ConsoleOutput = (props) => (
+type ConsoleOutputProps = {
+    children: React.ReactNode
+}
+
+export const ConsoleOutput = (props: ConsoleOutputProps) => (
     <div className={css(style.line, style.output)}>
         {props.children}
     </div>

@@ -1,6 +1,8 @@
 "use strict";
 
-import {Container} from 'reactstrap'
+// TODO Convert this file to typescript. But we need reactstrap v9 for that because of https://github.com/reactstrap/reactstrap/issues/2501
+
+import { Container } from 'reactstrap'
 import { StyleSheet, css } from 'aphrodite/no-important'
 
 const style = StyleSheet.create({

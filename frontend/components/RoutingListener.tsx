@@ -1,9 +1,10 @@
-"use strict";
-
-import {Router} from "next/dist/client/router";
+import { Router } from "next/dist/client/router";
 
 export class RoutingListener {
-    constructor(initialUrl) {
+    url: string
+    onChangeCallbacks: ((url: string) => Promise<void>)[]
+
+    constructor(initialUrl: string) {
         this.url = initialUrl
         // console.log("inital url: " + this.url)
 
@@ -18,11 +19,11 @@ export class RoutingListener {
         Router.events.off('hashChangeComplete', this.onRouteChangeComplete)
     }
 
-    addListener = (func) => {
+    addListener = (func: (url: string) => Promise<void>) => {
         this.onChangeCallbacks.push(func)
     }
 
-    onRouteChangeComplete = async (url) => {
+    onRouteChangeComplete = async (url: string) => {
         this.url = url
         if (this.url.startsWith("http://") || this.url.startsWith("https://")) {
             // Make it a relative URL
@@ -30,7 +31,7 @@ export class RoutingListener {
         }
 
         const promises = this.onChangeCallbacks.map(async (callback) => {
-            callback(this.url)
+            await callback(this.url)
         })
         await Promise.all(promises)
     }

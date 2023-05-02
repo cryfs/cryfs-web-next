@@ -1,3 +1,5 @@
+// @ts-check
+
 "use strict";
 
 const withOptimizedImages = require('next-optimized-images');
@@ -54,4 +56,9 @@ const withMdx = mdx({
     /* mdx config */
 })
 
-module.exports = withOptimizedImages(withMdx(config))
+/**
+ * @type {import('next').NextConfig}
+ */
+const mergedConfig = withOptimizedImages(withMdx(config))
+
+module.exports = mergedConfig

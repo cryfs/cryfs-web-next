@@ -10,13 +10,13 @@ const google_analytics_init = (
 	`window.gtag('config', '${google_analytics_id}');`
 )
 
-export const logGoogleAnalyticsEvent = (category, action) => {
+export const logGoogleAnalyticsEvent = (category: string, action: string) => {
 	window.gtag('event', action, {
 		'event_category': category,
 	})
 }
 
-export const logGoogleAnalyticsPageview = (path) => {
+export const logGoogleAnalyticsPageview = (path: string) => {
 	window.gtag('config', google_analytics_id, {
 		'page_path': path,
 	})
@@ -27,7 +27,7 @@ export const GoogleAnalyticsRoot = () => (
 	<Head>
 		<script dangerouslySetInnerHTML={{
 			__html: google_analytics_init
-		}}/>
-		<script async defer src={`https://www.googletagmanager.com/gtag/js?id=${google_analytics_id}`}/>
+		}} />
+		<script async defer src={`https://www.googletagmanager.com/gtag/js?id=${google_analytics_id}`} />
 	</Head>
 )
