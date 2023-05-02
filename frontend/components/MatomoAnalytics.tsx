@@ -22,7 +22,7 @@ export const logMatomoAnalyticsEvent = (category: string, action: string) => {
     window._paq.push(['trackEvent', category, action])
 }
 
-export const logMatomoAnalyticsPageview = (pah: string) => {
+export const logMatomoAnalyticsPageview = (path: string) => {
     // @ts-ignore
     window._paq.push(['trackPageView', path]);
     // window.gtag('config', google_analytics_id, {
