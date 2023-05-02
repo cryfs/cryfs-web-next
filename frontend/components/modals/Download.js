@@ -1,7 +1,7 @@
 "use strict";
 
-import React from 'react';
-import { ModalBody, Container, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import React from 'react'
+import { ModalBody, Container, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { StyleSheet, css } from 'aphrodite/no-important'
 import { Console, ConsoleCommand } from '../../components/Console'
 import RouteHashBasedModal from './RouteHashBasedModal'
@@ -11,6 +11,7 @@ import DebianLogo from '../../assets/images/debian.png'
 import OtherLogo from '../../assets/images/other_os.png'
 import classnames from 'classnames'
 import { logAnalyticsEvent } from '../Analytics'
+import Image from 'next/image'
 
 const style = StyleSheet.create({
     tabHeader: {
@@ -101,7 +102,7 @@ const tabs = () => [
         header: (
             <Row className={css(style.osBox)}>
                 <Col md="12">
-                    <img src={UbuntuLogo.src} alt="Ubuntu" size="61x61" />
+                    <Image src={UbuntuLogo} alt="Ubuntu" width={61} height={61} />
                 </Col>
                 <Col md="12" className={css(style.osName)}>
                     Ubuntu
@@ -129,7 +130,7 @@ const tabs = () => [
         header: (
             <Row className={css(style.osBox)}>
                 <Col md="12">
-                    <img src={DebianLogo.src} alt="Debian" size="50x61" />
+                    <Image src={DebianLogo} alt="Debian" width={50} height={61} />
                 </Col>
                 <Col md="12" className={css(style.osName)}>
                     Debian
@@ -157,7 +158,7 @@ const tabs = () => [
         header: (
             <Row className={css(style.osBox)}>
                 <Col md="12">
-                    <img src={OtherLogo.src} alt="Other" size="61x61" />
+                    <Image src={OtherLogo} alt="Other" width={61} height={61} />
                 </Col>
                 <Col md="12" className={css(style.osName)}>
                     Other

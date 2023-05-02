@@ -1,8 +1,9 @@
 "use strict";
 
-import { css, StyleSheet } from "aphrodite";
-import { Button } from "reactstrap";
-import Link from "next/link";
+import { css, StyleSheet } from "aphrodite"
+import { Button } from "reactstrap"
+import Link from "next/link"
+import Image from 'next/image'
 import { logAnalyticsEvent } from './Analytics'
 import Logo from '../assets/images/logo.png'
 import TeaserImage from '../assets/images/teaser.jpg'
@@ -122,15 +123,15 @@ const Teaser = () => (
             <div className="clearfix">
                 <div className={css(smStyle.content)}>
                     <div className={`${smStyle.image} text-center`}>
-                        <img src={Logo.src} alt="Logo" width="200" height="150" />
+                        <Image src={Logo} priority alt="Logo" width="200" height="150" />
                         <div className="lead text-center title-text">
                             <h1 className={css(smStyle.title_text_h1)}>{teaser_header}</h1>
                             <p className={css(smStyle.title_text_p)}>{teaser_paragraph1}</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    </div >
+                </div >
+            </div >
+        </section >
     </>
 )
 

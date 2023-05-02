@@ -1,7 +1,7 @@
 "use strict";
 
 import Head from 'next/head'
-import React from 'react';
+import React from 'react'
 import Link from 'next/link'
 import {
     Container,
@@ -18,6 +18,7 @@ import {
 import { StyleSheet, css } from 'aphrodite/no-important'
 import { AnalyticsSetup } from '../components/Analytics'
 import { FacebookRoot, FacebookLikeButton } from '../components/Facebook'
+import Image from 'next/image'
 import Favicon from '../assets/images/favicon.png'
 import GithubRibbonImage from '../assets/images/github_ribbon.png'
 
@@ -101,7 +102,7 @@ const githubRibbonStyle = StyleSheet.create({
 const GithubRibbon = props => (
     <a href="https://github.com/cryfs/cryfs">
         {/*TODO Translate*/}
-        <img src={GithubRibbonImage.src}
+        <Image src={GithubRibbonImage}
             alt="Fork me on GitHub"
             className={css(githubRibbonStyle.ribbon)} />
     </a>
@@ -152,7 +153,7 @@ const Layout = (props) => (
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="shortcut icon" type="image/png" href={Favicon.src} />
             <link rel="apple-touch-icon" type="image/png" href={Favicon.src} />
-        </Head>
+        </Head >
         <FacebookRoot /> { /* FacebookRoot must be in Layout and not in _document because otherwise componentDidMount isn't executed */}
         <AnalyticsSetup /> { /* AnalyticsSetup must be in Layout and not in _document because otherwise componentDidMount isn't executed */}
         <MyNavBar />
