@@ -2,8 +2,7 @@
 
 import Head from 'next/head'
 
-const google_analytics_id = "UA-65863982-1"
-const google_analytics_init = `
+const matomo_analytics_init = `
     var _paq = window._paq = window._paq || [];
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
     _paq.push(['trackPageView']);
@@ -27,16 +26,12 @@ export const logMatomoAnalyticsPageview = (path: string) => {
     window._paq.push(['setCustomUrl', path])
     // @ts-ignore
     window._paq.push(['trackPageView', path])
-    // window.gtag('config', google_analytics_id, {
-    //     'page_path': path,
-    // })
-    // window.gtag('event', 'page_view')
 }
 
 export const MatomoAnalyticsRoot = () => (
     <Head>
         <script dangerouslySetInnerHTML={{
-            __html: google_analytics_init
+            __html: matomo_analytics_init
         }} />
     </Head>
 )
