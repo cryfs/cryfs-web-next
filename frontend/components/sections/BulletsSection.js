@@ -24,7 +24,7 @@ const BulletPoint = (props) => (
             {props.children}
             <p>
                 {(!props.external_link) ?
-                    <Link href={props.details_link_target}>
+                    <Link legacyBehavior passHref href={props.details_link_target}>
                         <Button outline color="secondary">
                             {/*TODO Translate*/}
                             Details &nbsp;

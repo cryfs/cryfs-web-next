@@ -65,19 +65,19 @@ class MyNavBar extends React.Component {
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav navbar>
                         <NavItem>
-                            <Link href="/howitworks"><NavLink className={css(navbarStyle.link)}>How it works</NavLink></Link>
+                            <Link legacyBehavior passHref href="/howitworks"><NavLink className={css(navbarStyle.link)}>How it works</NavLink></Link>
                         </NavItem>
                         <NavItem>
-                            <Link href="/tutorial"><NavLink className={css(navbarStyle.link)}>Tutorial</NavLink></Link>
+                            <Link legacyBehavior passHref href="/tutorial"><NavLink className={css(navbarStyle.link)}>Tutorial</NavLink></Link>
                         </NavItem>
                         <NavItem>
-                            <Link href="/comparison"><NavLink className={css(navbarStyle.link)}>Compare</NavLink></Link>
+                            <Link legacyBehavior passHref href="/comparison"><NavLink className={css(navbarStyle.link)}>Compare</NavLink></Link>
                         </NavItem>
                         <NavItem className="d-none d-md-block">
-                            <Link href="/#download"><NavLink className={css(navbarStyle.link)}>Download</NavLink></Link>
+                            <Link legacyBehavior passHref href="/#download"><NavLink className={css(navbarStyle.link)}>Download</NavLink></Link>
                         </NavItem>
                         <NavItem>
-                            <Link href="/#donate"><NavLink className={css(navbarStyle.link)}>Donate</NavLink></Link>
+                            <Link legacyBehavior passHref href="/#donate"><NavLink className={css(navbarStyle.link)}>Donate</NavLink></Link>
                         </NavItem>
                     </Nav>
                 </Collapse>
@@ -136,7 +136,7 @@ const Footer = props => (
                     <Col md="2">
                         <div className="text-right">
                             {/*TODO Translate*/}
-                            <Link href={"/legal_notice"}><a>Legal Notice</a></Link>
+                            <Link href={"/legal_notice"}>Legal Notice</Link>
                         </div>
                     </Col>
                 </Row>
