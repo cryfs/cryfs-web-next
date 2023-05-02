@@ -1,7 +1,7 @@
 "use strict";
 
 import { css, StyleSheet } from "aphrodite";
-import { Col, Collapse, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import { Col, Row, Collapse, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
 import fetch from 'unfetch'
@@ -102,20 +102,24 @@ class NewsletterSection extends React.Component {
             {/*TODO Translate*/}
             <h2>Let us notify you when CryFS is stable!</h2>
             <div className={css(style.registrationBox)}>
-                <Form inline className="justify-content-center">
-                    <FormGroup>
-                        <Label for="inputEmail" className="sr-only">Email Address:</Label>
-                        <Input type="email" name="email" id="inputEmail" placeholder="Enter email" required={true}
-                            autoComplete="off" value={this.state.email} onChange={this.onEmailChange} />
-                    </FormGroup>
-                    <Col md={{ size: '2', offset: 0 }}>
-                        <FormGroup>
-                            <AsyncButton type="Submit" onClick={this.onSubmit} color="primary" block={true}>
-                                Get Notified &nbsp;
-                                <FontAwesomeIcon icon={faAngleDoubleRight} />
-                            </AsyncButton>
-                        </FormGroup>
-                    </Col>
+                <Form className="justify-content-center">
+                    <Row>
+                        <Col md={{ size: '4', offset: 3 }}>
+                            <FormGroup>
+                                <Label for="inputEmail" className="sr-only">Email Address:</Label>
+                                <Input type="email" name="email" id="inputEmail" placeholder="Enter email" required={true}
+                                    autoComplete="off" value={this.state.email} onChange={this.onEmailChange} />
+                            </FormGroup>
+                        </Col>
+                        <Col md={{ size: '2', offset: 0 }}>
+                            <FormGroup>
+                                <AsyncButton type="Submit" onClick={this.onSubmit} color="primary" block={true}>
+                                    Get Notified &nbsp;
+                                    <FontAwesomeIcon icon={faAngleDoubleRight} />
+                                </AsyncButton>
+                            </FormGroup>
+                        </Col>
+                    </Row>
                 </Form>
                 <Collapse isOpen={this.state.notification != ''} className={css(style.notificationArea)}>
                     {/*TODO Translate*/}
