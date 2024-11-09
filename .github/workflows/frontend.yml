@@ -14,7 +14,7 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "frontend"
@@ -59,9 +59,6 @@ jobs:
       - name: Export
         working-directory: frontend
         run: npm run export
-        # TODO Why Setup pages again?
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
