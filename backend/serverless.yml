@@ -4,7 +4,7 @@
 # Serverless.yml is the configuration the CLI
 # uses to deploy your code to your provider of choice
 
-frameworkVersion: "=3.30.1"
+frameworkVersion: "=3.38"
 
 plugins:
   - serverless-webpack
@@ -27,7 +27,7 @@ configValidationMode: error
 # The `provider` block defines where your service will be deployed
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs20.x
   iam:
     role:
       statements:
