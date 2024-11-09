@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Script from 'next/script'
 
 const google_analytics_id = "UA-65863982-1"
 const google_analytics_init = (
@@ -22,10 +23,8 @@ export const logGoogleAnalyticsPageview = (path: string) => {
 }
 
 export const GoogleAnalyticsRoot = () => (
-	<Head>
-		<script dangerouslySetInnerHTML={{
-			__html: google_analytics_init
-		}} />
-		<script async defer src={`https://www.googletagmanager.com/gtag/js?id=${google_analytics_id}`} />
-	</Head>
+	<>
+		<Script id="google_analytics_init">{google_analytics_init}</Script>
+		<Script id="google_tag_manager" src={`https://www.googletagmanager.com/gtag/js?id=${google_analytics_id}`} />
+	</>
 )

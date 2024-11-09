@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Script from 'next/script'
 
 const matomo_analytics_init = `
     var _paq = window._paq = window._paq || [];
@@ -27,9 +28,7 @@ export const logMatomoAnalyticsPageview = (path: string) => {
 }
 
 export const MatomoAnalyticsRoot = () => (
-    <Head>
-        <script dangerouslySetInnerHTML={{
-            __html: matomo_analytics_init
-        }} />
-    </Head>
+    <>
+        <Script id="matomo_analytics_init">{matomo_analytics_init}</Script>
+    </>
 )
