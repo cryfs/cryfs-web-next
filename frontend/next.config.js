@@ -9,11 +9,20 @@ const { join } = require('path');
 const { VersionNumber } = require('./config/CryfsVersion.js');
 const ncp = require('ncp').ncp
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const config = {
+    output: 'export',
+
     exportPathMap: async (
         defaultPathMap,
         { dev, dir, outDir, distDir, buildId }
     ) => {
+        if (outDir == null) {
+            throw new Error("outDir is null")
+        }
+
         // In dev mode (i.e. when we're not exporting), we don't need to copy files
         if (dev) {
             console.log("Not copying version_info.json for dev build")

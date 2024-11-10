@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "npm run build && next start",
-    "export": "npm run build && next export && touch out/.nojekyll",
+    "start": "npm run build && npx serve@latest out",
     "lint": "next lint"
   },
   "keywords": [],

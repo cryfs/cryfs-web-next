@@ -56,9 +56,6 @@ jobs:
       - name: Build
         working-directory: frontend
         run: npm run build
-      - name: Export
-        working-directory: frontend
-        run: npm run export
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
