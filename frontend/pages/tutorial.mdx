@@ -88,7 +88,7 @@ Let's go back and unmount the encrypted directory.
     <ConsoleCommand>cryfs-unmount mountdir</ConsoleCommand>
 </Console>
 
-<Alert color="info">
+<Alert fade={false} color="info">
 
 **Note**: On CryFS versions 0.9.x, use this command instead:
 <Console>
@@ -140,7 +140,7 @@ We answer to that question with yes.
 <Console>
     <ConsoleCommand>cryfs dropbox/basedir mountdir</ConsoleCommand>
 </Console>
-<Alert color="warning">
+<Alert fade={false} color="warning">
 <b>Warning!</b>&nbsp;
 Take care that you don't put the <var>mountdir</var> into the <var>dropbox</var> folder,
 because otherwise Dropbox would also upload the unencrypted files from <var>mountdir</var>.
@@ -166,7 +166,7 @@ You might have to wait some seconds for Dropbox to finish synchronization.
     <ConsoleOutput>[output contains basedir]</ConsoleOutput>
 </Console>
 
-<Alert color="warning">
+<Alert fade={false} color="warning">
 <b>Warning!</b>&nbsp;
 Never access the file system from two devices at the same time. This can corrupt your file system.
 When switching devices, always make sure to stop CryFS on the first device, let Dropbox finish
@@ -205,7 +205,7 @@ the <var>mountdir</var> on the other computer, while Dropbox only sees the encry
                     <div className="lead">
                         Try it out and
                     </div>
-                    <Link legacyBehavior passHref href="/#download"><Button color="primary" size="lg">Download CryFS</Button></Link>
+                    <Link passHref href="/#download"><Button color="primary" size="lg">Download CryFS</Button></Link>
                 </div>
             </Card>
         </Col>

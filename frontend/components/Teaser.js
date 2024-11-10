@@ -105,10 +105,10 @@ const Teaser = () => (
                         <h1 className={css(mdStyle.title_text_h1)}>{teaser_header}</h1>
                         <p className={css(mdStyle.title_text_p)}>{teaser_paragraph1}</p>
                         <p className={css(mdStyle.title_text_p)}>
-                            <Link legacyBehavior passHref href="/#download">
+                            <Link passHref href="/#download">
                                 <Button color="primary" size="lg" onClick={onDownloadButtonClick}>Download</Button>
                             </Link>
-                            <Link legacyBehavior passHref href="/tutorial">
+                            <Link passHref href="/tutorial">
                                 <Button color="info" size="lg" className={css(tutorialBtnStyle.button)} onClick={onTutorialButtonClick}>Tutorial</Button>
                             </Link>
                         </p>

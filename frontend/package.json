@@ -28,10 +28,10 @@
     "next": "^13.5.4",
     "next-optimized-images": "^2.6.2",
     "npm": "^10.9.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-i18next": "^15.1.1",
-    "reactstrap": "^8.10.1",
+    "reactstrap": "^9.2.3",
     "sass": "^1.80.6",
     "unfetch": "^4.2.0",
     "url-parse": "^1.5.10"
@@ -40,8 +40,8 @@
     "@types/gtag.js": "0.0.12",
     "@types/mdx": "2.0.5",
     "@types/node": "18.16.3",
-    "@types/react": "18.2.79",
-    "@types/react-dom": "18.2.0",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "^13.5.4"
   }
