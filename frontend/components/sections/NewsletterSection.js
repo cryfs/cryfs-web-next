@@ -100,7 +100,7 @@ class NewsletterSection extends React.Component {
     render = () => {
         return <Container className="text-center">
             {/*TODO Translate*/}
-            <h2>Let us notify you when CryFS is stable!</h2>
+            <h2>Get notified when there are updates!</h2>
             <div className={css(style.registrationBox)}>
                 <Form className="justify-content-center">
                     <Row>
