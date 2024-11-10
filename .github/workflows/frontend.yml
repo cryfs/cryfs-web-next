@@ -1,9 +1,8 @@
 name: Deploy static content to Github Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["master"]
+  pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -60,11 +59,13 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'frontend/out'
+
   deploy:
+    needs: build
+    if: success() && github.event_name == 'push' && github.ref == 'refs/heads/master'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
