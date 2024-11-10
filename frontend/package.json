@@ -33,7 +33,7 @@
     "react-i18next": "^15.1.1",
     "reactstrap": "^8.10.1",
     "sass": "^1.80.6",
-    "unfetch": "^4.2.0",
+    "unfetch": "^5.0.0",
     "url-parse": "^1.5.10"
   },
   "devDependencies": {
