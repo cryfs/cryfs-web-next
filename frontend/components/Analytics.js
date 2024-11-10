@@ -2,7 +2,6 @@
 
 import { GoogleAnalyticsRoot, logGoogleAnalyticsPageview, logGoogleAnalyticsEvent } from './GoogleAnalytics'
 import { MatomoAnalyticsRoot, logMatomoAnalyticsPageview, logMatomoAnalyticsEvent } from './MatomoAnalytics'
-import { logFacebookPageview, logFacebookEvent } from './Facebook'
 import { RoutingListener } from "./RoutingListener";
 import { withRouter } from "next/dist/client/router";
 import React from 'react';
@@ -12,7 +11,6 @@ import React from 'react';
 export const logAnalyticsEvent = async (category, action) => {
     logGoogleAnalyticsEvent(category, action)
     logMatomoAnalyticsEvent(category, action)
-    await logFacebookEvent(`${category}__${action}`)
 }
 
 class AnalyticsSetup_ extends React.Component {
@@ -32,7 +30,6 @@ class AnalyticsSetup_ extends React.Component {
         // TODO This logs the correct page url but the old page title because page title updates are too slow
         logGoogleAnalyticsPageview(url)
         logMatomoAnalyticsPageview(url)
-        await logFacebookPageview()
     }
 
     render = () => (

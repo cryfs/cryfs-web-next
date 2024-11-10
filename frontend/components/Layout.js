@@ -17,7 +17,6 @@ import {
 } from 'reactstrap';
 import { StyleSheet, css } from 'aphrodite/no-important'
 import { AnalyticsSetup } from '../components/Analytics'
-import { FacebookRoot, FacebookLikeButton } from '../components/Facebook'
 
 if (typeof window !== 'undefined') {
     /* StyleSheet.rehydrate takes an array of rendered classnames,
@@ -122,17 +121,7 @@ const Footer = props => (
         <Container>
             <footer className={css(footerStyle.footer)}>
                 <Row>
-                    <Col md="8">Copyright © 2016-present &mdash; Sebastian Messmer</Col>
-                    <Col md="2">
-                        {/*TODO Change to data-layout="button_count", once we have some likes*/}
-                        <FacebookLikeButton
-                            data-href="https://www.facebook.com/cryfs.org"
-                            data-width="200"
-                            data-layout="button"
-                            data-action="like"
-                            data-show-faces="true"
-                            data-share="true" />
-                    </Col>
+                    <Col md="10">Copyright © 2016-present &mdash; Sebastian Messmer</Col>
                     <Col md="2">
                         <div className="text-right">
                             {/*TODO Translate*/}
@@ -152,7 +141,6 @@ const Layout = (props) => (
             <link rel="shortcut icon" type="image/png" href={require("../assets/images/favicon.png")} />
             <link rel="apple-touch-icon" type="image/png" href={require("../assets/images/favicon.png")} />
         </Head>
-        <FacebookRoot /> { /* FacebookRoot must be in Layout and not in _document because otherwise componentDidMount isn't executed */}
         <AnalyticsSetup /> { /* AnalyticsSetup must be in Layout and not in _document because otherwise componentDidMount isn't executed */}
         <MyNavBar />
         <GithubRibbon />
