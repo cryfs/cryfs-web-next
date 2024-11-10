@@ -3,14 +3,14 @@
 import React from 'react';
 import { ModalBody, Container, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { StyleSheet, css } from 'aphrodite/no-important'
-import {Console, ConsoleCommand} from '../../components/Console'
+import { Console, ConsoleCommand } from '../../components/Console'
 import RouteHashBasedModal from './RouteHashBasedModal'
-import {VersionNumber} from '../../config/CryfsVersion'
+import { VersionNumber } from '../../config/CryfsVersion'
 import UbuntuLogo from '../../assets/images/ubuntu.png'
 import DebianLogo from '../../assets/images/debian.png'
 import OtherLogo from '../../assets/images/other_os.png'
 import classnames from 'classnames'
-import {logAnalyticsEvent} from '../Analytics'
+import { logAnalyticsEvent } from '../Analytics'
 
 const style = StyleSheet.create({
     tabHeader: {
@@ -61,8 +61,8 @@ class Tabs extends React.Component {
             return ((index) => (
                 <Col md="4" key={index}>
                     <NavItem className={css(style.tabHeader)}>
-                        <NavLink className={classnames({active: this.state.activeTab === index})}
-                                 onClick={async () => {await this.toggle(index)}}>
+                        <NavLink className={classnames({ active: this.state.activeTab === index })}
+                            onClick={async () => { await this.toggle(index) }}>
                             {tab.header}
                         </NavLink>
                     </NavItem>
@@ -188,21 +188,16 @@ const tabs = () => [
                     <li>
                         <a href="https://github.com/dokan-dev/dokany/releases">DokanY</a>
                         <span>&nbsp;</span>
-                        <span>(use newest Dokan_x64.msi or Dokan_x86.msi) and</span>
+                        <span>(tested with DokanY 2.2.0.1000, but newer versions might work as well) and</span>
                     </li>
                     <li>
-                        <a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads">Microsoft Visual C++ Redistributable for Visual Studio 2019</a>
+                        <a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads">Microsoft Visual C++ Redistributable for Visual Studio 2022</a>
                     </li>
                 </ul>
                 <p>And then install CryFS:</p>
                 <ul>
                     <li>
-                        <a href="https://github.com/cryfs/cryfs/releases/download/0.11.4/cryfs-0.11.4-win64.msi">CryFS 64bit</a> (<a href="https://github.com/cryfs/cryfs/releases/download/0.11.4/cryfs-0.11.4-win64.msi.asc">signature</a>)
-                        <span>&nbsp;</span>
-                        <span>or</span>
-                    </li>
-                    <li>
-                        <a href="https://github.com/cryfs/cryfs/releases/download/0.11.4/cryfs-0.11.4-win32.msi">CryFS 32bit</a> (<a href="https://github.com/cryfs/cryfs/releases/download/0.11.4/cryfs-0.11.4-win32.msi.asc">signature</a>)
+                        <a href="https://github.com/cryfs/cryfs/releases/download/1.0.0/cryfs-1.0.0.msi">CryFS x64</a> (<a href="https://github.com/cryfs/cryfs/releases/download/1.0.0/cryfs-1.0.0.msi.asc">signature</a>)
                     </li>
                 </ul>
             </>
