@@ -19,14 +19,14 @@ const config = {
         defaultPathMap,
         { dev, dir, outDir, distDir, buildId }
     ) => {
-        if (outDir == null) {
-            throw new Error("outDir is null")
-        }
-
         // In dev mode (i.e. when we're not exporting), we don't need to copy files
         if (dev) {
             console.log("Not copying version_info.json for dev build")
             return defaultPathMap;
+        }
+
+        if (outDir == null) {
+            throw new Error("outDir is null")
         }
 
         // Create the /version_info.json file in the export
