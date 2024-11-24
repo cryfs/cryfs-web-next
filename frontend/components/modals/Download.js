@@ -197,7 +197,7 @@ const tabs = () => [
                 <p>And then install CryFS:</p>
                 <ul>
                     <li>
-                        <a href="https://github.com/cryfs/cryfs/releases/download/1.0.0/cryfs-1.0.0.msi">CryFS x64</a> (<a href="https://github.com/cryfs/cryfs/releases/download/1.0.0/cryfs-1.0.0.msi.asc">signature</a>)
+                        <a href="https://github.com/cryfs/cryfs/releases/download/1.0.1/cryfs-1.0.1.msi">CryFS x64</a> (<a href="https://github.com/cryfs/cryfs/releases/download/1.0.1/cryfs-1.0.1.msi.asc">signature</a>)
                     </li>
                 </ul>
             </>
