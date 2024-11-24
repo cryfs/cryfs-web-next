@@ -2,7 +2,7 @@
 # (replace ${account_id} with your Amazon Account ID)
 
 {
-    "Version": "2024-11-09",
+    "Version": "2012-10-17",
     "Statement": [
         {
             "Sid": "IAM",
