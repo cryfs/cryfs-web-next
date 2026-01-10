@@ -33,40 +33,8 @@ npm run test:coverage
 
 The coverage report will be generated in the `coverage/` directory.
 
-### End-to-End Tests
-
-The project uses Playwright for end-to-end testing. E2E tests are located in the `e2e/` directory.
-
-**Run E2E tests:**
-```bash
-npm run test:e2e
-```
-
-**Run E2E tests in headed mode (see the browser):**
-```bash
-npm run test:e2e:headed
-```
-
-**Run E2E tests for a specific browser:**
-```bash
-npx playwright test --project=chromium
-npx playwright test --project=firefox
-npx playwright test --project=webkit
-```
-
-**View E2E test report:**
-```bash
-npx playwright show-report
-```
-
-**Install Playwright browsers (first time setup):**
-```bash
-npx playwright install
-```
-
 ### Writing Tests
 
-**Unit Tests:**
 - Place test files next to the source file: `Component.tsx` → `Component.test.tsx`
 - Use React Testing Library for component testing
 - Follow the existing patterns in the codebase
@@ -95,24 +63,6 @@ describe('MyComponent', () => {
 });
 ```
 
-**E2E Tests:**
-- Place test files in the `e2e/` directory with `.spec.ts` extension
-- Use Playwright's testing API
-- Mock API responses when testing form submissions
-
-Example:
-```typescript
-import { test, expect } from '@playwright/test';
-
-test('should complete user flow', async ({ page }) => {
-  await page.goto('/');
-
-  await page.getByRole('button', { name: /submit/i }).click();
-
-  await expect(page.getByText('Success!')).toBeVisible();
-});
-```
-
 ### Test Structure
 
 ```
@@ -121,17 +71,12 @@ frontend/
 │   ├── MyComponent.tsx
 │   ├── MyComponent.test.tsx      # Unit test (colocated)
 │   └── ...
-├── e2e/
-│   ├── homepage.spec.ts          # E2E tests
-│   ├── navigation.spec.ts
-│   └── ...
 ├── __mocks__/                    # Jest mocks
 │   ├── next/
 │   ├── aphrodite.js
 │   └── unfetch.js
 ├── jest.config.js
-├── jest.setup.js
-└── playwright.config.ts
+└── jest.setup.js
 ```
 
 Deployment
