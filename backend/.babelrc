@@ -6,12 +6,26 @@
       {
         "modules": false,
         "targets": {
-          "node": "20",
-        },
+          "node": "20"
+        }
       }
-    ],
+    ]
   ],
   "plugins": [
-    "@babel/plugin-transform-class-properties",
-  ]
+    "@babel/plugin-transform-class-properties"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ]
+    }
+  }
 }
