@@ -33,7 +33,7 @@ test.describe('Homepage', () => {
   test('should display the footer', async ({ page }) => {
     const footer = page.locator('footer');
     await expect(footer).toBeVisible();
-    await expect(page.getByText(/Sebastian Messmer/)).toBeVisible();
+    await expect(footer.getByText(/Sebastian Messmer/)).toBeVisible();
   });
 
   test('should display legal notice link in footer', async ({ page }) => {

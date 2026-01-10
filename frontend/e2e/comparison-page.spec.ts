@@ -22,7 +22,9 @@ test.describe('Comparison Page', () => {
   });
 
   test('should display CryFS in the comparison', async ({ page }) => {
-    await expect(page.getByText('CryFS')).toBeVisible();
+    // CryFS should be in the comparison table
+    const table = page.locator('table');
+    await expect(table.getByText('CryFS').first()).toBeVisible();
   });
 
   test('should display alternative encryption tools', async ({ page }) => {

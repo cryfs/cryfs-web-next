@@ -102,7 +102,7 @@ test.describe('Navigation', () => {
     // Footer should still be visible
     const footer = page.locator('footer');
     await expect(footer).toBeVisible();
-    await expect(page.getByText(/Sebastian Messmer/)).toBeVisible();
+    await expect(footer.getByText(/Sebastian Messmer/)).toBeVisible();
   });
 });
 

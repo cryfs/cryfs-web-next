@@ -65,7 +65,7 @@ test.describe('Contact Form Flow', () => {
     await sendButton.click();
 
     // Should show success message
-    await expect(page.getByText(/thank you/i)).toBeVisible();
+    await expect(page.getByText(/thank you/i).first()).toBeVisible();
   });
 
   test('should allow submission without email', async ({ page }) => {
@@ -81,7 +81,7 @@ test.describe('Contact Form Flow', () => {
     await sendButton.click();
 
     // Should show success message
-    await expect(page.getByText(/thank you/i)).toBeVisible();
+    await expect(page.getByText(/thank you/i).first()).toBeVisible();
   });
 
   test('should include email in submission when provided', async ({ page }) => {
@@ -102,7 +102,7 @@ test.describe('Contact Form Flow', () => {
     await sendButton.click();
 
     // Wait for request to complete
-    await expect(page.getByText(/thank you/i)).toBeVisible();
+    await expect(page.getByText(/thank you/i).first()).toBeVisible();
 
     expect(requestBody.email).toBe('test@example.com');
     expect(requestBody.message).toBe('Test message');
