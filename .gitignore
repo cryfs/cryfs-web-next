@@ -11,3 +11,4 @@ backend/coverage
 frontend/coverage
 frontend/playwright-report
 frontend/next-env.d.ts
+*.tsbuildinfo

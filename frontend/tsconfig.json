@@ -26,6 +26,11 @@
     "**/*.mdx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "e2e/**/*",
+    "jest.d.ts",
+    "jest.setup.js"
   ]
 }
