@@ -190,7 +190,7 @@ describe('ContactSection', () => {
   })
 
   it('clears previous notification when sending again', async () => {
-    global.fetch.mockResolvedValueOnce({
+    global.fetch.mockResolvedValue({
       ok: true,
       json: async () => ({}),
     })
@@ -208,12 +208,10 @@ describe('ContactSection', () => {
       expect(screen.getByText(/Thank you./i)).toBeInTheDocument()
     })
 
-    // Send again
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({}),
-    })
+    expect(Analytics.logAnalyticsEvent).toHaveBeenCalledWith('contact_form', 'click')
+    expect(Analytics.logAnalyticsEvent).toHaveBeenCalledWith('contact_form', 'success')
 
+    // Send again
     fireEvent.click(sendButton)
 
     await waitFor(() => {

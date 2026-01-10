@@ -167,7 +167,7 @@ describe('NewsletterSection', () => {
   })
 
   it('clears previous notification when submitting again', async () => {
-    global.fetch.mockResolvedValueOnce({
+    global.fetch.mockResolvedValue({
       ok: true,
       json: async () => ({}),
     })
@@ -185,12 +185,10 @@ describe('NewsletterSection', () => {
       expect(screen.getByText(/Thank you. You'll get a confirmation email shortly./i)).toBeInTheDocument()
     })
 
-    // Submit again
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({}),
-    })
+    expect(Analytics.logAnalyticsEvent).toHaveBeenCalledWith('interested_user_form', 'click')
+    expect(Analytics.logAnalyticsEvent).toHaveBeenCalledWith('interested_user_form', 'success')
 
+    // Submit again
     fireEvent.click(submitButton)
 
     // The notification should still be visible after re-submission
