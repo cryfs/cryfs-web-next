@@ -22,7 +22,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version-file: 'backend/package.json'
           cache: npm
           cache-dependency-path: backend/package.json
       - name: Install Dependencies
@@ -54,7 +54,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version-file: 'backend/package.json'
           cache: npm
           cache-dependency-path: backend/package.json
       - name: Install Dependencies

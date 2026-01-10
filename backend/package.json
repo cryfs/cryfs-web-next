@@ -6,6 +6,10 @@
   "author": "Sebastian Messmer",
   "license": "UNLICENSED",
   "private": true,
+  "engineComment": "When updating node version, also update runtime in serverless.yml",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
