@@ -16,10 +16,11 @@ test.describe('Download Modal Flow', () => {
     await page.goto('/#download');
 
     const modal = page.locator('.modal');
+    const navTabs = modal.locator('.nav-tabs');
     // Check for tab elements with OS names
-    await expect(modal.getByRole('tab', { name: /ubuntu/i })).toBeVisible();
-    await expect(modal.getByRole('tab', { name: /debian/i })).toBeVisible();
-    await expect(modal.getByRole('tab', { name: /other/i })).toBeVisible();
+    await expect(navTabs.getByText('Ubuntu')).toBeVisible();
+    await expect(navTabs.getByText('Debian')).toBeVisible();
+    await expect(navTabs.getByText('Other')).toBeVisible();
   });
 
   test('should show Ubuntu instructions by default', async ({ page }) => {
@@ -27,7 +28,7 @@ test.describe('Download Modal Flow', () => {
 
     const modal = page.locator('.modal');
     // Ubuntu Easy Install should be visible
-    await expect(modal.getByText('Easy Install').first()).toBeVisible();
+    await expect(modal.getByRole('heading', { name: 'Easy Install' }).first()).toBeVisible();
     await expect(modal.getByText(/ubuntu 17.04 and later/i)).toBeVisible();
     await expect(modal.getByText('sudo apt install cryfs').first()).toBeVisible();
   });
@@ -36,7 +37,8 @@ test.describe('Download Modal Flow', () => {
     await page.goto('/#download');
 
     const modal = page.locator('.modal');
-    await modal.getByRole('tab', { name: /debian/i }).click();
+    // Click on Debian tab using the nav-link
+    await modal.locator('.nav-tabs').getByText('Debian').click();
 
     // Debian instructions should be visible
     await expect(modal.getByText(/debian stretch and later/i)).toBeVisible();
@@ -46,10 +48,11 @@ test.describe('Download Modal Flow', () => {
     await page.goto('/#download');
 
     const modal = page.locator('.modal');
-    await modal.getByRole('tab', { name: /other/i }).click();
+    // Click on Other tab
+    await modal.locator('.nav-tabs').getByText('Other').click();
 
     // macOS instructions should be visible
-    await expect(modal.getByText('Mac OS X').first()).toBeVisible();
+    await expect(modal.getByRole('heading', { name: 'Mac OS X' })).toBeVisible();
     await expect(modal.getByText('brew install --cask macfuse').first()).toBeVisible();
     await expect(modal.getByText('brew install cryfs/tap/cryfs').first()).toBeVisible();
   });
@@ -58,10 +61,11 @@ test.describe('Download Modal Flow', () => {
     await page.goto('/#download');
 
     const modal = page.locator('.modal');
-    await modal.getByRole('tab', { name: /other/i }).click();
+    // Click on Other tab
+    await modal.locator('.nav-tabs').getByText('Other').click();
 
     // Windows instructions should be visible
-    await expect(modal.getByText('Windows').first()).toBeVisible();
+    await expect(modal.getByRole('heading', { name: 'Windows' })).toBeVisible();
     await expect(modal.getByText(/windows support is highly experimental/i)).toBeVisible();
   });
 
@@ -69,7 +73,7 @@ test.describe('Download Modal Flow', () => {
     await page.goto('/#download');
 
     const modal = page.locator('.modal');
-    await modal.getByRole('tab', { name: /other/i }).click();
+    await modal.locator('.nav-tabs').getByText('Other').click();
 
     const dokanLink = modal.getByRole('link', { name: /dokany/i });
     await expect(dokanLink).toBeVisible();
