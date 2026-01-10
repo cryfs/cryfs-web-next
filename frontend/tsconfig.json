@@ -5,8 +5,8 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": false,
-    "skipLibCheck": false,
+    "allowJs": true,
+    "skipLibCheck": true,
     "strict": true,
     "alwaysStrict": true,
     "forceConsistentCasingInFileNames": true,
@@ -21,16 +21,12 @@
   },
   "include": [
     "next-env.d.ts",
+    "jest.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.mdx"
   ],
   "exclude": [
-    "node_modules",
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "e2e/**/*",
-    "jest.d.ts",
-    "jest.setup.js"
+    "node_modules"
   ]
 }
