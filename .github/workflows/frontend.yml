@@ -46,6 +46,9 @@ jobs:
       - name: Install Dependencies
         working-directory: frontend
         run: npm install
+      - name: Run Tests
+        working-directory: frontend
+        run: npm test -- --coverage --watchAll=false
       - name: Build
         working-directory: frontend
         run: npm run build
