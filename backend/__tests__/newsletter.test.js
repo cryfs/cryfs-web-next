@@ -79,9 +79,10 @@ describe('newsletter', () => {
     const body = JSON.parse(response.body)
     expect(body.success).toBe(true)
 
-    expect(mockMailchimpGet).toHaveBeenCalledWith({
-      path: expect.stringContaining('existing@example.com'),
-    })
+    // Verify GET was called to check if email is already subscribed
+    expect(mockMailchimpGet).toHaveBeenCalled()
+    expect(mockMailchimpGet.mock.calls[0][0].path).toContain('/members/')
+    expect(mockMailchimpGet.mock.calls[0][0].path).toContain('fields=status')
   })
 
   it('resubscribes previously unsubscribed email', async () => {

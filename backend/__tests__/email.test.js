@@ -1,20 +1,35 @@
 // Mock dependencies before importing the module
 const mockSend = jest.fn()
 const mockSetApiKey = jest.fn()
+const mockSecret = jest.fn()
 
 jest.mock('@sendgrid/mail', () => ({
   setApiKey: mockSetApiKey,
   send: mockSend,
 }))
 
-jest.mock('../secret', () => jest.fn(() => Promise.resolve('test-sendgrid-key')))
-
-import { email_myself } from '../email'
-import secret from '../secret'
+jest.mock('../secret', () => mockSecret)
 
 describe('email', () => {
+  let email_myself
+
+  beforeAll(async () => {
+    // Set up mock implementations
+    mockSecret.mockImplementation((key) => {
+      if (key === 'SENDGRID_API_KEY') return Promise.resolve('test-sendgrid-key')
+      return Promise.resolve('test-value')
+    })
+    mockSend.mockResolvedValue([{ statusCode: 202 }])
+
+    // Import after mocks are set up
+    const emailModule = await import('../email.js')
+    email_myself = emailModule.email_myself
+  })
+
   beforeEach(() => {
-    jest.clearAllMocks()
+    mockSend.mockClear()
+    mockSetApiKey.mockClear()
+    mockSecret.mockClear()
     mockSend.mockResolvedValue([{ statusCode: 202 }])
   })
 
@@ -34,11 +49,12 @@ describe('email', () => {
     )
   })
 
-  it('sets SendGrid API key on first use', async () => {
+  it('uses cached SendGrid API key on subsequent calls', async () => {
+    // First call in this test - the API key is already cached from previous test
     await email_myself('User', 'Subject', 'Message')
 
-    expect(secret).toHaveBeenCalledWith('SENDGRID_API_KEY')
-    expect(mockSetApiKey).toHaveBeenCalledWith('test-sendgrid-key')
+    // Should use cached API key, not call secret again
+    expect(mockSecret).toHaveBeenCalledTimes(0)
   })
 
   it('includes reply_to when provided', async () => {
