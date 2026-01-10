@@ -17,3 +17,10 @@ Deploy one function: $ ./serverless deploy function -f [functionName] [--stage p
 Invoke a remote function: $ ./serverless invoke -f [functionName] -l [--stage prod]
 Display remote logs: $ ./serverless logs -f [functionName] -t [--stage prod]
 Delete remote function: $ ./serverless remove
+
+
+Testing
+-------------
+Run tests: $ npm test
+Run tests in watch mode: $ npm run test:watch
+Run tests with coverage: $ npm run test:coverage

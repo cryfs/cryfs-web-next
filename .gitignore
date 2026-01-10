@@ -7,4 +7,5 @@ jspm_packages
 .serverless
 .webpack
 backend/artifacts
+backend/coverage
 frontend/next-env.d.ts
