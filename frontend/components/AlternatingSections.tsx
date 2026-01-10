@@ -25,14 +25,14 @@ const styles = [
 
 type AlternatingSectionsProps = {
     start_index?: number
-    children: React.ReactElement[]
+    children: React.ReactElement<{ className?: string }>[]
 }
 
 const AlternatingSections = (props: AlternatingSectionsProps) => {
     let styleIndex = (typeof props.start_index === 'undefined') ? 0 : props.start_index
 
     return <> {
-        React.Children.map(props.children, (child: React.ReactElement) => {
+        React.Children.map(props.children, (child: React.ReactElement<{ className?: string }>) => {
             let oldClassName = child.props.className
             if (oldClassName) {
                 oldClassName += " "

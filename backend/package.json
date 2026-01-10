@@ -21,7 +21,7 @@
     "aws-sdk": "^2.1692.0",
     "mailchimp-api-v3": "^1.15.0",
     "md5": "^2.3.0",
-    "serverless": "3.38"
+    "serverless": "^3.40.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

@@ -4,7 +4,7 @@
 # Serverless.yml is the configuration the CLI
 # uses to deploy your code to your provider of choice
 
-frameworkVersion: "=3.38"
+frameworkVersion: "=3.40.0"
 
 plugins:
   - serverless-webpack
