@@ -8,3 +8,8 @@ jspm_packages
 .webpack
 backend/artifacts
 frontend/next-env.d.ts
+
+# Test coverage
+coverage
+*/coverage
+*.lcov
