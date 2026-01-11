@@ -39,8 +39,8 @@
     "next-optimized-images": "^2.6.2",
     "npm": "^10.9.0",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^18.3.1",
-    "reactstrap": "^9.2.3",
     "sass": "^1.80.6",
     "unfetch": "^4.2.0",
     "url-parse": "^1.5.10"

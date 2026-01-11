@@ -1,7 +1,10 @@
 "use strict";
 
 import { css, StyleSheet } from "aphrodite";
-import { Button, Col, Container, Row } from "reactstrap";
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { faAngleDoubleRight, faComments, faLightbulb, faLock } from "@fortawesome/free-solid-svg-icons";
@@ -25,13 +28,13 @@ const BulletPoint = (props) => (
             <p>
                 {(!props.external_link) ?
                     <Link passHref href={props.details_link_target}>
-                        <Button outline color="secondary">
+                        <Button variant="outline-secondary">
                             {/*TODO Translate*/}
                             Details &nbsp;
                             <FontAwesomeIcon icon={faAngleDoubleRight} />
                         </Button>
                     </Link> :
-                    <Button outline color="secondary" href={props.details_link_target}>
+                    <Button variant="outline-secondary" href={props.details_link_target}>
                         {/*TODO Translate*/}
                         Details &nbsp;
                         <FontAwesomeIcon icon={faAngleDoubleRight} />

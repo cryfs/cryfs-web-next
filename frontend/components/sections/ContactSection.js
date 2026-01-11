@@ -1,7 +1,11 @@
 "use strict";
 
 import {css, StyleSheet} from "aphrodite";
-import {Col, Collapse, Container, Form, FormGroup, Input, Label, Row} from "reactstrap";
+import Col from 'react-bootstrap/Col';
+import Collapse from 'react-bootstrap/Collapse';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDoubleRight} from "@fortawesome/free-solid-svg-icons";
 import fetch from 'unfetch'
@@ -97,51 +101,53 @@ class ContactSection extends React.Component {
         <Container className="text-center">
             <h2>Contact Us</h2>
             <div className={css(contactStyle.content)}>
-                <Col md={{size: '6', offset: 3}}>
+                <Col md={{span: 6, offset: 3}}>
                     <Form>
                         {/*TODO Translate*/}
                         <Row>
                             <Col md="12">
-                                <FormGroup>
-                                    <Label for="contact_form_message" className="sr-only">Message:</Label>
+                                <Form.Group>
+                                    <Form.Label htmlFor="contact_form_message" className="visually-hidden">Message:</Form.Label>
                                     <textarea id="contact_form_message" name="message" className="form-control"
                                               style={{height: '140px'}} required={true}
                                               placeholder="Your message to us. We're looking forward to your feedback, ideas and criticism. Please be blunt."
                                               value={this.state.message} onChange={this.setMessage}/>
-                                </FormGroup>
+                                </Form.Group>
                             </Col>
                             <Col md="8">
-                                <FormGroup>
-                                    <Label for="contact_form_email" className="sr-only">Your Email:</Label>
-                                    <Input type="email" name="email" id="contact_form_email"
+                                <Form.Group>
+                                    <Form.Label htmlFor="contact_form_email" className="visually-hidden">Your Email:</Form.Label>
+                                    <Form.Control type="email" name="email" id="contact_form_email"
                                            placeholder="Your email address (optional)" autoComplete="off"
                                            value={this.state.email} onChange={this.setEmail}/>
-                                </FormGroup>
+                                </Form.Group>
                             </Col>
-                            <Col md={{size: '4', offset: 0}}>
-                                <FormGroup>
-                                    <AsyncButton type="Submit" onClick={this.send} color="primary" block={true}>
+                            <Col md={{span: 4, offset: 0}}>
+                                <Form.Group>
+                                    <AsyncButton type="Submit" onClick={this.send} variant="primary" block={true}>
                                         Send &nbsp;
                                         <FontAwesomeIcon icon={faAngleDoubleRight}/>
                                     </AsyncButton>
-                                </FormGroup>
+                                </Form.Group>
                             </Col>
                             <div className="clearfix"/>
                             <Col md="12">
-                                <Collapse isOpen={this.state.notification != ''}
+                                <Collapse in={this.state.notification != ''}
                                           className={css(formStyle.notificationArea)}>
-                                    <Collapse isOpen={this.state.notification == 'success'}
-                                              className={`lead ${css(formStyle.notification_success)}`}>
-                                        Thank you.
-                                    </Collapse>
-                                    <Collapse isOpen={this.state.notification == 'error:empty'}
-                                              className={`lead ${css(formStyle.notification_error)}`}>
-                                        Please enter a message to send.
-                                    </Collapse>
-                                    <Collapse isOpen={this.state.notification == 'error'}
-                                              className={`lead ${css(formStyle.notification_error)}`}>
-                                        Sorry, there was an error sending your message.
-                                    </Collapse>
+                                    <div>
+                                        <Collapse in={this.state.notification == 'success'}
+                                                  className={`lead ${css(formStyle.notification_success)}`}>
+                                            <div>Thank you.</div>
+                                        </Collapse>
+                                        <Collapse in={this.state.notification == 'error:empty'}
+                                                  className={`lead ${css(formStyle.notification_error)}`}>
+                                            <div>Please enter a message to send.</div>
+                                        </Collapse>
+                                        <Collapse in={this.state.notification == 'error'}
+                                                  className={`lead ${css(formStyle.notification_error)}`}>
+                                            <div>Sorry, there was an error sending your message.</div>
+                                        </Collapse>
+                                    </div>
                                 </Collapse>
                             </Col>
                         </Row>

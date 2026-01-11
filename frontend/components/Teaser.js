@@ -1,7 +1,7 @@
 "use strict";
 
 import { css, StyleSheet } from "aphrodite";
-import { Button } from "reactstrap";
+import Button from 'react-bootstrap/Button';
 import Link from "next/link";
 import { logAnalyticsEvent } from './Analytics'
 
@@ -106,10 +106,10 @@ const Teaser = () => (
                         <p className={css(mdStyle.title_text_p)}>{teaser_paragraph1}</p>
                         <p className={css(mdStyle.title_text_p)}>
                             <Link passHref href="/#download">
-                                <Button color="primary" size="lg" onClick={onDownloadButtonClick}>Download</Button>
+                                <Button variant="primary" size="lg" onClick={onDownloadButtonClick}>Download</Button>
                             </Link>
                             <Link passHref href="/tutorial">
-                                <Button color="info" size="lg" className={css(tutorialBtnStyle.button)} onClick={onTutorialButtonClick}>Tutorial</Button>
+                                <Button variant="info" size="lg" className={css(tutorialBtnStyle.button)} onClick={onTutorialButtonClick}>Tutorial</Button>
                             </Link>
                         </p>
                     </div>
