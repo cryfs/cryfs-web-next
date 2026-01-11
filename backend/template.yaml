@@ -35,7 +35,6 @@ Resources:
               Resource:
                 - arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_API_TOKEN
                 - arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_LIST_ID
-                - arn:aws:ssm:us-east-1:171839190218:parameter/SENDGRID_API_KEY
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -58,11 +57,10 @@ Resources:
       Policies:
         - Statement:
             - Effect: Allow
-              Action: ssm:GetParameters
-              Resource:
-                - arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_API_TOKEN
-                - arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_LIST_ID
-                - arn:aws:ssm:us-east-1:171839190218:parameter/SENDGRID_API_KEY
+              Action:
+                - ses:SendEmail
+                - ses:SendRawEmail
+              Resource: "*"
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
