@@ -5,8 +5,9 @@ AWS Lambda serverless functions for the CryFS website, deployed with AWS SAM.
 ## Tech Stack
 
 - **Runtime**: AWS Lambda with AWS SAM (Serverless Application Model)
-- **Language**: JavaScript (ES6+, no TypeScript)
-- **Bundler**: esbuild (built into SAM)
+- **Language**: TypeScript
+- **Bundler**: esbuild (built into SAM, handles TypeScript natively)
+- **Testing**: Jest with ts-jest
 - **External Services**: AWS SES (email), Mailchimp (newsletter)
 - **Secrets**: AWS SSM Parameter Store
 
@@ -29,11 +30,13 @@ Both endpoints use simple token-based spam protection (not authentication).
 
 ```
 backend/
-├── *.js              # Source modules (handlers and utilities)
-├── *.test.js         # Jest tests (colocated)
+├── *.ts              # Source modules (handlers and utilities)
+├── *.test.ts         # Jest tests (colocated)
 ├── __mocks__/        # Jest mocks for external services
+├── types/            # Type declarations for untyped packages
 ├── iam/              # IAM policy documentation
 ├── template.yaml     # SAM template (infrastructure as code)
+├── tsconfig.json     # TypeScript configuration
 └── samconfig.toml    # SAM deployment configuration
 ```
 
@@ -42,6 +45,9 @@ backend/
 ```bash
 # Install dependencies
 npm install
+
+# Type checking
+npm run typecheck      # Run TypeScript compiler without emitting
 
 # Run unit tests
 npm test
@@ -85,13 +91,13 @@ Note: Local testing requires Docker. SSM secrets won't work locally unless you m
 ### Lambda Handler Pattern
 All handlers use the `LambdaFunction()` higher-order function wrapper:
 
-```javascript
-import { LambdaFunction } from './lambda_function'
+```typescript
+import { LambdaFunction } from './lambda_function';
 
 export const myHandler = LambdaFunction(async (body) => {
     // Implementation
-    return { statusCode: 200, body: JSON.stringify({ success: true }) }
-})
+    return { statusCode: 200, body: JSON.stringify({ success: true }) };
+});
 ```
 
 The wrapper provides:
@@ -105,28 +111,32 @@ The wrapper provides:
 - Internal functions: snake_case (`do_register`, `email_myself`)
 
 ### Caching Pattern
-Use `CachedValue` for expensive initializations (API clients, secrets):
+Use `CachedValue<T>` for expensive initializations (API clients, secrets):
 
-```javascript
-import CachedValue from './cached_value'
+```typescript
+import CachedValue from './cached_value';
 
 const client = new CachedValue(async () => {
-    const apiKey = await secret('API_KEY')
-    return new ApiClient(apiKey)
-})
+    const apiKey = await secret('API_KEY');
+    return new ApiClient(apiKey);
+});
 
 // Usage - initializes once, returns cached instance
-const api = await client.get()
+const api = await client.get();
 ```
 
 ### Testing
 - All external services must be mocked
-- Mock naming convention: `__mockXxx` properties
+- Mock naming convention: `__mockXxx` static properties on mock classes
 
-```javascript
-jest.mock('mailchimp-api-v3')
+```typescript
+jest.mock('mailchimp-api-v3');
+
+// Access mock via require (for static properties)
+const MockMailchimp = require('mailchimp-api-v3').default;
+
 // In tests:
-Mailchimp.__mockPost.mockResolvedValue({ status: 'subscribed' })
+MockMailchimp.__mockPost.mockResolvedValue({ status: 'subscribed' });
 ```
 
 ## AWS Configuration

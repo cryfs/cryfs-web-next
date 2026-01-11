@@ -1,17 +1,18 @@
-"use strict";
-
 jest.mock('./email', () => ({
   email_myself: jest.fn().mockResolvedValue(undefined),
 }));
 
+import type { APIGatewayProxyEvent, Context } from 'aws-lambda';
 import { LambdaFunction } from './lambda_function';
 import { email_myself } from './email';
+
+const mockedEmailMyself = email_myself as jest.Mock;
 
 describe('LambdaFunction', () => {
   const validToken = 'fd0kAn1zns';
 
   beforeEach(() => {
-    email_myself.mockClear();
+    mockedEmailMyself.mockClear();
   });
 
   describe('token validation', () => {
@@ -24,9 +25,9 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: JSON.stringify({ token: validToken, email: 'test@example.com' }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await handler(event, {});
+      const result = await handler(event, {} as Context);
 
       expect(mockImpl).toHaveBeenCalledWith({ token: validToken, email: 'test@example.com' });
       expect(result.statusCode).toBe(200);
@@ -38,9 +39,9 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: JSON.stringify({ token: 'wrong-token', email: 'test@example.com' }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await handler(event, {});
+      const result = await handler(event, {} as Context);
 
       expect(result.statusCode).toBe(400);
       expect(JSON.parse(result.body)).toEqual({
@@ -56,9 +57,9 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: JSON.stringify({ email: 'test@example.com' }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await handler(event, {});
+      const result = await handler(event, {} as Context);
 
       expect(result.statusCode).toBe(400);
       expect(JSON.parse(result.body)).toEqual({
@@ -79,14 +80,14 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: JSON.stringify({ token: validToken }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await handler(event, {});
+      const result = await handler(event, {} as Context);
 
       expect(result.headers).toEqual({
         'Access-Control-Allow-Origin': 'https://www.cryfs.org',
         'Access-Control-Allow-Credentials': false,
-        'Vary': 'Origin',
+        Vary: 'Origin',
       });
     });
 
@@ -96,14 +97,14 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: JSON.stringify({ token: 'invalid' }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await handler(event, {});
+      const result = await handler(event, {} as Context);
 
       expect(result.headers).toEqual({
         'Access-Control-Allow-Origin': 'https://www.cryfs.org',
         'Access-Control-Allow-Credentials': false,
-        'Vary': 'Origin',
+        Vary: 'Origin',
       });
     });
 
@@ -117,15 +118,15 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: JSON.stringify({ token: validToken }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await handler(event, {});
+      const result = await handler(event, {} as Context);
 
       expect(result.headers).toEqual({
         'X-Custom-Header': 'custom-value',
         'Access-Control-Allow-Origin': 'https://www.cryfs.org',
         'Access-Control-Allow-Credentials': false,
-        'Vary': 'Origin',
+        Vary: 'Origin',
       });
     });
   });
@@ -137,9 +138,9 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: JSON.stringify({ token: validToken }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await handler(event, {});
+      const result = await handler(event, {} as Context);
 
       expect(result.statusCode).toBe(500);
       expect(JSON.parse(result.body)).toEqual({ success: false });
@@ -151,11 +152,11 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: JSON.stringify({ token: validToken }),
-      };
+      } as APIGatewayProxyEvent;
 
-      await handler(event, {});
+      await handler(event, {} as Context);
 
-      expect(email_myself).toHaveBeenCalledWith(
+      expect(mockedEmailMyself).toHaveBeenCalledWith(
         'CryFS Backend',
         'Error',
         expect.stringContaining('Something went wrong')
@@ -168,9 +169,9 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: 'not valid json',
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await handler(event, {});
+      const result = await handler(event, {} as Context);
 
       expect(result.statusCode).toBe(500);
       expect(mockImpl).not.toHaveBeenCalled();
@@ -182,11 +183,11 @@ describe('LambdaFunction', () => {
 
       const event = {
         body: 'not valid json',
-      };
+      } as APIGatewayProxyEvent;
 
-      await handler(event, {});
+      await handler(event, {} as Context);
 
-      expect(email_myself).toHaveBeenCalled();
+      expect(mockedEmailMyself).toHaveBeenCalled();
     });
   });
 });

@@ -46,7 +46,7 @@ Resources:
         Minify: false
         Target: es2024
         EntryPoints:
-          - newsletter.js
+          - newsletter.ts
 
   ContactSendFunction:
     Type: AWS::Serverless::Function
@@ -72,7 +72,7 @@ Resources:
         Minify: false
         Target: es2024
         EntryPoints:
-          - contact.js
+          - contact.ts
 
 Outputs:
   ApiEndpoint:

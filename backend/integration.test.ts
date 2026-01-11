@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Integration tests that verify the full Lambda handler flow
  * with mocked external services.
@@ -9,28 +7,48 @@ jest.mock('@aws-sdk/client-ssm');
 jest.mock('@aws-sdk/client-ses');
 jest.mock('mailchimp-api-v3');
 
+import type { APIGatewayProxyEvent, Context } from 'aws-lambda';
+
+interface MockSSMClient {
+  __mockSend: jest.Mock;
+  SSMClient: new () => { send: jest.Mock };
+  GetParametersCommand: new (input: Record<string, unknown>) => { input: Record<string, unknown> };
+}
+
+interface MockSESClient {
+  __mockSend: jest.Mock;
+  SESClient: new () => { send: jest.Mock };
+  SendEmailCommand: new (input: Record<string, unknown>) => { input: Record<string, unknown> };
+}
+
+interface MockMailchimpType {
+  __mockPost: jest.Mock;
+  __mockGet: jest.Mock;
+  __mockPut: jest.Mock;
+}
+
 describe('Integration Tests', () => {
   const validToken = 'fd0kAn1zns';
-  let ssmClient;
-  let sesClient;
-  let Mailchimp;
+  let ssmClient: MockSSMClient;
+  let sesClient: MockSESClient;
+  let Mailchimp: MockMailchimpType;
 
   beforeEach(() => {
     jest.resetModules();
 
-    // Re-require mocks after resetModules
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     ssmClient = require('@aws-sdk/client-ssm');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     sesClient = require('@aws-sdk/client-ses');
-    Mailchimp = require('mailchimp-api-v3');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    Mailchimp = require('mailchimp-api-v3').default;
 
-    // Reset all mock functions
     ssmClient.__mockSend.mockReset();
     sesClient.__mockSend.mockReset();
     Mailchimp.__mockPost.mockReset();
     Mailchimp.__mockGet.mockReset();
     Mailchimp.__mockPut.mockReset();
 
-    // Setup default AWS SSM mock (for newsletter - no longer has SENDGRID_API_KEY)
     ssmClient.__mockSend.mockResolvedValue({
       Parameters: [
         { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token' },
@@ -38,7 +56,6 @@ describe('Integration Tests', () => {
       ],
     });
 
-    // Setup default SES mock
     sesClient.__mockSend.mockResolvedValue({});
   });
 
@@ -46,6 +63,7 @@ describe('Integration Tests', () => {
     test('complete successful registration flow', async () => {
       Mailchimp.__mockPost.mockResolvedValue({ id: 'new-member' });
 
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { register } = require('./newsletter');
 
       const event = {
@@ -53,18 +71,15 @@ describe('Integration Tests', () => {
           token: validToken,
           email: 'newuser@example.com',
         }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await register(event, {});
+      const result = await register(event, {} as Context);
 
-      // Verify response
       expect(result.statusCode).toBe(200);
       expect(JSON.parse(result.body)).toEqual({ success: true });
 
-      // Verify CORS headers
       expect(result.headers['Access-Control-Allow-Origin']).toBe('https://www.cryfs.org');
 
-      // Verify Mailchimp was called
       expect(Mailchimp.__mockPost).toHaveBeenCalledWith({
         path: '/lists/list-id/members',
         body: {
@@ -73,11 +88,11 @@ describe('Integration Tests', () => {
         },
       });
 
-      // Verify notification email was sent via SES
       expect(sesClient.__mockSend).toHaveBeenCalled();
     });
 
     test('invalid token blocks Mailchimp call', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { register } = require('./newsletter');
 
       const event = {
@@ -85,9 +100,9 @@ describe('Integration Tests', () => {
           token: 'invalid',
           email: 'test@example.com',
         }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await register(event, {});
+      const result = await register(event, {} as Context);
 
       expect(result.statusCode).toBe(400);
       expect(JSON.parse(result.body).error).toBe('Wrong token');
@@ -97,6 +112,7 @@ describe('Integration Tests', () => {
 
   describe('Contact Form Flow', () => {
     test('complete contact form submission', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { send } = require('./contact');
 
       const event = {
@@ -105,18 +121,15 @@ describe('Integration Tests', () => {
           email: 'visitor@example.com',
           message: 'Hello, I need help!',
         }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await send(event, {});
+      const result = await send(event, {} as Context);
 
-      // Verify response
       expect(result.statusCode).toBe(200);
       expect(JSON.parse(result.body)).toEqual({ success: true });
 
-      // Verify CORS headers
       expect(result.headers['Access-Control-Allow-Origin']).toBe('https://www.cryfs.org');
 
-      // Verify email was sent via SES
       expect(sesClient.__mockSend).toHaveBeenCalledTimes(1);
       const command = sesClient.__mockSend.mock.calls[0][0];
       expect(command).toBeInstanceOf(sesClient.SendEmailCommand);
@@ -131,6 +144,7 @@ describe('Integration Tests', () => {
     test('Mailchimp error triggers error notification', async () => {
       Mailchimp.__mockPost.mockRejectedValue({ title: 'API Error', detail: 'Service unavailable' });
 
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { register } = require('./newsletter');
 
       const event = {
@@ -138,13 +152,12 @@ describe('Integration Tests', () => {
           token: validToken,
           email: 'test@example.com',
         }),
-      };
+      } as APIGatewayProxyEvent;
 
-      const result = await register(event, {});
+      const result = await register(event, {} as Context);
 
       expect(result.statusCode).toBe(500);
 
-      // Verify error notification email was sent via SES
       expect(sesClient.__mockSend).toHaveBeenCalled();
       const command = sesClient.__mockSend.mock.calls[0][0];
       expect(command.input.Message.Subject.Data).toContain('Error');
@@ -155,6 +168,7 @@ describe('Integration Tests', () => {
     test('secrets are loaded from SSM on first request', async () => {
       Mailchimp.__mockPost.mockResolvedValue({ id: 'member' });
 
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { register } = require('./newsletter');
 
       const event = {
@@ -162,11 +176,10 @@ describe('Integration Tests', () => {
           token: validToken,
           email: 'test@example.com',
         }),
-      };
+      } as APIGatewayProxyEvent;
 
-      await register(event, {});
+      await register(event, {} as Context);
 
-      // Verify SSM was called with correct parameters (no more SENDGRID_API_KEY)
       expect(ssmClient.__mockSend).toHaveBeenCalledTimes(1);
       const command = ssmClient.__mockSend.mock.calls[0][0];
       expect(command).toBeInstanceOf(ssmClient.GetParametersCommand);

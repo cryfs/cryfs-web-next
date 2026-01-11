@@ -1,15 +1,13 @@
-"use strict";
-
 jest.mock('@aws-sdk/client-ses');
 
 describe('email_myself', () => {
-  let SESClient, SendEmailCommand, mockSend;
-  let email_myself;
+  let SendEmailCommand: typeof import('@aws-sdk/client-ses').SendEmailCommand;
+  let mockSend: jest.Mock;
+  let email_myself: typeof import('./email').email_myself;
 
   beforeEach(() => {
     jest.resetModules();
     const ses = require('@aws-sdk/client-ses');
-    SESClient = ses.SESClient;
     SendEmailCommand = ses.SendEmailCommand;
     mockSend = ses.__mockSend;
     mockSend.mockClear();
