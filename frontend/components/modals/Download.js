@@ -1,7 +1,12 @@
 "use strict";
 
 import React from 'react';
-import { ModalBody, Container, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import Modal from 'react-bootstrap/Modal';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Nav from 'react-bootstrap/Nav';
+import Tab from 'react-bootstrap/Tab';
 import { StyleSheet, css } from 'aphrodite/no-important'
 import { Console, ConsoleCommand } from '../../components/Console'
 import RouteHashBasedModal from './RouteHashBasedModal'
@@ -60,12 +65,12 @@ class Tabs extends React.Component {
 
             return ((index) => (
                 <Col md="4" key={index}>
-                    <NavItem className={css(style.tabHeader)}>
-                        <NavLink className={classnames({ active: this.state.activeTab === index })}
+                    <Nav.Item className={css(style.tabHeader)}>
+                        <Nav.Link className={classnames({ active: this.state.activeTab === index })}
                             onClick={async () => { await this.toggle(index) }}>
                             {tab.header}
-                        </NavLink>
-                    </NavItem>
+                        </Nav.Link>
+                    </Nav.Item>
                 </Col>))(index)
         })
     }
@@ -77,21 +82,21 @@ class Tabs extends React.Component {
             index += 1
 
             return ((index) => (
-                <TabPane tabId={index} key={index}>
+                <Tab.Pane eventKey={index} key={index}>
                     {tab.body}
-                </TabPane>))(index)
+                </Tab.Pane>))(index)
         })
     }
 
     render = () => (
-        <>
-            <Nav tabs className="row">
+        <Tab.Container activeKey={this.state.activeTab}>
+            <Nav variant="tabs" className="row">
                 {this.renderTabHeaders()}
             </Nav>
-            <TabContent activeTab={this.state.activeTab} className={css(style.tabContent)}>
+            <Tab.Content className={css(style.tabContent)}>
                 {this.renderTabBodies()}
-            </TabContent>
-        </>
+            </Tab.Content>
+        </Tab.Container>
     )
 }
 
@@ -207,7 +212,7 @@ const tabs = () => [
 
 const DownloadModal = () => (
     <RouteHashBasedModal hash="#download" header={`Download CryFS ${VersionNumber}`} showCloseButtonInFooter labelledBy="downloadModalTitle" size="lg">
-        <ModalBody>
+        <Modal.Body>
             <Container fluid>
                 <Row>
                     <Col md="12">
@@ -219,7 +224,7 @@ const DownloadModal = () => (
                     For older releases, see <a href="https://github.com/cryfs/cryfs/releases">here</a>.
                 </p>
             </Container>
-        </ModalBody>
+        </Modal.Body>
     </RouteHashBasedModal>
 )
 

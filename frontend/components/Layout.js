@@ -3,18 +3,11 @@
 import Head from 'next/head'
 import React from 'react';
 import Link from 'next/link'
-import {
-    Container,
-    Row,
-    Col,
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink
-} from 'reactstrap';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import { StyleSheet, css } from 'aphrodite/no-important'
 import { AnalyticsSetup } from '../components/Analytics'
 
@@ -57,29 +50,29 @@ class MyNavBar extends React.Component {
         });
     }
     render = () => {
-        return <Navbar expand="md" color="dark" dark>
+        return <Navbar expand="md" bg="dark" data-bs-theme="dark">
             <div className={css(navbarStyle.navbar)}>
-                <NavbarToggler onClick={this.toggle} />
-                <NavbarBrand href="/"><div className={css(navbarStyle.brand)}>CryFS</div></NavbarBrand>
-                <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav navbar>
-                        <NavItem>
-                            <Link legacyBehavior passHref href="/howitworks"><NavLink className={css(navbarStyle.link)}>How it works</NavLink></Link>
-                        </NavItem>
-                        <NavItem>
-                            <Link legacyBehavior passHref href="/tutorial"><NavLink className={css(navbarStyle.link)}>Tutorial</NavLink></Link>
-                        </NavItem>
-                        <NavItem>
-                            <Link legacyBehavior passHref href="/comparison"><NavLink className={css(navbarStyle.link)}>Compare</NavLink></Link>
-                        </NavItem>
-                        <NavItem className="d-none d-md-block">
-                            <Link legacyBehavior passHref href="/#download"><NavLink className={css(navbarStyle.link)}>Download</NavLink></Link>
-                        </NavItem>
-                        <NavItem>
-                            <Link legacyBehavior passHref href="/#donate"><NavLink className={css(navbarStyle.link)}>Donate</NavLink></Link>
-                        </NavItem>
+                <Navbar.Toggle onClick={this.toggle} aria-controls="main-navbar" />
+                <Navbar.Brand href="/"><div className={css(navbarStyle.brand)}>CryFS</div></Navbar.Brand>
+                <Navbar.Collapse in={this.state.isOpen} id="main-navbar">
+                    <Nav>
+                        <Nav.Item>
+                            <Link legacyBehavior passHref href="/howitworks"><Nav.Link className={css(navbarStyle.link)}>How it works</Nav.Link></Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Link legacyBehavior passHref href="/tutorial"><Nav.Link className={css(navbarStyle.link)}>Tutorial</Nav.Link></Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Link legacyBehavior passHref href="/comparison"><Nav.Link className={css(navbarStyle.link)}>Compare</Nav.Link></Link>
+                        </Nav.Item>
+                        <Nav.Item className="d-none d-md-block">
+                            <Link legacyBehavior passHref href="/#download"><Nav.Link className={css(navbarStyle.link)}>Download</Nav.Link></Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Link legacyBehavior passHref href="/#donate"><Nav.Link className={css(navbarStyle.link)}>Donate</Nav.Link></Link>
+                        </Nav.Item>
                     </Nav>
-                </Collapse>
+                </Navbar.Collapse>
             </div>
         </Navbar>
     }

@@ -1,7 +1,11 @@
 "use strict";
 
 import { css, StyleSheet } from "aphrodite";
-import { Col, Row, Collapse, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Collapse from 'react-bootstrap/Collapse';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
 import fetch from 'unfetch'
@@ -104,38 +108,40 @@ class NewsletterSection extends React.Component {
             <div className={css(style.registrationBox)}>
                 <Form className="justify-content-center">
                     <Row>
-                        <Col md={{ size: '4', offset: 3 }}>
-                            <FormGroup>
-                                <Label for="inputEmail" className="sr-only">Email Address:</Label>
-                                <Input type="email" name="email" id="inputEmail" placeholder="Enter email" required={true}
+                        <Col md={{ span: 4, offset: 3 }}>
+                            <Form.Group>
+                                <Form.Label htmlFor="inputEmail" className="visually-hidden">Email Address:</Form.Label>
+                                <Form.Control type="email" name="email" id="inputEmail" placeholder="Enter email" required={true}
                                     autoComplete="off" value={this.state.email} onChange={this.onEmailChange} />
-                            </FormGroup>
+                            </Form.Group>
                         </Col>
-                        <Col md={{ size: '2', offset: 0 }}>
-                            <FormGroup>
-                                <AsyncButton type="Submit" onClick={this.onSubmit} color="primary" block={true}>
+                        <Col md={{ span: 2, offset: 0 }}>
+                            <Form.Group>
+                                <AsyncButton type="Submit" onClick={this.onSubmit} variant="primary" block={true}>
                                     Get Notified &nbsp;
                                     <FontAwesomeIcon icon={faAngleDoubleRight} />
                                 </AsyncButton>
-                            </FormGroup>
+                            </Form.Group>
                         </Col>
                     </Row>
                 </Form>
-                <Collapse isOpen={this.state.notification != ''} className={css(style.notificationArea)}>
-                    {/*TODO Translate*/}
-                    <Collapse isOpen={this.state.notification == 'success'} className={`lead ${css(style.notification_success)}`}>
-                        Thank you. You&apos;ll get a confirmation email shortly.
-                    </Collapse>
-                    <Collapse isOpen={this.state.notification == 'error_invalid_email'} className={`lead ${css(style.notification_error)}`}>
-                        Invalid email address.
-                    </Collapse>
-                    <Collapse isOpen={this.state.notification == 'error_unsubscribed'} className={`lead ${css(style.notification_error)}`}>
-                        You&apos;ve unsubscribed before and we can&apos;t resubscribe you to protect against spam. Please send an
-                        email to messmer@cryfs.org.
-                    </Collapse>
-                    <Collapse isOpen={this.state.notification == 'error_unknown'} className={`lead ${css(style.notification_error)}`}>
-                        An error occurred. Please subscribe by sending an email to messmer@cryfs.org.
-                    </Collapse>
+                <Collapse in={this.state.notification != ''} className={css(style.notificationArea)}>
+                    <div>
+                        {/*TODO Translate*/}
+                        <Collapse in={this.state.notification == 'success'} className={`lead ${css(style.notification_success)}`}>
+                            <div>Thank you. You&apos;ll get a confirmation email shortly.</div>
+                        </Collapse>
+                        <Collapse in={this.state.notification == 'error_invalid_email'} className={`lead ${css(style.notification_error)}`}>
+                            <div>Invalid email address.</div>
+                        </Collapse>
+                        <Collapse in={this.state.notification == 'error_unsubscribed'} className={`lead ${css(style.notification_error)}`}>
+                            <div>You&apos;ve unsubscribed before and we can&apos;t resubscribe you to protect against spam. Please send an
+                            email to messmer@cryfs.org.</div>
+                        </Collapse>
+                        <Collapse in={this.state.notification == 'error_unknown'} className={`lead ${css(style.notification_error)}`}>
+                            <div>An error occurred. Please subscribe by sending an email to messmer@cryfs.org.</div>
+                        </Collapse>
+                    </div>
                 </Collapse>
             </div>
         </Container>

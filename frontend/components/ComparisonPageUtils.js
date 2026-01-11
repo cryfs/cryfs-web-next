@@ -1,9 +1,7 @@
 "use strict";
 
-// TODO Convert this file to typescript. But we need reactstrap v9 for that because of https://github.com/reactstrap/reactstrap/issues/2501
-
 import { StyleSheet, css } from 'aphrodite/no-important'
-import { Table } from 'reactstrap'
+import Table from 'react-bootstrap/Table'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faCircle } from '@fortawesome/free-solid-svg-icons'
 

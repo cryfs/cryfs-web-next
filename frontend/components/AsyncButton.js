@@ -1,6 +1,7 @@
 "use strict";
 
-import {Button, Collapse} from "reactstrap";
+import Button from 'react-bootstrap/Button';
+import Collapse from 'react-bootstrap/Collapse';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import React from 'react';
@@ -15,8 +16,10 @@ class AsyncButton extends React.Component {
             running: false,
         }
 
-        const {onClick, ...forwardProps} = props
+        const {onClick, block, className, ...forwardProps} = props
         this.onClick = onClick
+        // In React Bootstrap 2.x, block prop is removed. Use w-100 class instead.
+        this.className = block ? `w-100 ${className || ''}`.trim() : className
         this.forwardProps = forwardProps
     }
 
@@ -43,12 +46,12 @@ class AsyncButton extends React.Component {
     }
 
     render = () => (
-        <Button onClick={this.clickHandler} disabled={this.state.running} {...this.forwardProps}>
-            <Collapse isOpen={!this.state.running}>
-                {this.props.children}
+        <Button onClick={this.clickHandler} disabled={this.state.running} className={this.className} {...this.forwardProps}>
+            <Collapse in={!this.state.running}>
+                <span>{this.props.children}</span>
             </Collapse>
-            <Collapse isOpen={this.state.running}>
-                <FontAwesomeIcon icon={faSpinner} className="fa-pulse" />
+            <Collapse in={this.state.running}>
+                <span><FontAwesomeIcon icon={faSpinner} className="fa-pulse" /></span>
             </Collapse>
         </Button>
     )
