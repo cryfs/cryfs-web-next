@@ -40,6 +40,8 @@ jobs:
         with:
           name: sam-build
           path: backend/.aws-sam
+          if-no-files-found: error
+          include-hidden-files: true
 
   deploy:
     needs: build
