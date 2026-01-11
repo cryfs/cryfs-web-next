@@ -1,8 +1,5 @@
 import Head from "next/head"
 
-// TODO Checking types for imported image files only works if we remove `images.disableStaticImages: true` from next.config.js,
-//      but then we can't optimize images on export anymore. So let's for now just exclude this from the type checker.
-// @ts-ignore
 import Logo from "../assets/images/logo.png"
 
 type MetaTagsProps = {
@@ -17,7 +14,7 @@ const MetaTags = (props: MetaTagsProps) => (
         <meta property="og:title" content={props.title} />
         <meta property="og:url" content={props.url} />
         <meta property="og:type" content={(typeof props.type == 'undefined') ? "website" : props.type} />
-        <meta property="og:image" content={Logo} />
+        <meta property="og:image" content={Logo.src} />
         <meta property="og:description" content={props.description} />
         {(props.type == 'article') &&
             <meta property="article:author" content="https://www.facebook.com/sebastian.messmer" />

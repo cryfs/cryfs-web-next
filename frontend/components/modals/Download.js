@@ -1,6 +1,7 @@
 "use strict";
 
 import React from 'react';
+import Image from 'next-export-optimize-images/image';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -85,7 +86,7 @@ const tabs = () => [
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <img src={UbuntuLogo} alt="Ubuntu" size="61x61" />
+                    <Image src={UbuntuLogo} alt="Ubuntu" width={61} height={61} />
                 </Col>
                 <Col md="12" className={styles.osName}>
                     Ubuntu
@@ -113,7 +114,7 @@ const tabs = () => [
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <img src={DebianLogo} alt="Debian" size="50x61" />
+                    <Image src={DebianLogo} alt="Debian" width={50} height={61} />
                 </Col>
                 <Col md="12" className={styles.osName}>
                     Debian
@@ -141,7 +142,7 @@ const tabs = () => [
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <img src={OtherLogo} alt="Other" size="61x61" />
+                    <Image src={OtherLogo} alt="Other" width={61} height={61} />
                 </Col>
                 <Col md="12" className={styles.osName}>
                     Other

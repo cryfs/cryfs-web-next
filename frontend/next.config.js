@@ -2,7 +2,7 @@
 
 "use strict";
 
-const withOptimizedImages = require('next-optimized-images');
+const withExportImages = require('next-export-optimize-images');
 const mdx = require('@next/mdx')
 const fs = require('fs');
 const { join } = require('path');
@@ -54,11 +54,9 @@ const config = {
         return defaultPathMap;
     },
     pageExtensions: ['js', 'mdx'],
-    // TODO Use next/image from https://nextjs.org/docs/upgrading#nextconfigjs-customization-to-import-images instead of disableStaticImages: true
-    //      (also disabled by getInitialProps? https://nextjs.org/docs/api-reference/data-fetching/get-initial-props )
     images: {
-        disableStaticImages: true,
-    }
+        loader: 'custom',
+    },
 }
 
 const withMdx = mdx({
@@ -68,6 +66,6 @@ const withMdx = mdx({
 /**
  * @type {import('next').NextConfig}
  */
-const mergedConfig = withOptimizedImages(withMdx(config))
+const mergedConfig = withExportImages(withMdx(config))
 
 module.exports = mergedConfig

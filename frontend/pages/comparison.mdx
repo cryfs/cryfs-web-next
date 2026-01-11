@@ -1,3 +1,4 @@
+import Image from 'next-export-optimize-images/image'
 import AlternatingSections from '../components/AlternatingSections'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
@@ -32,7 +33,7 @@ import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, Co
 <Container>
 <Row>
     <Col md={{size: 8, offset: 2}}>
-        <img src={ComparisonImg} style={{marginTop: '5px', marginBottom: '30px', width: '100%'}} alt="Encrypting your Dropbox" />
+        <Image src={ComparisonImg} style={{marginTop: '5px', marginBottom: '30px', width: '100%', height: 'auto'}} alt="Encrypting your Dropbox" />
     </Col>
 </Row>
 <div style={{color: '#777', fontSize: '14px'}}>
@@ -83,7 +84,7 @@ This is why we only describe open source solutions here.
 
 <Row>
 <Col md="6">
-    <img src={VeraCryptImg} alt="VeraCrypt" className={styles.image} />
+    <Image src={VeraCryptImg} alt="VeraCrypt" className={styles.image} />
 </Col>
 <Col md="6">
 
@@ -143,7 +144,7 @@ This solves the problem we described for VeraCrypt.
 
 </Col>
 <Col md="6">
-<img src={GocryptfsImg} alt="Gocryptfs" className={styles.image} />
+<Image src={GocryptfsImg} alt="Gocryptfs" className={styles.image} />
 </Col>
 </Row>
 
@@ -179,7 +180,7 @@ The [alternatives](https://www.cryfs.org) mentioned above do also protect agains
 
 <Row>
 <Col md="6">
-<img src={EncfsImg} alt="EncFS" className={styles.image} />
+<Image src={EncfsImg} alt="EncFS" className={styles.image} />
 </Col>
 <Col md="6">
 
@@ -234,7 +235,7 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 
 </Col>
 <Col md="7">
-<img src={ECryptFsImg} alt="eCryptfs" className={styles.image} />
+<Image src={ECryptFsImg} alt="eCryptfs" className={styles.image} />
 </Col>
 </Row>
 
@@ -247,7 +248,7 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 
 <Row>
 <Col md="6">
-<img src={CryFsImg} alt="CryFS" className={styles.image} />
+<Image src={CryFsImg} alt="CryFS" className={styles.image} />
 </Col>
 <Col md="5">
 

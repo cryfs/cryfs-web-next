@@ -1,6 +1,7 @@
 "use strict";
 
 import Head from 'next/head'
+import Image from 'next-export-optimize-images/image'
 import React from 'react';
 import Link from 'next/link'
 import Container from 'react-bootstrap/Container';
@@ -10,6 +11,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { AnalyticsSetup } from '../components/Analytics'
 import styles from './Layout.module.css';
+import githubRibbon from '../assets/images/github_ribbon.png';
+import favicon from '../assets/images/favicon.png';
 
 class MyNavBar extends React.Component {
     constructor(props) {
@@ -57,10 +60,12 @@ class MyNavBar extends React.Component {
 const GithubRibbon = props => (
     <a href="https://github.com/cryfs/cryfs">
         {/*TODO Translate*/}
-        <img src={require("../assets/images/github_ribbon.png")}
+        <Image
+            src={githubRibbon}
             alt="Fork me on GitHub"
             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
-            className={styles.ribbon} />
+            className={styles.ribbon}
+        />
     </a>
 )
 
@@ -86,8 +91,8 @@ const Layout = (props) => (
     <>
         <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <link rel="shortcut icon" type="image/png" href={require("../assets/images/favicon.png")} />
-            <link rel="apple-touch-icon" type="image/png" href={require("../assets/images/favicon.png")} />
+            <link rel="shortcut icon" type="image/png" href={favicon.src} />
+            <link rel="apple-touch-icon" type="image/png" href={favicon.src} />
         </Head>
         <AnalyticsSetup /> { /* AnalyticsSetup must be in Layout and not in _document because otherwise componentDidMount isn't executed */}
         <MyNavBar />
