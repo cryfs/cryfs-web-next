@@ -18,7 +18,7 @@
   "dependencies": {
     "@sendgrid/mail": "^8.1.4",
     "async-mutex": "^0.5.0",
-    "aws-sdk": "^2.1692.0",
+    "@aws-sdk/client-ssm": "^3.712.0",
     "mailchimp-api-v3": "^1.15.0",
     "md5": "^2.3.0",
     "serverless": "3.38"

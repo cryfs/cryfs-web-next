@@ -1,11 +1,9 @@
 "use strict";
 
-import AWS from 'aws-sdk'
+import { SSMClient, GetParametersCommand } from '@aws-sdk/client-ssm'
 import CachedValue from './cached_value'
-import util from 'util'
 
-const ssm = new AWS.SSM()
-ssm.getParametersAsync = util.promisify(ssm.getParameters)
+const ssm = new SSMClient()
 
 const keys = [
     'MAILCHIMP_API_TOKEN',
@@ -21,11 +19,11 @@ const load_values = async () => {
         }
     }
 
-    const req = {
+    const command = new GetParametersCommand({
         Names: keys,
         WithDecryption: true
-    }
-    const resp = await ssm.getParametersAsync(req)
+    })
+    const resp = await ssm.send(command)
 
     let params = {}
     for (let p of resp.Parameters) {

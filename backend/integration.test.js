@@ -5,13 +5,13 @@
  * with mocked external services.
  */
 
-jest.mock('aws-sdk');
+jest.mock('@aws-sdk/client-ssm');
 jest.mock('@sendgrid/mail');
 jest.mock('mailchimp-api-v3');
 
 describe('Integration Tests', () => {
   const validToken = 'fd0kAn1zns';
-  let AWS;
+  let ssmClient;
   let sendgrid;
   let Mailchimp;
 
@@ -19,12 +19,12 @@ describe('Integration Tests', () => {
     jest.resetModules();
 
     // Re-require mocks after resetModules
-    AWS = require('aws-sdk');
+    ssmClient = require('@aws-sdk/client-ssm');
     sendgrid = require('@sendgrid/mail');
     Mailchimp = require('mailchimp-api-v3');
 
     // Reset all mock functions
-    AWS.__mockGetParameters.mockReset();
+    ssmClient.__mockSend.mockReset();
     sendgrid.__mockSend.mockClear();
     sendgrid.__mockSetApiKey.mockClear();
     Mailchimp.__mockPost.mockReset();
@@ -32,14 +32,12 @@ describe('Integration Tests', () => {
     Mailchimp.__mockPut.mockReset();
 
     // Setup default AWS SSM mock
-    AWS.__mockGetParameters.mockImplementation((params, callback) => {
-      callback(null, {
-        Parameters: [
-          { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token' },
-          { Name: 'MAILCHIMP_LIST_ID', Value: 'list-id' },
-          { Name: 'SENDGRID_API_KEY', Value: 'sg-key' },
-        ],
-      });
+    ssmClient.__mockSend.mockResolvedValue({
+      Parameters: [
+        { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token' },
+        { Name: 'MAILCHIMP_LIST_ID', Value: 'list-id' },
+        { Name: 'SENDGRID_API_KEY', Value: 'sg-key' },
+      ],
     });
   });
 
@@ -170,13 +168,13 @@ describe('Integration Tests', () => {
       await register(event, {});
 
       // Verify SSM was called with correct parameters
-      expect(AWS.__mockGetParameters).toHaveBeenCalledWith(
-        expect.objectContaining({
-          Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID', 'SENDGRID_API_KEY'],
-          WithDecryption: true,
-        }),
-        expect.any(Function)
-      );
+      expect(ssmClient.__mockSend).toHaveBeenCalledTimes(1);
+      const command = ssmClient.__mockSend.mock.calls[0][0];
+      expect(command).toBeInstanceOf(ssmClient.GetParametersCommand);
+      expect(command.input).toEqual({
+        Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID', 'SENDGRID_API_KEY'],
+        WithDecryption: true,
+      });
     });
   });
 });
