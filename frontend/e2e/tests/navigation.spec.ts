@@ -4,7 +4,9 @@ import { NavigationPage } from '../pages/navigation.page';
 test.describe('Page Navigation Flow', () => {
   let navPage: NavigationPage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }, testInfo) => {
+    // Skip on mobile - nav links are collapsed in hamburger menu, see mobile-navigation.spec.ts
+    test.skip(testInfo.project.name.startsWith('mobile'), 'Nav links require hamburger menu on mobile');
     navPage = new NavigationPage(page);
     await navPage.navigateTo('/');
     await navPage.waitForPageLoad();
