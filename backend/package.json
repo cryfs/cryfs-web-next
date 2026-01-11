@@ -16,7 +16,7 @@
     "test:coverage": "jest --coverage",
     "build": "sam build",
     "local": "sam local start-api",
-    "deploy": "sam deploy --no-confirm-changeset"
+    "deploy": "sam build && sam deploy --no-confirm-changeset"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.712.0",
