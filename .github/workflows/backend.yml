@@ -6,9 +6,12 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Allow one concurrent deployment
+# Concurrency control:
+# - For master: serialize all runs (AWS deployments are stateful)
+#   Old builds/deploys complete before new ones start to prevent out-of-order deployments
+# - For other branches: allow parallel runs per branch
 concurrency:
-  group: "backend"
+  group: ${{ github.ref == 'refs/heads/master' && 'master-deploy-backend' || format('ci-backend-{0}', github.ref) }}
   # Don't cancel in-progress deploys because that might leave AWS in an unclean state
   cancel-in-progress: false
 
