@@ -4,8 +4,7 @@ node_modules
 *.log
 out
 jspm_packages
-.serverless
-.webpack
+.aws-sam
 backend/artifacts
 backend/coverage
 frontend/coverage

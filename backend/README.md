@@ -1,26 +1,45 @@
-Installation
--------------
-Run "npm install" to install dependencies
+# Backend
 
+AWS Lambda backend for CryFS website, deployed with AWS SAM.
 
-AWS Setup
--------------
-See `iam` folder for required IAM permissions
+## Installation
 
+```bash
+npm install
+```
 
-Serverless commands
--------------
-First set AWS environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_KEY.
+### SAM CLI
 
-Deploy all: $ ./serverless deploy [--stage prod]
-Deploy one function: $ ./serverless deploy function -f [functionName] [--stage prod]
-Invoke a remote function: $ ./serverless invoke -f [functionName] -l [--stage prod]
-Display remote logs: $ ./serverless logs -f [functionName] -t [--stage prod]
-Delete remote function: $ ./serverless remove
+Install the AWS SAM CLI for local development and deployment:
 
+```bash
+# Using pip
+pipx install aws-sam-cli
 
-Testing
--------------
-Run tests: $ npm test
-Run tests in watch mode: $ npm run test:watch
-Run tests with coverage: $ npm run test:coverage
+# Or using Homebrew (macOS/Linux)
+brew install aws-sam-cli
+```
+
+## AWS Setup
+
+See `iam` folder for required IAM permissions.
+
+## SAM Commands
+
+First set AWS environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+
+```bash
+sam build                           # Build Lambda functions
+sam deploy --no-confirm-changeset   # Deploy to AWS
+sam local start-api                 # Start local API server
+sam logs -n NewsletterRegisterFunction --tail  # View logs
+sam delete                          # Delete stack
+```
+
+## Testing
+
+```bash
+npm test              # Run tests
+npm run test:watch    # Watch mode
+npm run test:coverage # Coverage report
+```

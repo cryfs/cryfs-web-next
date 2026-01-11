@@ -1,0 +1,77 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: CryFS website backend API
+
+Globals:
+  Function:
+    # IMPORTANT: When updating runtime, also update "engines.node" in package.json
+    Runtime: nodejs22.x
+    Timeout: 30
+    MemorySize: 128
+    Architectures:
+      - x86_64
+  Api:
+    Cors:
+      AllowOrigin: "'https://www.cryfs.org'"
+      AllowMethods: "'POST,OPTIONS'"
+      AllowHeaders: "'Content-Type'"
+
+Resources:
+  NewsletterRegisterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: newsletter.register
+      CodeUri: .
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /newsletter/register
+            Method: POST
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: ssm:GetParameters
+              Resource:
+                - arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_API_TOKEN
+                - arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_LIST_ID
+                - arn:aws:ssm:us-east-1:171839190218:parameter/SENDGRID_API_KEY
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2024
+        EntryPoints:
+          - newsletter.js
+
+  ContactSendFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: contact.send
+      CodeUri: .
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /contact/send
+            Method: POST
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: ssm:GetParameters
+              Resource:
+                - arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_API_TOKEN
+                - arn:aws:ssm:us-east-1:171839190218:parameter/MAILCHIMP_LIST_ID
+                - arn:aws:ssm:us-east-1:171839190218:parameter/SENDGRID_API_KEY
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2024
+        EntryPoints:
+          - contact.js
+
+Outputs:
+  ApiEndpoint:
+    Description: API Gateway endpoint URL
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

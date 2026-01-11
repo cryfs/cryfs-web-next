@@ -32,7 +32,9 @@ npm run build    # Production build
 cd backend
 npm install
 npm test         # Unit tests
-./serverless deploy --stage prod  # Deploy (requires AWS credentials)
+npm run build    # Build with SAM
+npm run local    # Local API server (requires Docker)
+npm run deploy   # Deploy to AWS (requires credentials)
 ```
 
 ## Deployment
