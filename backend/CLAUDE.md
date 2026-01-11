@@ -1,14 +1,20 @@
 # Backend
 
-AWS Lambda serverless functions for the CryFS website.
+AWS Lambda serverless functions for the CryFS website, deployed with AWS SAM.
 
 ## Tech Stack
 
-- **Runtime**: AWS Lambda with Serverless Framework
+- **Runtime**: AWS Lambda with AWS SAM (Serverless Application Model)
 - **Language**: JavaScript (ES6+, no TypeScript)
-- **Bundler**: Webpack + Babel
+- **Bundler**: esbuild (built into SAM)
 - **External Services**: SendGrid (email), Mailchimp (newsletter)
 - **Secrets**: AWS SSM Parameter Store
+
+## Prerequisites
+
+Install the AWS SAM CLI:
+- macOS: `brew install aws-sam-cli`
+- Other: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
 
 ## API Endpoints
 
@@ -23,13 +29,56 @@ Both endpoints use simple token-based spam protection (not authentication).
 
 ```
 backend/
-├── *.js            # Source modules (handlers and utilities)
-├── *.test.js       # Jest tests (colocated)
-├── __mocks__/      # Jest mocks for external services
-├── iam/            # IAM policy documentation
-├── serverless.yml  # Serverless Framework config
-└── webpack.config.js
+├── *.js              # Source modules (handlers and utilities)
+├── *.test.js         # Jest tests (colocated)
+├── __mocks__/        # Jest mocks for external services
+├── iam/              # IAM policy documentation
+├── template.yaml     # SAM template (infrastructure as code)
+└── samconfig.toml    # SAM deployment configuration
 ```
+
+## Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Run unit tests
+npm test
+npm run test:watch     # Watch mode
+npm run test:coverage  # Coverage report
+
+# Build Lambda functions
+npm run build          # or: sam build
+
+# Local development
+npm run local          # Start local API at http://localhost:3000
+sam local invoke NewsletterRegisterFunction --event events/test.json
+
+# Deploy to AWS (requires AWS credentials)
+npm run deploy         # or: sam deploy --no-confirm-changeset
+```
+
+## Local Testing with SAM
+
+1. Build the functions:
+   ```bash
+   sam build
+   ```
+
+2. Start local API Gateway:
+   ```bash
+   sam local start-api
+   ```
+
+3. Test endpoints (in another terminal):
+   ```bash
+   curl -X POST http://localhost:3000/newsletter/register \
+     -H "Content-Type: application/json" \
+     -d '{"token": "fd0kAn1zns", "email": "test@example.com"}'
+   ```
+
+Note: Local testing requires Docker. SSM secrets won't work locally unless you mock them or set environment variables.
 
 ## Code Conventions
 
@@ -39,9 +88,9 @@ All handlers use the `LambdaFunction()` higher-order function wrapper:
 ```javascript
 import { LambdaFunction } from './lambda_function'
 
-export const myHandler = LambdaFunction(async (event) => {
+export const myHandler = LambdaFunction(async (body) => {
     // Implementation
-    return { success: true }
+    return { statusCode: 200, body: JSON.stringify({ success: true }) }
 })
 ```
 
@@ -80,18 +129,14 @@ jest.mock('mailchimp-api-v3')
 Mailchimp.__mockPost.mockResolvedValue({ status: 'subscribed' })
 ```
 
-## Commands
-
-```bash
-npm test              # Run tests
-npm run test:watch    # Tests in watch mode
-npm run test:coverage # Coverage report
-./serverless package  # Package for deployment
-./serverless deploy --stage prod  # Deploy to AWS
-```
-
 ## AWS Configuration
 
 Deployment requires:
 - AWS credentials with appropriate permissions (see `iam/` directory)
 - SSM parameters configured for secrets
+
+## Version Management
+
+IMPORTANT: Node.js version must be kept in sync in two places:
+- `package.json` → `engines.node`
+- `template.yaml` → `Globals.Function.Runtime`

@@ -3,7 +3,6 @@ name: Backend
 on:
   push:
   pull_request:
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -25,6 +24,8 @@ jobs:
           node-version-file: 'backend/package.json'
           cache: npm
           cache-dependency-path: backend/package.json
+      - name: Setup AWS SAM
+        uses: aws-actions/setup-sam@v2
       - name: Install Dependencies
         working-directory: backend
         run: npm install
@@ -33,12 +34,13 @@ jobs:
         run: npm test
       - name: Build
         working-directory: backend
-        run: ./serverless package --package /tmp/artifacts --stage prod
+        run: npm run build
       - name: Store artifacts
         uses: actions/upload-artifact@master
         with:
-          name: serverless-package
-          path: /tmp/artifacts
+          name: sam-build
+          path: backend/.aws-sam
+
   deploy:
     needs: build
     if: success() && github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -51,20 +53,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: 'backend/package.json'
-          cache: npm
-          cache-dependency-path: backend/package.json
-      - name: Install Dependencies
-        working-directory: backend
-        run: npm install
+      - name: Setup AWS SAM
+        uses: aws-actions/setup-sam@v2
       - name: Load artifacts
         uses: actions/download-artifact@master
         with:
-          name: serverless-package
-          path: /tmp/artifacts
+          name: sam-build
+          path: backend/.aws-sam
       - name: Deploy
         working-directory: backend
-        run: ./serverless deploy --package /tmp/artifacts --stage prod --conceal --verbose --debug=*
+        run: sam deploy --no-confirm-changeset
