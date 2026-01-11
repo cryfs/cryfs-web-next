@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Link from "next/link";
 import { logAnalyticsEvent } from './Analytics'
 import styles from './Teaser.module.css';
+import teaserImage from '../assets/images/teaser.jpg';
 
 {/*TODO Translate*/ }
 const teaser_header = "Keep your data safe in the cloud"
@@ -22,7 +23,7 @@ const Teaser = () => (
         <section className={`${styles.mdTeaser} d-none d-lg-block`}>
             <div className="clearfix">
                 <div className={styles.mdContent}>
-                    <div className={styles.mdImage} />
+                    <div className={styles.mdImage} style={{ backgroundImage: `url(${teaserImage})` }} />
                     <div className={`${styles.mdTitleText} lead text-center`}>
                         {/*TODO Translate*/}
                         <h1 className={styles.mdTitleTextH1}>{teaser_header}</h1>
