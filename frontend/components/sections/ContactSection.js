@@ -1,6 +1,5 @@
 "use strict";
 
-import {css, StyleSheet} from "aphrodite";
 import Col from 'react-bootstrap/Col';
 import Collapse from 'react-bootstrap/Collapse';
 import Container from 'react-bootstrap/Container';
@@ -12,28 +11,7 @@ import fetch from 'unfetch'
 import AsyncButton from '../AsyncButton'
 import {logAnalyticsEvent} from '../Analytics'
 import React from 'react';
-
-const formStyle = StyleSheet.create({
-    notificationArea: {
-        marginTop: '30px',
-    },
-    notification_success: {
-        color: 'green',
-        marginTop: '10px',
-        marginBottom: '10px',
-    },
-    notification_error: {
-        color: 'red',
-        marginTop: '10px',
-        marginBottom: '10px',
-    },
-})
-
-const contactStyle = StyleSheet.create({
-    content: {
-        marginTop: '20px',
-    },
-})
+import styles from './ContactSection.module.css';
 
 class ContactSection extends React.Component {
     constructor(props) {
@@ -100,7 +78,7 @@ class ContactSection extends React.Component {
     render = () => (
         <Container className="text-center">
             <h2>Contact Us</h2>
-            <div className={css(contactStyle.content)}>
+            <div className={styles.content}>
                 <Col md={{span: 6, offset: 3}}>
                     <Form>
                         {/*TODO Translate*/}
@@ -133,18 +111,18 @@ class ContactSection extends React.Component {
                             <div className="clearfix"/>
                             <Col md="12">
                                 <Collapse in={this.state.notification != ''}
-                                          className={css(formStyle.notificationArea)}>
+                                          className={styles.notificationArea}>
                                     <div>
                                         <Collapse in={this.state.notification == 'success'}
-                                                  className={`lead ${css(formStyle.notification_success)}`}>
+                                                  className={`lead ${styles.notificationSuccess}`}>
                                             <div>Thank you.</div>
                                         </Collapse>
                                         <Collapse in={this.state.notification == 'error:empty'}
-                                                  className={`lead ${css(formStyle.notification_error)}`}>
+                                                  className={`lead ${styles.notificationError}`}>
                                             <div>Please enter a message to send.</div>
                                         </Collapse>
                                         <Collapse in={this.state.notification == 'error'}
-                                                  className={`lead ${css(formStyle.notification_error)}`}>
+                                                  className={`lead ${styles.notificationError}`}>
                                             <div>Sorry, there was an error sending your message.</div>
                                         </Collapse>
                                     </div>

@@ -1,0 +1,22 @@
+.tabHeader {
+    cursor: pointer;
+}
+
+.tabContent {
+    margin-top: 20px;
+}
+
+.osBox {
+    margin-top: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.osName {
+    vertical-align: middle;
+    font-size: x-large;
+}
+
+.easyinstallCommand {
+    font-size: 15px;
+}

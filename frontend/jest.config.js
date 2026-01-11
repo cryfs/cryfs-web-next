@@ -14,9 +14,8 @@ const customJestConfig = {
     '^@/pages/(.*)$': '<rootDir>/pages/$1',
     // Handle image imports
     '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
-    // Handle aphrodite
-    '^aphrodite$': '<rootDir>/__mocks__/aphrodite.js',
-    '^aphrodite/no-important$': '<rootDir>/__mocks__/aphrodite.js',
+    // Handle CSS modules
+    '\\.module\\.css$': 'identity-obj-proxy',
     // Handle unfetch
     '^unfetch$': '<rootDir>/__mocks__/unfetch.js',
     '^isomorphic-unfetch$': '<rootDir>/__mocks__/unfetch.js',

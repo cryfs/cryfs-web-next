@@ -1,12 +1,5 @@
 import '@testing-library/jest-dom';
 
-// Mock window.__NEXT_DATA__ for aphrodite rehydration (must be before any component imports)
-Object.defineProperty(window, '__NEXT_DATA__', {
-  value: { ids: [] },
-  writable: true,
-  configurable: true,
-});
-
 // Mock window.gtag for Google Analytics
 global.gtag = jest.fn();
 

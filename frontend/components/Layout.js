@@ -8,32 +8,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { StyleSheet, css } from 'aphrodite/no-important'
 import { AnalyticsSetup } from '../components/Analytics'
-
-if (typeof window !== 'undefined') {
-    /* StyleSheet.rehydrate takes an array of rendered classnames,
-    and ensures that the client side render doesn't generate
-    duplicate style definitions in the <style data-aphrodite> tag */
-    StyleSheet.rehydrate(window.__NEXT_DATA__.ids)
-}
-
-const navbarStyle = StyleSheet.create({
-    navbar: {
-        fontSize: '1.2rem',
-        paddingRight: '140px',
-        paddingLeft: '15px',
-        '@media (min-width: 768px)': {
-            display: 'flex',
-        },
-    },
-    link: {
-        cursor: 'pointer',
-    },
-    brand: {
-        marginLeft: '10px',
-    },
-})
+import styles from './Layout.module.css';
 
 class MyNavBar extends React.Component {
     constructor(props) {
@@ -51,25 +27,25 @@ class MyNavBar extends React.Component {
     }
     render = () => {
         return <Navbar expand="md" bg="dark" data-bs-theme="dark">
-            <div className={css(navbarStyle.navbar)}>
+            <div className={styles.navbar}>
                 <Navbar.Toggle onClick={this.toggle} aria-controls="main-navbar" />
-                <Navbar.Brand href="/"><div className={css(navbarStyle.brand)}>CryFS</div></Navbar.Brand>
+                <Navbar.Brand href="/"><div className={styles.brand}>CryFS</div></Navbar.Brand>
                 <Navbar.Collapse in={this.state.isOpen} id="main-navbar">
                     <Nav>
                         <Nav.Item>
-                            <Link legacyBehavior passHref href="/howitworks"><Nav.Link className={css(navbarStyle.link)}>How it works</Nav.Link></Link>
+                            <Link legacyBehavior passHref href="/howitworks"><Nav.Link className={styles.link}>How it works</Nav.Link></Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Link legacyBehavior passHref href="/tutorial"><Nav.Link className={css(navbarStyle.link)}>Tutorial</Nav.Link></Link>
+                            <Link legacyBehavior passHref href="/tutorial"><Nav.Link className={styles.link}>Tutorial</Nav.Link></Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Link legacyBehavior passHref href="/comparison"><Nav.Link className={css(navbarStyle.link)}>Compare</Nav.Link></Link>
+                            <Link legacyBehavior passHref href="/comparison"><Nav.Link className={styles.link}>Compare</Nav.Link></Link>
                         </Nav.Item>
                         <Nav.Item className="d-none d-md-block">
-                            <Link legacyBehavior passHref href="/#download"><Nav.Link className={css(navbarStyle.link)}>Download</Nav.Link></Link>
+                            <Link legacyBehavior passHref href="/#download"><Nav.Link className={styles.link}>Download</Nav.Link></Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Link legacyBehavior passHref href="/#donate"><Nav.Link className={css(navbarStyle.link)}>Donate</Nav.Link></Link>
+                            <Link legacyBehavior passHref href="/#donate"><Nav.Link className={styles.link}>Donate</Nav.Link></Link>
                         </Nav.Item>
                     </Nav>
                 </Navbar.Collapse>
@@ -78,41 +54,20 @@ class MyNavBar extends React.Component {
     }
 }
 
-const githubRibbonStyle = StyleSheet.create({
-    ribbon: {
-        position: 'absolute',
-        zIndex: 1000,
-        top: 0,
-        right: 0,
-        border: 0,
-    },
-})
-
 const GithubRibbon = props => (
     <a href="https://github.com/cryfs/cryfs">
         {/*TODO Translate*/}
         <img src={require("../assets/images/github_ribbon.png")}
             alt="Fork me on GitHub"
             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
-            className={css(githubRibbonStyle.ribbon)} />
+            className={styles.ribbon} />
     </a>
 )
 
-const footerStyle = StyleSheet.create({
-    footer: {
-        height: '50px',
-        color: 'white',
-    },
-    section: {
-        paddingTop: '20px',
-        background: 'black',
-    },
-})
-
 const Footer = props => (
-    <section className={css(footerStyle.section)}>
+    <section className={styles.footerSection}>
         <Container>
-            <footer className={css(footerStyle.footer)}>
+            <footer className={styles.footer}>
                 <Row>
                     <Col md="10">Copyright © 2016-present &mdash; Sebastian Messmer</Col>
                     <Col md="2">

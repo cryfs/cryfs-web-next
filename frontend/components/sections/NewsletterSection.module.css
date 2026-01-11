@@ -1,0 +1,26 @@
+.notificationArea {
+    margin-top: 30px;
+}
+
+.notificationSuccess {
+    color: green;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.notificationError {
+    color: red;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.notificationSpinner {
+    color: #909090;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.registrationBox {
+    text-align: center;
+    margin-top: 20px;
+}

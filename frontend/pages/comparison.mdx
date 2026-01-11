@@ -14,8 +14,7 @@ import GocryptfsImg from '../assets/images/gocryptfs.png'
 import EncfsImg from '../assets/images/encfs.jpg'
 import ECryptFsImg from '../assets/images/ecryptfs.png'
 import CryFsImg from '../assets/images/teaser_small.jpg'
-import { css } from 'aphrodite/no-important'
-import { style, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, ComparisonTableBody, ComparisonTableRow, ComparisonTableCell } from '../components/ComparisonPageUtils'
+import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, ComparisonTableBody, ComparisonTableRow, ComparisonTableCell } from '../components/ComparisonPageUtils'
 
 <MetaTags
     title="CryFS: Comparison of encrypted cloud storage solutions"
@@ -84,7 +83,7 @@ This is why we only describe open source solutions here.
 
 <Row>
 <Col md="6">
-    <img src={VeraCryptImg} alt="VeraCrypt" className={css(style.image)} />
+    <img src={VeraCryptImg} alt="VeraCrypt" className={styles.image} />
 </Col>
 <Col md="6">
 
@@ -144,7 +143,7 @@ This solves the problem we described for VeraCrypt.
 
 </Col>
 <Col md="6">
-<img src={GocryptfsImg} alt="Gocryptfs" className={css(style.image)} />
+<img src={GocryptfsImg} alt="Gocryptfs" className={styles.image} />
 </Col>
 </Row>
 
@@ -180,7 +179,7 @@ The [alternatives](https://www.cryfs.org) mentioned above do also protect agains
 
 <Row>
 <Col md="6">
-<img src={EncfsImg} alt="EncFS" className={css(style.image)} />
+<img src={EncfsImg} alt="EncFS" className={styles.image} />
 </Col>
 <Col md="6">
 
@@ -235,7 +234,7 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 
 </Col>
 <Col md="7">
-<img src={ECryptFsImg} alt="eCryptfs" className={css(style.image)} />
+<img src={ECryptFsImg} alt="eCryptfs" className={styles.image} />
 </Col>
 </Row>
 
@@ -248,7 +247,7 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 
 <Row>
 <Col md="6">
-<img src={CryFsImg} alt="CryFS" className={css(style.image)} />
+<img src={CryFsImg} alt="CryFS" className={styles.image} />
 </Col>
 <Col md="5">
 
@@ -411,14 +410,14 @@ So if you don't need Windows support today, you can give it a try.
 </ComparisonTable>
 
 <strong>Footnotes:</strong>
-<ol className={css(style.footnotes)}>
-    <li className={css(style.footnotesLi)}>CryFS is fast enough to be used in practice, but some of the other file systems in the list are faster.</li>
-    <li className={css(style.footnotesLi)}>VeraCrypt causes unresolvable conflicts when modifying the filesystem on two machines without full synchronization inbetween.</li>
-    <li className={css(style.footnotesLi)}>CryFS supports this starting with version 0.10.</li>
-    <li className={css(style.footnotesLi)}>Gocryptfs only makes sure that the data you're reading was at some point written by you. It does not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</li>
-    <li className={css(style.footnotesLi)}>Like in (d), EncFS also only makes sure that the data you're reading was at some point written by you. Furthermore, the current implementation is flawed because a hacker can simply disable the integrity check.</li>
-    <li className={css(style.footnotesLi)}>There is experimental Windows support starting with CryFS version 0.10.</li>
-    <li className={css(style.footnotesLi)}>There is a third-party experimental version of gocryptfs and EncFS for Windows.</li>
+<ol className={styles.footnotes}>
+    <li className={styles.footnotesLi}>CryFS is fast enough to be used in practice, but some of the other file systems in the list are faster.</li>
+    <li className={styles.footnotesLi}>VeraCrypt causes unresolvable conflicts when modifying the filesystem on two machines without full synchronization inbetween.</li>
+    <li className={styles.footnotesLi}>CryFS supports this starting with version 0.10.</li>
+    <li className={styles.footnotesLi}>Gocryptfs only makes sure that the data you're reading was at some point written by you. It does not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</li>
+    <li className={styles.footnotesLi}>Like in (d), EncFS also only makes sure that the data you're reading was at some point written by you. Furthermore, the current implementation is flawed because a hacker can simply disable the integrity check.</li>
+    <li className={styles.footnotesLi}>There is experimental Windows support starting with CryFS version 0.10.</li>
+    <li className={styles.footnotesLi}>There is a third-party experimental version of gocryptfs and EncFS for Windows.</li>
 </ol>
 
 </Container>

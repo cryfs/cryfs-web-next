@@ -6,8 +6,8 @@ Next.js static website for CryFS.
 
 - **Framework**: Next.js with static export (`output: 'export'`)
 - **Language**: TypeScript (strict mode) with `allowJs` for mixed JS/TS codebase
-- **Styling**: Aphrodite (CSS-in-JS) + Bootstrap + SCSS
-- **UI Components**: Reactstrap (Bootstrap React components)
+- **Styling**: CSS Modules + Bootstrap + SCSS
+- **UI Components**: React Bootstrap (Bootstrap React components)
 - **Content**: MDX for markdown pages
 
 ## Directory Structure
@@ -33,24 +33,30 @@ frontend/
 - PascalCase for component files (`AsyncButton.js`, `Console.tsx`)
 - Lowercase for page files (`index.js`, `legal_notice.mdx`)
 
-### Styling with Aphrodite
+### Styling with CSS Modules
 ```javascript
-import { StyleSheet, css } from 'aphrodite'
-
-const style = StyleSheet.create({
-    container: {
-        padding: '15px',
-        '@media (min-width: 768px)': { padding: '30px' }
-    }
-})
+import styles from './Component.module.css';
 
 // Usage
-<div className={css(style.container)}>
+<div className={styles.container}>
+```
+
+CSS Module file (Component.module.css):
+```css
+.container {
+    padding: 15px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 30px;
+    }
+}
 ```
 
 Combine with Bootstrap classes when needed:
 ```javascript
-<div className={`${css(style.custom)} d-none d-lg-block`}>
+<div className={`${styles.custom} d-none d-lg-block`}>
 ```
 
 ### Router-Based Modals

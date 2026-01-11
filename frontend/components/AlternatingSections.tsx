@@ -1,27 +1,9 @@
 "use strict";
 
-import { css, StyleSheet } from "aphrodite"
 import React from 'react'
-import type { AppProps } from 'next/app'
+import styles from './AlternatingSections.module.css';
 
-const styles = [
-    StyleSheet.create({
-        section: {
-            paddingTop: '50px',
-            paddingBottom: '50px',
-            background: 'white',
-            padding: '50px 0px',
-        },
-    }),
-    StyleSheet.create({
-        section: {
-            paddingTop: '50px',
-            paddingBottom: '50px',
-            background: '#c2e1f2',
-            padding: '50px 0px',
-        },
-    }),
-]
+const sectionClasses = [styles.sectionWhite, styles.sectionBlue]
 
 type AlternatingSectionsProps = {
     start_index?: number
@@ -39,9 +21,9 @@ const AlternatingSections = (props: AlternatingSectionsProps) => {
             } else {
                 oldClassName = ""
             }
-            const style = styles[styleIndex]
-            styleIndex = (styleIndex + 1) % styles.length
-            return React.cloneElement(child, { className: oldClassName + css(style.section) })
+            const sectionClass = sectionClasses[styleIndex]
+            styleIndex = (styleIndex + 1) % sectionClasses.length
+            return React.cloneElement(child, { className: oldClassName + sectionClass })
         })
     } </>
 }

@@ -1,6 +1,5 @@
 "use strict";
 
-import { css, StyleSheet } from "aphrodite";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Collapse from 'react-bootstrap/Collapse';
@@ -12,31 +11,7 @@ import fetch from 'unfetch'
 import AsyncButton from "../AsyncButton";
 import { logAnalyticsEvent } from '../Analytics'
 import React from 'react';
-
-const style = StyleSheet.create({
-    notificationArea: {
-        marginTop: '30px',
-    },
-    notification_success: {
-        color: 'green',
-        marginTop: '10px',
-        marginBottom: '10px',
-    },
-    notification_error: {
-        color: 'red',
-        marginTop: '10px',
-        marginBottom: '10px',
-    },
-    notification_spinner: {
-        color: '#909090',
-        marginTop: '10px',
-        marginBottom: '10px',
-    },
-    registrationBox: {
-        textAlign: 'center',
-        marginTop: '20px',
-    },
-})
+import styles from './NewsletterSection.module.css';
 
 class NewsletterSection extends React.Component {
     constructor(props) {
@@ -105,7 +80,7 @@ class NewsletterSection extends React.Component {
         return <Container className="text-center">
             {/*TODO Translate*/}
             <h2>Get notified when there are updates!</h2>
-            <div className={css(style.registrationBox)}>
+            <div className={styles.registrationBox}>
                 <Form className="justify-content-center">
                     <Row>
                         <Col md={{ span: 4, offset: 3 }}>
@@ -125,20 +100,20 @@ class NewsletterSection extends React.Component {
                         </Col>
                     </Row>
                 </Form>
-                <Collapse in={this.state.notification != ''} className={css(style.notificationArea)}>
+                <Collapse in={this.state.notification != ''} className={styles.notificationArea}>
                     <div>
                         {/*TODO Translate*/}
-                        <Collapse in={this.state.notification == 'success'} className={`lead ${css(style.notification_success)}`}>
+                        <Collapse in={this.state.notification == 'success'} className={`lead ${styles.notificationSuccess}`}>
                             <div>Thank you. You&apos;ll get a confirmation email shortly.</div>
                         </Collapse>
-                        <Collapse in={this.state.notification == 'error_invalid_email'} className={`lead ${css(style.notification_error)}`}>
+                        <Collapse in={this.state.notification == 'error_invalid_email'} className={`lead ${styles.notificationError}`}>
                             <div>Invalid email address.</div>
                         </Collapse>
-                        <Collapse in={this.state.notification == 'error_unsubscribed'} className={`lead ${css(style.notification_error)}`}>
+                        <Collapse in={this.state.notification == 'error_unsubscribed'} className={`lead ${styles.notificationError}`}>
                             <div>You&apos;ve unsubscribed before and we can&apos;t resubscribe you to protect against spam. Please send an
                             email to messmer@cryfs.org.</div>
                         </Collapse>
-                        <Collapse in={this.state.notification == 'error_unknown'} className={`lead ${css(style.notification_error)}`}>
+                        <Collapse in={this.state.notification == 'error_unknown'} className={`lead ${styles.notificationError}`}>
                             <div>An error occurred. Please subscribe by sending an email to messmer@cryfs.org.</div>
                         </Collapse>
                     </div>
