@@ -67,4 +67,4 @@ jobs:
           path: backend/.aws-sam
       - name: Deploy
         working-directory: backend
-        run: sam deploy --no-confirm-changeset
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
