@@ -1,5 +1,5 @@
-# This is the IAM policy needed to deploy a new stack (i.e. when AWS Lambda is being set up from scratch) or a new function
-# (replace ${account_id} with your Amazon Account ID)
+# IAM policy for CI to deploy a new AWS SAM stack or add new functions.
+# Replace ${account_id} with your AWS Account ID.
 
 {
     "Version": "2012-10-17",
@@ -15,7 +15,9 @@
                 "iam:GetRolePolicy",
                 "iam:PutRolePolicy",
                 "iam:PassRole",
-                "iam:TagRole"
+                "iam:TagRole",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy"
             ],
             "Resource": [
                 "arn:aws:iam::${account_id}:role/cryfs-web-backend-*"
@@ -31,16 +33,23 @@
                 "s3:ListBucket",
                 "s3:CreateBucket",
                 "s3:DeleteBucket",
-                "s3:GetEncryptionConfiguration",
-                "s3:PutEncryptionConfiguration",
+                "s3:GetBucketLocation",
+                "s3:GetBucketVersioning",
                 "s3:GetBucketPolicy",
+                "s3:GetBucketTagging",
+                "s3:GetEncryptionConfiguration",
+                "s3:GetLifecycleConfiguration",
+                "s3:PutEncryptionConfiguration",
                 "s3:PutBucketPolicy",
                 "s3:PutBucketTagging",
-                "s3:GetBucketAcl",
-                "s3:PutBucketAcl"
+                "s3:PutBucketVersioning",
+                "s3:PutLifecycleConfiguration",
+                "s3:PutBucketPublicAccessBlock",
+                "s3:GetBucketPublicAccessBlock"
             ],
             "Resource": [
-                "arn:aws:s3:::cryfs-web-backend-*"
+                "arn:aws:s3:::aws-sam-cli-managed-default-samclisourcebucket-*",
+                "arn:aws:s3:::aws-sam-cli-managed-default-samclisourcebucket-*/*"
             ]
         },
         {
@@ -54,10 +63,13 @@
                 "cloudformation:CreateChangeSet",
                 "cloudformation:ExecuteChangeSet",
                 "cloudformation:DescribeStackEvents",
-                "cloudformation:ListStackResources"
+                "cloudformation:ListStackResources",
+                "cloudformation:GetTemplateSummary"
             ],
             "Resource": [
-                "arn:aws:cloudformation:us-east-1:${account_id}:stack/cryfs-web-backend-*"
+                "arn:aws:cloudformation:us-east-1:${account_id}:stack/cryfs-web-backend/*",
+                "arn:aws:cloudformation:us-east-1:${account_id}:stack/aws-sam-cli-managed-default/*",
+                "arn:aws:cloudformation:us-east-1:aws:transform/Serverless-2016-10-31"
             ]
         },
         {
@@ -67,9 +79,7 @@
                 "cloudformation:GetTemplate",
                 "cloudformation:ValidateTemplate"
             ],
-            "Resource": [
-                "*"
-            ]
+            "Resource": "*"
         },
         {
             "Sid": "Lambda",
@@ -84,7 +94,8 @@
                 "lambda:ListVersionsByFunction",
                 "lambda:PublishVersion",
                 "lambda:UpdateFunctionCode",
-                "lambda:AddPermission"
+                "lambda:AddPermission",
+                "lambda:RemovePermission"
             ],
             "Resource": "arn:aws:lambda:us-east-1:${account_id}:function:cryfs-web-backend-*"
         },
@@ -95,7 +106,8 @@
                 "apigateway:DELETE",
                 "apigateway:PUT",
                 "apigateway:POST",
-                "apigateway:GET"
+                "apigateway:GET",
+                "apigateway:PATCH"
             ],
             "Resource": "*"
         },
