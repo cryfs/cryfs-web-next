@@ -1,0 +1,77 @@
+/* MD (large screen) styles */
+.mdTeaser {
+    position: relative;
+    height: 1000px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.mdContent {
+    position: absolute;
+    right: 0px;
+    height: 1000px;
+    width: 2013px; /* Math.floor(5308 / 2636 * 1000) */
+}
+
+.mdImage {
+    position: absolute;
+    width: 2013px;
+    height: 1000px;
+    background-size: 2013px 1000px;
+    background-image: url('../assets/images/teaser.jpg');
+    background-repeat: no-repeat;
+}
+
+.mdTitleText {
+    position: absolute;
+    margin-top: 230px;
+    margin-left: 1080px;
+    width: 600px;
+}
+
+.mdTitleTextH1 {
+    font-size: 36px;
+    color: #a8a8a8;
+    margin-bottom: 50px;
+}
+
+.mdTitleTextP {
+    font-size: 21px;
+    margin-top: 60px;
+    color: #989898;
+}
+
+/* SM (small screen) styles */
+.smTeaser {
+    margin-top: 0px;
+    background-color: #c2e1f2;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.smContent {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.smImage {
+    margin-top: -20px;
+    font-size: 100px;
+    color: #909090;
+}
+
+.smTitleTextH1 {
+    color: black;
+    font-size: 36px;
+}
+
+.smTitleTextP {
+    font-size: 21px;
+    margin-top: 30px;
+    margin-bottom: -20px;
+    color: #111;
+}
+
+.tutorialButton {
+    margin-left: 20px;
+}

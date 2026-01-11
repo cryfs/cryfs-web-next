@@ -1,6 +1,5 @@
 "use strict";
 
-import { css, StyleSheet } from "aphrodite";
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -8,22 +7,13 @@ import Row from 'react-bootstrap/Row';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { faAngleDoubleRight, faComments, faLightbulb, faLock } from "@fortawesome/free-solid-svg-icons";
-
-const bulletStyle = StyleSheet.create({
-    icon: {
-        fontSize: '150px',
-    },
-    title: {
-        marginTop: '20px',
-        marginBottom: '20px',
-    },
-})
+import styles from './BulletsSection.module.css';
 
 const BulletPoint = (props) => (
     <Col lg="4">
         <div className="text-center">
-            <FontAwesomeIcon icon={props.icon} className={css(bulletStyle.icon)} />
-            <h2 className={css(bulletStyle.title)}>{props.title}</h2>
+            <FontAwesomeIcon icon={props.icon} className={styles.icon} />
+            <h2 className={styles.title}>{props.title}</h2>
             {props.children}
             <p>
                 {(!props.external_link) ?

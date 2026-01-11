@@ -7,7 +7,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
-import { StyleSheet, css } from 'aphrodite/no-important'
 import { Console, ConsoleCommand } from '../../components/Console'
 import RouteHashBasedModal from './RouteHashBasedModal'
 import { VersionNumber } from '../../config/CryfsVersion'
@@ -16,27 +15,7 @@ import DebianLogo from '../../assets/images/debian.png'
 import OtherLogo from '../../assets/images/other_os.png'
 import classnames from 'classnames'
 import { logAnalyticsEvent } from '../Analytics'
-
-const style = StyleSheet.create({
-    tabHeader: {
-        cursor: 'pointer',
-    },
-    tabContent: {
-        marginTop: '20px',
-    },
-    osBox: {
-        marginTop: '10px',
-        textAlign: 'center',
-        cursor: 'pointer',
-    },
-    osName: {
-        verticalAlign: 'middle',
-        fontSize: 'x-large',
-    },
-    easyinstallCommand: {
-        fontSize: '15px',
-    },
-})
+import styles from './Download.module.css';
 
 class Tabs extends React.Component {
     constructor(props) {
@@ -65,7 +44,7 @@ class Tabs extends React.Component {
 
             return ((index) => (
                 <Col md="4" key={index}>
-                    <Nav.Item className={css(style.tabHeader)}>
+                    <Nav.Item className={styles.tabHeader}>
                         <Nav.Link className={classnames({ active: this.state.activeTab === index })}
                             onClick={async () => { await this.toggle(index) }}>
                             {tab.header}
@@ -93,7 +72,7 @@ class Tabs extends React.Component {
             <Nav variant="tabs" className="row">
                 {this.renderTabHeaders()}
             </Nav>
-            <Tab.Content className={css(style.tabContent)}>
+            <Tab.Content className={styles.tabContent}>
                 {this.renderTabBodies()}
             </Tab.Content>
         </Tab.Container>
@@ -104,11 +83,11 @@ const tabs = () => [
     {
         analytics_name: 'ubuntu',
         header: (
-            <Row className={css(style.osBox)}>
+            <Row className={styles.osBox}>
                 <Col md="12">
                     <img src={UbuntuLogo} alt="Ubuntu" size="61x61" />
                 </Col>
-                <Col md="12" className={css(style.osName)}>
+                <Col md="12" className={styles.osName}>
                     Ubuntu
                 </Col>
             </Row>),
@@ -117,7 +96,7 @@ const tabs = () => [
                 <h3>Easy Install</h3>
                 <p>For Ubuntu 17.04 and later</p>
                 <Console>
-                    <ConsoleCommand className={css(style.easyinstallCommand)}>
+                    <ConsoleCommand className={styles.easyinstallCommand}>
                         sudo apt install cryfs
                     </ConsoleCommand>
                 </Console>
@@ -132,11 +111,11 @@ const tabs = () => [
     {
         analytics_name: 'debian',
         header: (
-            <Row className={css(style.osBox)}>
+            <Row className={styles.osBox}>
                 <Col md="12">
                     <img src={DebianLogo} alt="Debian" size="50x61" />
                 </Col>
-                <Col md="12" className={css(style.osName)}>
+                <Col md="12" className={styles.osName}>
                     Debian
                 </Col>
             </Row>),
@@ -145,7 +124,7 @@ const tabs = () => [
                 <h3>Easy Install</h3>
                 <p>For Debian Stretch and later</p>
                 <Console>
-                    <ConsoleCommand className={css(style.easyinstallCommand)}>
+                    <ConsoleCommand className={styles.easyinstallCommand}>
                         sudo apt install cryfs
                     </ConsoleCommand>
                 </Console>
@@ -160,11 +139,11 @@ const tabs = () => [
     {
         analytics_name: 'other',
         header: (
-            <Row className={css(style.osBox)}>
+            <Row className={styles.osBox}>
                 <Col md="12">
                     <img src={OtherLogo} alt="Other" size="61x61" />
                 </Col>
-                <Col md="12" className={css(style.osName)}>
+                <Col md="12" className={styles.osName}>
                     Other
                 </Col>
             </Row>),
@@ -179,10 +158,10 @@ const tabs = () => [
                     You can install CryFS using Homebrew. Try:
                 </p>
                 <Console>
-                    <ConsoleCommand className={css(style.easyinstallCommand)}>
+                    <ConsoleCommand className={styles.easyinstallCommand}>
                         brew install --cask macfuse
                     </ConsoleCommand>
-                    <ConsoleCommand className={css(style.easyinstallCommand)}>
+                    <ConsoleCommand className={styles.easyinstallCommand}>
                         brew install cryfs/tap/cryfs
                     </ConsoleCommand>
                 </Console>

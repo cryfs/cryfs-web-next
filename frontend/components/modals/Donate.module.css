@@ -1,0 +1,25 @@
+.dialog {
+    width: auto;
+    display: table;
+    background-color: white;
+}
+
+.iframe {
+    height: 685px;
+    width: auto;
+    max-width: 500px;
+    min-width: 375px;
+    max-height: none !important;
+}
+
+@media (min-width: 768px) {
+    .iframe {
+        min-width: 375px;
+    }
+}
+
+@media (max-width: 768px) {
+    .iframe {
+        min-width: 310px;
+    }
+}
