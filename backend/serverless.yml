@@ -27,7 +27,7 @@ configValidationMode: error
 # The `provider` block defines where your service will be deployed
 provider:
   name: aws
-  runtime: nodejs24.x
+  runtime: nodejs20.x
   iam:
     role:
       statements:
