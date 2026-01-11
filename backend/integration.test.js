@@ -6,13 +6,13 @@
  */
 
 jest.mock('@aws-sdk/client-ssm');
-jest.mock('@sendgrid/mail');
+jest.mock('@aws-sdk/client-ses');
 jest.mock('mailchimp-api-v3');
 
 describe('Integration Tests', () => {
   const validToken = 'fd0kAn1zns';
   let ssmClient;
-  let sendgrid;
+  let sesClient;
   let Mailchimp;
 
   beforeEach(() => {
@@ -20,25 +20,26 @@ describe('Integration Tests', () => {
 
     // Re-require mocks after resetModules
     ssmClient = require('@aws-sdk/client-ssm');
-    sendgrid = require('@sendgrid/mail');
+    sesClient = require('@aws-sdk/client-ses');
     Mailchimp = require('mailchimp-api-v3');
 
     // Reset all mock functions
     ssmClient.__mockSend.mockReset();
-    sendgrid.__mockSend.mockClear();
-    sendgrid.__mockSetApiKey.mockClear();
+    sesClient.__mockSend.mockReset();
     Mailchimp.__mockPost.mockReset();
     Mailchimp.__mockGet.mockReset();
     Mailchimp.__mockPut.mockReset();
 
-    // Setup default AWS SSM mock
+    // Setup default AWS SSM mock (for newsletter - no longer has SENDGRID_API_KEY)
     ssmClient.__mockSend.mockResolvedValue({
       Parameters: [
         { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token' },
         { Name: 'MAILCHIMP_LIST_ID', Value: 'list-id' },
-        { Name: 'SENDGRID_API_KEY', Value: 'sg-key' },
       ],
     });
+
+    // Setup default SES mock
+    sesClient.__mockSend.mockResolvedValue({});
   });
 
   describe('Newsletter Registration Flow', () => {
@@ -72,8 +73,8 @@ describe('Integration Tests', () => {
         },
       });
 
-      // Verify notification email was sent
-      expect(sendgrid.send).toHaveBeenCalled();
+      // Verify notification email was sent via SES
+      expect(sesClient.__mockSend).toHaveBeenCalled();
     });
 
     test('invalid token blocks Mailchimp call', async () => {
@@ -115,14 +116,14 @@ describe('Integration Tests', () => {
       // Verify CORS headers
       expect(result.headers['Access-Control-Allow-Origin']).toBe('https://www.cryfs.org');
 
-      // Verify email was sent via SendGrid
-      expect(sendgrid.send).toHaveBeenCalledWith(
-        expect.objectContaining({
-          to: 'messmer@cryfs.org',
-          subject: expect.stringContaining('visitor@example.com'),
-          text: 'Hello, I need help!',
-        })
-      );
+      // Verify email was sent via SES
+      expect(sesClient.__mockSend).toHaveBeenCalledTimes(1);
+      const command = sesClient.__mockSend.mock.calls[0][0];
+      expect(command).toBeInstanceOf(sesClient.SendEmailCommand);
+      expect(command.input.Destination.ToAddresses).toEqual(['messmer@cryfs.org']);
+      expect(command.input.Message.Subject.Data).toContain('visitor@example.com');
+      expect(command.input.Message.Body.Text.Data).toBe('Hello, I need help!');
+      expect(command.input.ReplyToAddresses).toEqual(['visitor@example.com']);
     });
   });
 
@@ -143,12 +144,10 @@ describe('Integration Tests', () => {
 
       expect(result.statusCode).toBe(500);
 
-      // Verify error notification email was sent
-      expect(sendgrid.send).toHaveBeenCalledWith(
-        expect.objectContaining({
-          subject: expect.stringContaining('Error'),
-        })
-      );
+      // Verify error notification email was sent via SES
+      expect(sesClient.__mockSend).toHaveBeenCalled();
+      const command = sesClient.__mockSend.mock.calls[0][0];
+      expect(command.input.Message.Subject.Data).toContain('Error');
     });
   });
 
@@ -167,12 +166,12 @@ describe('Integration Tests', () => {
 
       await register(event, {});
 
-      // Verify SSM was called with correct parameters
+      // Verify SSM was called with correct parameters (no more SENDGRID_API_KEY)
       expect(ssmClient.__mockSend).toHaveBeenCalledTimes(1);
       const command = ssmClient.__mockSend.mock.calls[0][0];
       expect(command).toBeInstanceOf(ssmClient.GetParametersCommand);
       expect(command.input).toEqual({
-        Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID', 'SENDGRID_API_KEY'],
+        Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID'],
         WithDecryption: true,
       });
     });

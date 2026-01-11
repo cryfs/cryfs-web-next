@@ -1,28 +1,24 @@
 "use strict";
 
-import CachedValue from "./cached_value";
-import secret from "./secret";
-import sendgrid_ from "@sendgrid/mail";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
-const sendgrid = new CachedValue(async () => {
-    const key = await secret('SENDGRID_API_KEY')
-    sendgrid_.setApiKey(key)
-    return sendgrid_
-})
+const ses = new SESClient({ region: "us-east-1" });
 
 export const email_myself = async (from, subject, message, reply_to = undefined) => {
-    let msg = {
-        to: 'messmer@cryfs.org',
-        from: {
-            email: 'messmer@cryfs.org',
-            name: from,
+    const params = {
+        Source: `${from} <messmer@cryfs.org>`,
+        Destination: {
+            ToAddresses: ["messmer@cryfs.org"],
         },
-        subject: subject,
-        text: message,
-    }
+        Message: {
+            Subject: { Data: subject },
+            Body: { Text: { Data: message } },
+        },
+    };
+
     if (typeof reply_to !== 'undefined' && reply_to !== '') {
-        msg['reply_to'] = reply_to
+        params.ReplyToAddresses = [reply_to];
     }
-    const sg = await sendgrid.get()
-    await sg.send(msg)
-}
+
+    await ses.send(new SendEmailCommand(params));
+};

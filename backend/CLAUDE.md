@@ -7,7 +7,7 @@ AWS Lambda serverless functions for the CryFS website, deployed with AWS SAM.
 - **Runtime**: AWS Lambda with AWS SAM (Serverless Application Model)
 - **Language**: JavaScript (ES6+, no TypeScript)
 - **Bundler**: esbuild (built into SAM)
-- **External Services**: SendGrid (email), Mailchimp (newsletter)
+- **External Services**: AWS SES (email), Mailchimp (newsletter)
 - **Secrets**: AWS SSM Parameter Store
 
 ## Prerequisites
@@ -21,7 +21,7 @@ Install the AWS SAM CLI:
 | Method | Path | Description |
 |--------|------|-------------|
 | POST | `/newsletter/register` | Subscribe email to Mailchimp newsletter |
-| POST | `/contact/send` | Send contact form message via SendGrid |
+| POST | `/contact/send` | Send contact form message via AWS SES |
 
 Both endpoints use simple token-based spam protection (not authentication).
 

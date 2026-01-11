@@ -8,7 +8,6 @@ const ssm = new SSMClient()
 const keys = [
     'MAILCHIMP_API_TOKEN',
     'MAILCHIMP_LIST_ID',
-    'SENDGRID_API_KEY',
 ]
 
 const load_values = async () => {

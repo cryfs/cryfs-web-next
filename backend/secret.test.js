@@ -21,7 +21,6 @@ describe('secret', () => {
       Parameters: [
         { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token-123' },
         { Name: 'MAILCHIMP_LIST_ID', Value: 'list-abc' },
-        { Name: 'SENDGRID_API_KEY', Value: 'sg-key-xyz' },
       ],
     });
 
@@ -29,18 +28,16 @@ describe('secret', () => {
 
     const mailchimpToken = await secret('MAILCHIMP_API_TOKEN');
     const mailchimpList = await secret('MAILCHIMP_LIST_ID');
-    const sendgridKey = await secret('SENDGRID_API_KEY');
 
     expect(mailchimpToken).toBe('mc-token-123');
     expect(mailchimpList).toBe('list-abc');
-    expect(sendgridKey).toBe('sg-key-xyz');
   });
 
   test('throws error when secrets are missing', async () => {
     mockSend.mockResolvedValue({
       Parameters: [
         { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token-123' },
-        // Missing MAILCHIMP_LIST_ID and SENDGRID_API_KEY
+        // Missing MAILCHIMP_LIST_ID
       ],
     });
 
@@ -54,7 +51,6 @@ describe('secret', () => {
       Parameters: [
         { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token-123' },
         { Name: 'MAILCHIMP_LIST_ID', Value: 'list-abc' },
-        { Name: 'SENDGRID_API_KEY', Value: 'sg-key-xyz' },
       ],
     });
 
@@ -62,7 +58,6 @@ describe('secret', () => {
 
     await secret('MAILCHIMP_API_TOKEN');
     await secret('MAILCHIMP_LIST_ID');
-    await secret('SENDGRID_API_KEY');
 
     // SSM should only be called once due to caching
     expect(mockSend).toHaveBeenCalledTimes(1);
@@ -73,7 +68,6 @@ describe('secret', () => {
       Parameters: [
         { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token-123' },
         { Name: 'MAILCHIMP_LIST_ID', Value: 'list-abc' },
-        { Name: 'SENDGRID_API_KEY', Value: 'sg-key-xyz' },
       ],
     });
 
@@ -88,7 +82,6 @@ describe('secret', () => {
       Parameters: [
         { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token-123' },
         { Name: 'MAILCHIMP_LIST_ID', Value: 'list-abc' },
-        { Name: 'SENDGRID_API_KEY', Value: 'sg-key-xyz' },
       ],
     });
 
@@ -99,7 +92,7 @@ describe('secret', () => {
     const command = mockSend.mock.calls[0][0];
     expect(command).toBeInstanceOf(GetParametersCommand);
     expect(command.input).toEqual({
-      Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID', 'SENDGRID_API_KEY'],
+      Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID'],
       WithDecryption: true,
     });
   });
