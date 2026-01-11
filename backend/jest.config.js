@@ -1,12 +1,12 @@
 module.exports = {
   testEnvironment: 'node',
-  testMatch: ['**/*.test.js'],
+  testMatch: ['**/*.test.ts'],
   testPathIgnorePatterns: ['/node_modules/'],
   transform: {
-    '^.+\\.js$': 'esbuild-jest',
+    '^.+\\.ts$': 'ts-jest',
   },
   collectCoverageFrom: [
-    '*.js',
+    '*.ts',
     '!jest.config.js',
   ],
   clearMocks: true,

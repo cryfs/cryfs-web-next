@@ -1,17 +1,18 @@
-"use strict";
-
 jest.mock('./email', () => ({
   email_myself: jest.fn().mockResolvedValue(undefined),
 }));
 
+import type { APIGatewayProxyEvent, Context } from 'aws-lambda';
 import { send } from './contact';
 import { email_myself } from './email';
+
+const mockedEmailMyself = email_myself as jest.Mock;
 
 describe('contact send', () => {
   const validToken = 'fd0kAn1zns';
 
   beforeEach(() => {
-    email_myself.mockClear();
+    mockedEmailMyself.mockClear();
   });
 
   test('sends contact email with sender email in subject', async () => {
@@ -21,13 +22,13 @@ describe('contact send', () => {
         email: 'visitor@example.com',
         message: 'Hello, I have a question.',
       }),
-    };
+    } as APIGatewayProxyEvent;
 
-    const result = await send(event, {});
+    const result = await send(event, {} as Context);
 
     expect(result.statusCode).toBe(200);
     expect(JSON.parse(result.body)).toEqual({ success: true });
-    expect(email_myself).toHaveBeenCalledWith(
+    expect(mockedEmailMyself).toHaveBeenCalledWith(
       'CryFS Contact Form',
       'CryFS Contact Form  (from visitor@example.com)',
       'Hello, I have a question.',
@@ -42,12 +43,12 @@ describe('contact send', () => {
         email: '',
         message: 'Anonymous message',
       }),
-    };
+    } as APIGatewayProxyEvent;
 
-    const result = await send(event, {});
+    const result = await send(event, {} as Context);
 
     expect(result.statusCode).toBe(200);
-    expect(email_myself).toHaveBeenCalledWith(
+    expect(mockedEmailMyself).toHaveBeenCalledWith(
       'CryFS Contact Form',
       'CryFS Contact Form  (from unknown)',
       'Anonymous message',
@@ -61,13 +62,12 @@ describe('contact send', () => {
         token: validToken,
         message: 'Message without email',
       }),
-    };
+    } as APIGatewayProxyEvent;
 
-    const result = await send(event, {});
+    const result = await send(event, {} as Context);
 
     expect(result.statusCode).toBe(200);
-    // When email is undefined, it's passed as undefined to do_send
-    expect(email_myself).toHaveBeenCalledWith(
+    expect(mockedEmailMyself).toHaveBeenCalledWith(
       'CryFS Contact Form',
       expect.stringContaining('CryFS Contact Form'),
       'Message without email',
@@ -82,9 +82,9 @@ describe('contact send', () => {
         email: 'test@test.com',
         message: 'Test message',
       }),
-    };
+    } as APIGatewayProxyEvent;
 
-    const result = await send(event, {});
+    const result = await send(event, {} as Context);
 
     expect(result.statusCode).toBe(200);
     expect(JSON.parse(result.body)).toEqual({ success: true });
@@ -97,14 +97,14 @@ describe('contact send', () => {
         email: 'test@test.com',
         message: 'Test message',
       }),
-    };
+    } as APIGatewayProxyEvent;
 
-    const result = await send(event, {});
+    const result = await send(event, {} as Context);
 
     expect(result.headers).toEqual({
       'Access-Control-Allow-Origin': 'https://www.cryfs.org',
       'Access-Control-Allow-Credentials': false,
-      'Vary': 'Origin',
+      Vary: 'Origin',
     });
   });
 
@@ -115,9 +115,9 @@ describe('contact send', () => {
         email: 'test@test.com',
         message: 'Test message',
       }),
-    };
+    } as APIGatewayProxyEvent;
 
-    const result = await send(event, {});
+    const result = await send(event, {} as Context);
 
     expect(result.statusCode).toBe(400);
     expect(JSON.parse(result.body)).toEqual({

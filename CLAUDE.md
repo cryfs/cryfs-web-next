@@ -31,10 +31,11 @@ npm run build    # Production build
 ```bash
 cd backend
 npm install
-npm test         # Unit tests
-npm run build    # Build with SAM
-npm run local    # Local API server (requires Docker)
-npm run deploy   # Deploy to AWS (requires credentials)
+npm run typecheck # Type checking
+npm test          # Unit tests
+npm run build     # Build with SAM
+npm run local     # Local API server (requires Docker)
+npm run deploy    # Deploy to AWS (requires credentials)
 ```
 
 ## Deployment

@@ -1,5 +1,3 @@
-"use strict";
-
 import CachedValue from './cached_value';
 
 describe('CachedValue', () => {
@@ -31,18 +29,12 @@ describe('CachedValue', () => {
     let callCount = 0;
     const creator = jest.fn(async () => {
       callCount++;
-      // Simulate async work
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
       return `value-${callCount}`;
     });
     const cached = new CachedValue(creator);
 
-    // Call get() multiple times concurrently
-    const results = await Promise.all([
-      cached.get(),
-      cached.get(),
-      cached.get(),
-    ]);
+    const results = await Promise.all([cached.get(), cached.get(), cached.get()]);
 
     expect(creator).toHaveBeenCalledTimes(1);
     expect(results).toEqual(['value-1', 'value-1', 'value-1']);
@@ -56,7 +48,7 @@ describe('CachedValue', () => {
     const result = await cached.get();
 
     expect(result).toEqual(objectValue);
-    expect(result).toBe(objectValue); // Same reference
+    expect(result).toBe(objectValue);
   });
 
   test('creator error propagates correctly', async () => {

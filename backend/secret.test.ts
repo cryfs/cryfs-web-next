@@ -1,15 +1,12 @@
-"use strict";
-
 jest.mock('@aws-sdk/client-ssm');
 
 describe('secret', () => {
-  let secret;
-  let mockSend;
-  let GetParametersCommand;
+  let secret: (key: string) => Promise<string>;
+  let mockSend: jest.Mock;
+  let GetParametersCommand: typeof import('@aws-sdk/client-ssm').GetParametersCommand;
 
   beforeEach(() => {
     jest.resetModules();
-    // Re-require after resetModules to get fresh mock
     const ssmClient = require('@aws-sdk/client-ssm');
     mockSend = ssmClient.__mockSend;
     GetParametersCommand = ssmClient.GetParametersCommand;
@@ -35,10 +32,7 @@ describe('secret', () => {
 
   test('throws error when secrets are missing', async () => {
     mockSend.mockResolvedValue({
-      Parameters: [
-        { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token-123' },
-        // Missing MAILCHIMP_LIST_ID
-      ],
+      Parameters: [{ Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token-123' }],
     });
 
     secret = require('./secret').default;
@@ -59,7 +53,6 @@ describe('secret', () => {
     await secret('MAILCHIMP_API_TOKEN');
     await secret('MAILCHIMP_LIST_ID');
 
-    // SSM should only be called once due to caching
     expect(mockSend).toHaveBeenCalledTimes(1);
   });
 

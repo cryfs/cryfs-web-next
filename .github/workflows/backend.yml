@@ -29,6 +29,9 @@ jobs:
       - name: Install Dependencies
         working-directory: backend
         run: npm install
+      - name: Type Check
+        working-directory: backend
+        run: npm run typecheck
       - name: Run Tests
         working-directory: backend
         run: npm test
