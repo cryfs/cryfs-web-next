@@ -5,8 +5,8 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": false,
-    "skipLibCheck": false,
+    "allowJs": true,
+    "skipLibCheck": true,
     "strict": true,
     "alwaysStrict": true,
     "forceConsistentCasingInFileNames": true,
@@ -21,6 +21,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "jest.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.mdx"
