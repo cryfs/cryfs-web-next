@@ -4,7 +4,9 @@ import { HomePage } from '../pages/home.page';
 test.describe('Download Modal Flow', () => {
   let homePage: HomePage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }, testInfo) => {
+    // Skip on mobile - Download button is hidden on mobile viewports (d-none d-lg-block)
+    test.skip(testInfo.project.name.startsWith('mobile'), 'Download button not visible on mobile');
     homePage = new HomePage(page);
     await homePage.goto();
   });

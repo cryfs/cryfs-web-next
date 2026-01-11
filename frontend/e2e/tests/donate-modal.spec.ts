@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/home.page';
+import { NavigationPage } from '../pages/navigation.page';
 
 test.describe('Donate Modal Flow', () => {
   let homePage: HomePage;
@@ -13,9 +14,22 @@ test.describe('Donate Modal Flow', () => {
     await expect(homePage.donateModal).toBeVisible();
   });
 
-  test('opens donate modal via navigation link', async ({ page }) => {
+  test('opens donate modal via navigation link', async ({ page }, testInfo) => {
+    // Skip on mobile - nav links are collapsed, use hamburger menu test instead
+    test.skip(testInfo.project.name.startsWith('mobile'), 'Nav links require hamburger menu on mobile');
     await homePage.goto();
     await page.locator('nav').getByRole('link', { name: 'Donate' }).click();
+    await expect(homePage.donateModal).toBeVisible();
+  });
+
+  test('opens donate modal via mobile navigation', async ({ page }, testInfo) => {
+    // Only run on mobile
+    test.skip(!testInfo.project.name.startsWith('mobile'), 'Mobile-specific test');
+    const navPage = new NavigationPage(page);
+    await navPage.navigateTo('/');
+    await navPage.waitForPageLoad();
+    await navPage.toggleMobileMenu();
+    await navPage.donateLink.click();
     await expect(homePage.donateModal).toBeVisible();
   });
 
