@@ -9,7 +9,7 @@ Globals:
     Timeout: 30
     MemorySize: 128
     Architectures:
-      - x86_64
+      - arm64
   Api:
     Cors:
       AllowOrigin: "'https://www.cryfs.org'"
