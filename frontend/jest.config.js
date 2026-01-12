@@ -16,9 +16,6 @@ const customJestConfig = {
     '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.ts',
     // Handle CSS modules
     '\\.module\\.css$': 'identity-obj-proxy',
-    // Handle unfetch
-    '^unfetch$': '<rootDir>/__mocks__/unfetch.ts',
-    '^isomorphic-unfetch$': '<rootDir>/__mocks__/unfetch.ts',
     // Handle Next.js modules
     '^next/router$': '<rootDir>/__mocks__/next/router.tsx',
     '^next/dist/client/router$': '<rootDir>/__mocks__/next/router.tsx',

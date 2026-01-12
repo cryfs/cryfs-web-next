@@ -6,7 +6,6 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
-import fetch from 'unfetch';
 import AsyncButton from "../AsyncButton";
 import { logAnalyticsEvent } from '../Analytics';
 import styles from './NewsletterSection.module.css';

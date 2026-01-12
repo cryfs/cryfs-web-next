@@ -6,7 +6,6 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
-import fetch from 'unfetch';
 import AsyncButton from '../AsyncButton';
 import { logAnalyticsEvent } from '../Analytics';
 import styles from './ContactSection.module.css';
