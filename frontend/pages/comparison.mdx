@@ -155,11 +155,11 @@ However, that is also a disadvantage.
 Since there is an encrypted file for each of your files, a hacker can exactly see how many files you have, how
 large each file is and how they are structured into directories.
 This might not be a problem for some applications, but it can be a problem faster than you would think at first.
-Say they see that you have a lot of folders with about 20 files each and each file has about 3 megabyte,
-then they can say with fair certainty that you are storing a music CD collection there.
-Or say you store an illegal copy of a current Windows installation CD (not that we recommend that),
-the police could ask your cloud provider to hand over your encrypted files and they could analyze them.
-When the number of files, file sizes and directory structure match the CD, they know you're storing it.
+Say they see that you have folders organized by year and month, each containing dozens of files between 2-8 megabytes,
+then they can say with fair certainty that you are storing a photo library there—and potentially identify which events or trips you documented based on the number of photos and dates.
+Or say you store a copy of leaked confidential documents (not that we recommend that),
+authorities could ask your cloud provider to hand over your encrypted files and analyze them.
+When the number of files, file sizes and directory structure match the leaked documents, they know you're storing them.
 The same thing is also an issue for [watermarking attacks](https://en.wikipedia.org/wiki/Watermarking_attack), which we will not explain in detail here.
 There are [alternatives](https://www.cryfs.org) to gocryptfs that are not vulnerable to these attacks and also hide your file sizes, metadata and directory structure.
 
