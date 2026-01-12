@@ -8,7 +8,7 @@
 
 .mdContent {
     position: absolute;
-    right: 0px;
+    right: max(0px, calc(50% - 1006.5px)); /* Center on very wide screens, stay at right edge otherwise */
     height: 1000px;
     width: 2013px; /* Math.floor(5308 / 2636 * 1000) */
 }
