@@ -90,7 +90,7 @@ This is why we only describe open source solutions here.
 
 [TrueCrypt has been discontinued](http://truecrypt.sourceforge.net/)
 some time ago and [has some vulnerabilities](http://www.pcworld.com/article/2987439/encryption/newly-found-truecrypt-flaw-allows-full-system-compromise.html),
-so we will focus on its (inofficial) successor [VeraCrypt](https://veracrypt.codeplex.com/) here.
+so we will focus on its (inofficial) successor [VeraCrypt](https://veracrypt.io/) here.
 
 VeraCrypt runs on Windows, Linux and Mac, and is believed to be a secure encryption tool to encrypt your files locally.
 It keeps your files confidential, but does not protect the integrity, i.e. a hacker can't read your files, but they could modify them without you noticing.
@@ -136,7 +136,7 @@ So VeraCrypt is a good choice if you are only encrypting your files locally and 
 
 [Gocryptfs](https://nuetzlich.net/gocryptfs/), like VeraCrypt, offers you a virtual filesystem, so the encryption is happening
 in the background and doesn't interfere with your workflows.
-It doesn't support Windows (only Linux and Mac), but that might be enough for some users, and there is a third party client for Windows
+It doesn't natively support Windows, and [macOS support is in beta](https://github.com/rfjakob/gocryptfs#macos). For Windows users, there is a third party client
 ([cppcryptfs](https://github.com/bailey27/cppcryptfs)).
 As opposed to VeraCrypt, it doesn't store your files in one big container file, but encrypts your files individually.
 For each of your files, there is an encrypted version in your Dropbox.
@@ -158,7 +158,7 @@ While gocryptfs does encrypt file names, this is only <a href="#metadata-encrypt
 directory structure, file sizes, and file counts remain visible.
 This might not seem like a problem at first, but <a href="#metadata-encryption">metadata leakage can reveal a surprising amount about what you're storing</a>.
 
-Gocryptfs uses GCM cipher mode. This means it doesn't only protect confidentiality, i.e. against adversaries reading your files,
+Gocryptfs uses GCM cipher mode and has been [independently audited](https://defuse.ca/audits/gocryptfs.htm). This means it doesn't only protect confidentiality, i.e. against adversaries reading your files,
 but also integrity, i.e. against adversaries modifying your files without you noticing it.
 The same restriction mentioned for confidentiality also applies for integrity though. It only ensures that the file contents you're reading were at some point written by you.
 Attackers can change directory structure, add or delete files or folders, re-add files deleted earlier by you, replace files with earlier versions of themselves
@@ -181,7 +181,7 @@ Solutions with <a href="#metadata-encryption">full metadata encryption</a> like 
 
 [EncFS](https://vgough.github.io/encfs/) was my tool of choice for an encrypted Dropbox for quite some time.
 It doesn't support Windows (only Linux and Mac), but there are third party clients for Windows
-([encfsmp](http://encfsmp.sourceforge.net/), [encfs4win](http://members.ferrara.linux.it/freddy77/encfs.html)).
+([encfsmp](https://encfsmp.sourceforge.io/), [encfs4win](https://github.com/jetwhiz/encfs4win)).
 The way it works is very similar to gocryptfs and it exists for a much longer time already.
 It offers you a virtual filesystem, encryption is in the background, and it encrypts files individually.
 Feel free to read the <Link href="#gocryptfs">gocryptfs</Link> section above for more information,
@@ -198,13 +198,13 @@ So if you want to rely on this feature, make sure you store the config file loca
 
 A probably even larger issue with EncFS is a [security audit](https://defuse.ca/audits/encfs.htm) from 2014 that
 attests EncFS to deviate from established security standards and also found some vulnerabilities in the current EncFS implementation.
-The developers say they're working on a 2.0 version of EncFS which should fix most of these issues, but as of today they are not fixed.
+The original C++ codebase is [no longer actively maintained](https://github.com/vgough/encfs).
+The maintainer is working on a Rust port focused on reading legacy encrypted data, but [recommends gocryptfs](https://github.com/vgough/encfs#status) for new encrypted filesystem setups.
 Among other vulnerabilities, the security audit found one that is especially a problem with cloud storage.
 EncFS is not secure when an attacker gets multiple versions of the same encrypted file at different times.
 So if you upload your files to your Dropbox and then modify them, they are not securely encrypted anymore.
 
-So the current version of EncFS can't really be recommended for any application.
-EncFS 2.0 might be interesting again when and if it is released.
+Due to the unpatched security vulnerabilities and unmaintained status, EncFS is not recommended for new encrypted filesystems.
 
 </Container>
 </section>
@@ -216,8 +216,9 @@ EncFS 2.0 might be interesting again when and if it is released.
 <Row>
 <Col md="5">
 
-[eCryptfs](http://ecryptfs.org/) is a tool for Linux, mainly known because you're already using it
-if you're encrypting your home directory in Ubuntu Linux.
+[eCryptfs](http://ecryptfs.org/) is a tool for Linux, historically known for encrypting home directories in Ubuntu Linux.
+However, Ubuntu [removed the home directory encryption option](https://help.ubuntu.com/community/EncryptedHome) from its installer
+in version 18.04, recommending full-disk encryption (LUKS) instead. eCryptfs can still be set up manually after installation.
 Like EncFS, it doesn't encrypt file sizes or directory structure (see <a href="#metadata-encryption">why this matters</a>).
   
 Furthermore, eCryptfs is not designed for cloud storage.
@@ -324,7 +325,7 @@ This is also relevant for [watermarking attacks](https://en.wikipedia.org/wiki/W
 ## Summary
 There are many tools available, but most have not been designed to be used in the cloud.
 
-Gocrypfs, EncFS and eCryptfs don't encrypt directory structure. EncFS has severe security vulnerabilities in its current version.
+Gocrypfs, EncFS and eCryptfs don't encrypt directory structure. EncFS has [unpatched security vulnerabilities](https://defuse.ca/audits/encfs.htm) and is no longer actively maintained.
 eCryptfs might cause crashes or undefined behavior if there is more than one device connected to your Dropbox.
 VeraCrypt works, as long as your container file is small, i.e. you don't mind synchronizing the whole container file on each change, and if you always let it finish synchronization before modifying the files on another computer.
 CryFS solves all of these issues, but because of the increased security it is a bit slower.
@@ -449,7 +450,7 @@ So if you don't need Windows support today, you can give it a try.
     <li className={styles.footnotesLi}>Gocryptfs only makes sure that the data you're reading was at some point written by you. It does not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</li>
     <li className={styles.footnotesLi}>Like in (d), EncFS also only makes sure that the data you're reading was at some point written by you. Furthermore, the current implementation is flawed because a hacker can simply disable the integrity check.</li>
     <li className={styles.footnotesLi}>There is experimental Windows support starting with CryFS version 0.10.</li>
-    <li className={styles.footnotesLi}>There is a third-party experimental version of gocryptfs and EncFS for Windows.</li>
+    <li className={styles.footnotesLi}>There are third-party Windows clients: <a href="https://github.com/bailey27/cppcryptfs">cppcryptfs</a> for gocryptfs and <a href="https://github.com/jetwhiz/encfs4win">encfs4win</a> for EncFS.</li>
 </ol>
 
 </Container>
