@@ -154,7 +154,7 @@ handle that.
 However, that is also a disadvantage.
 Since there is an encrypted file for each of your files, a hacker can exactly see how many files you have, how
 large each file is and how they are structured into directories.
-While gocryptfs does encrypt file names, this is only <a href="https://github.com/rfjakob/gocryptfs-website/blob/master/docs/threat_model.md#file-size-fingerprinting">metadata obfuscation, not full metadata encryption</a>—the
+While gocryptfs does encrypt file names, this is only [metadata obfuscation, not full metadata encryption](https://github.com/rfjakob/gocryptfs-website/blob/master/docs/threat_model.md#file-size-fingerprinting)—the
 directory structure, file sizes, and file counts remain visible.
 This might not seem like a problem at first, but <a href="#metadata-encryption">metadata leakage can reveal a surprising amount about what you're storing</a>.
 
