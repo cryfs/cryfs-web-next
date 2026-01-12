@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     'next-env.d.ts',
     'export-images.config.js',
     'jest.config.js',
+    'eslint.config.mjs',
+    'config/*.d.ts',
   ]),
   {
     languageOptions: {

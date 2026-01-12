@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import Col from 'react-bootstrap/Col';
 import Collapse from 'react-bootstrap/Collapse';
 import Container from 'react-bootstrap/Container';

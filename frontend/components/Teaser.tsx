@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Image from 'next-export-optimize-images/image';
 import Button from 'react-bootstrap/Button';
 import Link from "next/link";

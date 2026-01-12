@@ -58,6 +58,4 @@ const withMdx = mdx({
   /* mdx config */
 });
 
-const mergedConfig: NextConfig = withExportImages(withMdx(config));
-
-export default mergedConfig;
+export default withExportImages(withMdx(config));

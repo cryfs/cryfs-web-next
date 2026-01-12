@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Modal from 'react-bootstrap/Modal';
 import RouteHashBasedModal from './RouteHashBasedModal';
 import Script from 'next/script';
