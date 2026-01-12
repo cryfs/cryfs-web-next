@@ -154,29 +154,16 @@ handle that.
 However, that is also a disadvantage.
 Since there is an encrypted file for each of your files, a hacker can exactly see how many files you have, how
 large each file is and how they are structured into directories.
-This might not be a problem for some applications, but it can be a problem faster than you would think at first.
-For example:
-
-- **Photo libraries**: Folders organized by year and month, each containing dozens of 2-8 megabyte files, clearly indicate a photo collection—and could reveal which events or trips you documented based on dates and photo counts.
-- **Pirated movies or TV shows** (not that we recommend that): Large files of 1-4 gigabytes with sizes matching known releases make identification trivial, since encoding groups use standard settings.
-- **Tax returns and financial records**: PDFs organized by year with sizes matching standard government forms reveal your filing history.
-- **Medical imaging**: X-rays, MRIs, and CT scans stored as DICOM files have characteristic sizes and structures that can reveal what tests were performed and potentially what medical conditions you have.
-- **Whistleblower documents**: If authorities request your encrypted files from your cloud provider, they can match the file structure against known document sets to identify what you're storing.
-
-Some metadata patterns can also signal to attackers that you're a worthwhile target:
-
-- **Cryptocurrency wallet backups**: Bitcoin, Ethereum, and other wallets have distinctive directory structures and file sizes—revealing not just that you hold crypto, but potentially which wallets and how much.
-- **Password manager databases**: Small files matching known formats (KeePass, 1Password) indicate you likely have credentials worth stealing.
-
-The same thing is also an issue for [watermarking attacks](https://en.wikipedia.org/wiki/Watermarking_attack), which we will not explain in detail here.
-There are [alternatives](https://www.cryfs.org) to gocryptfs that are not vulnerable to these attacks and also hide your file sizes, metadata and directory structure.
+While gocryptfs does encrypt file names, this is only <a href="#metadata-encryption">metadata obfuscation, not full metadata encryption</a>—the
+directory structure, file sizes, and file counts remain visible.
+This might not seem like a problem at first, but <a href="#metadata-encryption">metadata leakage can reveal a surprising amount about what you're storing</a>.
 
 Gocryptfs uses GCM cipher mode. This means it doesn't only protect confidentiality, i.e. against adversaries reading your files,
 but also integrity, i.e. against adversaries modifying your files without you noticing it.
 The same restriction mentioned for confidentiality also applies for integrity though. It only ensures that the file contents you're reading were at some point written by you.
 Attackers can change directory structure, add or delete files or folders, re-add files deleted earlier by you, replace files with earlier versions of themselves
 or replace their content with the content of other files, or earlier versions of those other files, and you wouldn't necessarily notice any of that.
-The [alternatives](https://www.cryfs.org) mentioned above do also protect against these kinds of attacks.
+Solutions with <a href="#metadata-encryption">full metadata encryption</a> like <Link href="#cryfs">CryFS</Link> protect against these kinds of attacks.
 
 
 </Container>
@@ -199,8 +186,8 @@ The way it works is very similar to gocryptfs and it exists for a much longer ti
 It offers you a virtual filesystem, encryption is in the background, and it encrypts files individually.
 Feel free to read the <Link href="#gocryptfs">gocryptfs</Link> section above for more information,
 the advantages and disadvantages of this approach also apply to EncFS, namely it works well with cloud synchronization,
-doesn't interrupt your workflows, but only protects file contents and does not encrypt or prevents attackers from modifying
-file sizes and directory structure.
+doesn't interrupt your workflows, but only protects file contents and does not fully encrypt
+file sizes and directory structure (see <a href="#metadata-encryption">why this matters</a>).
 
 </Col>
 </Row>
@@ -231,7 +218,7 @@ EncFS 2.0 might be interesting again when and if it is released.
 
 [eCryptfs](http://ecryptfs.org/) is a tool for Linux, mainly known because you're already using it
 if you're encrypting your home directory in Ubuntu Linux.
-Like EncFS, it doesn't encrypt file sizes or directory structure and therefore has the same problems as described above.
+Like EncFS, it doesn't encrypt file sizes or directory structure (see <a href="#metadata-encryption">why this matters</a>).
   
 Furthermore, eCryptfs is not designed for cloud storage.
 It uses heavy caching and assumes that it is the only software accessing the encrypted files.
@@ -246,6 +233,42 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 <Picture src={ECryptFsImg} alt="eCryptfs" className={styles.image} />
 </Col>
 </Row>
+
+</Container>
+</section>
+<section id="metadata-encryption">
+<Container>
+
+## Why Metadata Encryption Matters
+
+Many encryption tools—including gocryptfs, EncFS, and eCryptfs—encrypt file contents and may even encrypt file names.
+However, there's an important distinction between **metadata obfuscation** and **full metadata encryption**:
+
+**Metadata obfuscation** (what most tools offer):
+- File names are encrypted, so attackers can't read them directly
+- But file sizes, file counts, and directory structure remain visible
+- An attacker can see you have a folder with 3 subfolders containing 47, 112, and 89 files respectively
+
+**Full metadata encryption** (what CryFS offers):
+- File contents, names, sizes, and directory structure are all hidden
+- An attacker sees only uniformly-sized encrypted blocks with no visible organization
+- No information about your files leaks through the encryption
+
+This distinction matters because metadata alone can reveal a surprising amount about what you're storing.
+For example:
+
+- **Photo libraries**: Folders organized by year and month, each containing dozens of 2-8 megabyte files, clearly indicate a photo collection—and could reveal which events or trips you documented based on dates and photo counts.
+- **Pirated movies or TV shows** (not that we recommend that): Large files of 1-4 gigabytes with sizes matching known releases make identification trivial, since encoding groups use standard settings.
+- **Tax returns and financial records**: PDFs organized by year with sizes matching standard government forms reveal your filing history.
+- **Medical imaging**: X-rays, MRIs, and CT scans stored as DICOM files have characteristic sizes and structures that can reveal what tests were performed and potentially what medical conditions you have.
+- **Whistleblower documents**: If authorities request your encrypted files from your cloud provider, they can match the file structure against known document sets to identify what you're storing.
+
+Some metadata patterns can also signal to attackers that you're a worthwhile target:
+
+- **Cryptocurrency wallet backups**: Bitcoin, Ethereum, and other wallets have distinctive directory structures and file sizes—revealing not just that you hold crypto, but potentially which wallets and how much.
+- **Password manager databases**: Small files matching known formats (KeePass, 1Password) indicate you likely have credentials worth stealing.
+
+This is also relevant for [watermarking attacks](https://en.wikipedia.org/wiki/Watermarking_attack), which we will not explain in detail here.
 
 </Container>
 </section>
