@@ -2,8 +2,23 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import MetaTags from './MetaTags';
 
-// The Head component is mocked, so we need to test what gets passed to it
+// Helper to query meta tags from document.head
+const getMetaContent = (property: string): string | null => {
+  const meta = document.head.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null;
+  return meta?.content ?? null;
+};
+
+const getMetaName = (name: string): string | null => {
+  const meta = document.head.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
+  return meta?.content ?? null;
+};
+
 describe('MetaTags', () => {
+  beforeEach(() => {
+    // Clear any meta tags from previous tests
+    document.head.innerHTML = '';
+  });
+
   it('renders without crashing', () => {
     render(
       <MetaTags
@@ -12,10 +27,11 @@ describe('MetaTags', () => {
         description="Test description"
       />
     );
+    // If we get here without throwing, the component rendered successfully
   });
 
   it('renders with required props', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="CryFS - Secure Cloud Storage"
         url="https://cryfs.org"
@@ -23,27 +39,14 @@ describe('MetaTags', () => {
       />
     );
 
-    // Check that meta tags are rendered
-    expect(container.querySelector('meta[property="og:title"]')).toHaveAttribute(
-      'content',
-      'CryFS - Secure Cloud Storage'
-    );
-    expect(container.querySelector('meta[property="og:url"]')).toHaveAttribute(
-      'content',
-      'https://cryfs.org'
-    );
-    expect(container.querySelector('meta[property="og:description"]')).toHaveAttribute(
-      'content',
-      'Encrypt your Dropbox with CryFS'
-    );
-    expect(container.querySelector('meta[name="description"]')).toHaveAttribute(
-      'content',
-      'Encrypt your Dropbox with CryFS'
-    );
+    expect(getMetaContent('og:title')).toBe('CryFS - Secure Cloud Storage');
+    expect(getMetaContent('og:url')).toBe('https://cryfs.org');
+    expect(getMetaContent('og:description')).toBe('Encrypt your Dropbox with CryFS');
+    expect(getMetaName('description')).toBe('Encrypt your Dropbox with CryFS');
   });
 
   it('renders title element', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="Page Title"
         url="https://example.com"
@@ -51,11 +54,11 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('title')).toHaveTextContent('Page Title');
+    expect(document.head.querySelector('title')?.textContent).toBe('Page Title');
   });
 
   it('defaults og:type to website when not provided', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="Test"
         url="https://example.com"
@@ -63,14 +66,11 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('meta[property="og:type"]')).toHaveAttribute(
-      'content',
-      'website'
-    );
+    expect(getMetaContent('og:type')).toBe('website');
   });
 
   it('uses provided og:type', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="Test"
         url="https://example.com"
@@ -79,14 +79,11 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('meta[property="og:type"]')).toHaveAttribute(
-      'content',
-      'article'
-    );
+    expect(getMetaContent('og:type')).toBe('article');
   });
 
   it('renders article author meta tag for article type', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="Blog Post"
         url="https://example.com/blog"
@@ -95,14 +92,11 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('meta[property="article:author"]')).toHaveAttribute(
-      'content',
-      'https://www.facebook.com/sebastian.messmer'
-    );
+    expect(getMetaContent('article:author')).toBe('https://www.facebook.com/sebastian.messmer');
   });
 
   it('does not render article author meta tag for non-article types', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="Test"
         url="https://example.com"
@@ -111,11 +105,11 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('meta[property="article:author"]')).not.toBeInTheDocument();
+    expect(getMetaContent('article:author')).toBeNull();
   });
 
   it('does not render article author meta tag when type is undefined', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="Test"
         url="https://example.com"
@@ -123,11 +117,11 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('meta[property="article:author"]')).not.toBeInTheDocument();
+    expect(getMetaContent('article:author')).toBeNull();
   });
 
   it('renders og:image meta tag', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="Test"
         url="https://example.com"
@@ -135,11 +129,11 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('meta[property="og:image"]')).toBeInTheDocument();
+    expect(getMetaContent('og:image')).toBeTruthy();
   });
 
   it('handles special characters in title and description', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="CryFS & Security <Features>"
         url="https://example.com"
@@ -147,18 +141,12 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('meta[property="og:title"]')).toHaveAttribute(
-      'content',
-      'CryFS & Security <Features>'
-    );
-    expect(container.querySelector('meta[property="og:description"]')).toHaveAttribute(
-      'content',
-      'Encrypt your files & folders safely'
-    );
+    expect(getMetaContent('og:title')).toBe('CryFS & Security <Features>');
+    expect(getMetaContent('og:description')).toBe('Encrypt your files & folders safely');
   });
 
   it('handles URLs with query parameters', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="Test"
         url="https://example.com/page?param=value"
@@ -166,14 +154,11 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('meta[property="og:url"]')).toHaveAttribute(
-      'content',
-      'https://example.com/page?param=value'
-    );
+    expect(getMetaContent('og:url')).toBe('https://example.com/page?param=value');
   });
 
   it('handles URLs with hash fragments', () => {
-    const { container } = render(
+    render(
       <MetaTags
         title="Test"
         url="https://example.com/page#section"
@@ -181,9 +166,6 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(container.querySelector('meta[property="og:url"]')).toHaveAttribute(
-      'content',
-      'https://example.com/page#section'
-    );
+    expect(getMetaContent('og:url')).toBe('https://example.com/page#section');
   });
 });

@@ -17,13 +17,11 @@ const BulletPoint = (props) => (
             {props.children}
             <p>
                 {(!props.external_link) ?
-                    <Link passHref href={props.details_link_target}>
-                        <Button variant="outline-secondary">
-                            {/*TODO Translate*/}
-                            Details &nbsp;
-                            <FontAwesomeIcon icon={faAngleDoubleRight} />
-                        </Button>
-                    </Link> :
+                    <Button as={Link} href={props.details_link_target} variant="outline-secondary">
+                        {/*TODO Translate*/}
+                        Details &nbsp;
+                        <FontAwesomeIcon icon={faAngleDoubleRight} />
+                    </Button> :
                     <Button variant="outline-secondary" href={props.details_link_target}>
                         {/*TODO Translate*/}
                         Details &nbsp;

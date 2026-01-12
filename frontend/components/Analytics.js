@@ -3,8 +3,8 @@
 import { GoogleAnalyticsRoot, logGoogleAnalyticsPageview, logGoogleAnalyticsEvent } from './GoogleAnalytics'
 import { MatomoAnalyticsRoot, logMatomoAnalyticsPageview, logMatomoAnalyticsEvent } from './MatomoAnalytics'
 import { RoutingListener } from "./RoutingListener";
-import { withRouter } from "next/dist/client/router";
-import React from 'react';
+import { useRouter } from "next/router";
+import React, { useEffect, useRef } from 'react';
 
 // TODO Log copying the download instruction command (and check we didn't miss any other events from the old Ruby implementation)
 
@@ -13,31 +13,32 @@ export const logAnalyticsEvent = async (category, action) => {
     logMatomoAnalyticsEvent(category, action)
 }
 
-class AnalyticsSetup_ extends React.Component {
-    constructor(props) {
-        super(props)
+export function AnalyticsSetup() {
+    const router = useRouter();
+    const routingListenerRef = useRef(null);
 
-        this.routingListener = new RoutingListener(props.router.asPath)
-        this.routingListener.addListener(this.onRouteChangeComplete)
-    }
+    useEffect(() => {
+        const onRouteChangeComplete = async (url) => {
+            // Log page view
+            // TODO This logs the correct page url but the old page title because page title updates are too slow
+            logGoogleAnalyticsPageview(url)
+            logMatomoAnalyticsPageview(url)
+        };
 
-    componentWillUnmount = () => {
-        this.routingListener.finish()
-    }
+        routingListenerRef.current = new RoutingListener(router.asPath);
+        routingListenerRef.current.addListener(onRouteChangeComplete);
 
-    onRouteChangeComplete = async (url) => {
-        // Log page view
-        // TODO This logs the correct page url but the old page title because page title updates are too slow
-        logGoogleAnalyticsPageview(url)
-        logMatomoAnalyticsPageview(url)
-    }
+        return () => {
+            if (routingListenerRef.current) {
+                routingListenerRef.current.finish();
+            }
+        };
+    }, [router.asPath]);
 
-    render = () => (
+    return (
         <>
             <GoogleAnalyticsRoot />
             <MatomoAnalyticsRoot />
         </>
-    )
+    );
 }
-
-export const AnalyticsSetup = withRouter(AnalyticsSetup_)
