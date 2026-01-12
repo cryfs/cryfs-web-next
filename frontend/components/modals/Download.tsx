@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Image from 'next-export-optimize-images/image';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
@@ -29,9 +29,10 @@ interface TabsProps {
 
 function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
     const [activeTab, setActiveTab] = useState(initiallyActive === undefined ? 0 : initiallyActive);
+    const tabs = useMemo(() => tabsFunc(), [tabsFunc]);
 
     const toggle = (tabIndex: number) => {
-        const tab = tabsFunc()[tabIndex];
+        const tab = tabs[tabIndex];
         if (!tab) return;
         logAnalyticsEvent('download', `click_${tab.analytics_name}_tab`);
         if (activeTab !== tabIndex) {
@@ -40,7 +41,7 @@ function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
     };
 
     const renderTabHeaders = () => {
-        return tabsFunc().map((tab, index) => (
+        return tabs.map((tab, index) => (
             <Col md="4" key={index}>
                 <Nav.Item className={styles.tabHeader}>
                     <Nav.Link className={classnames({ active: activeTab === index })}
@@ -53,7 +54,7 @@ function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
     };
 
     const renderTabBodies = () => {
-        return tabsFunc().map((tab, index) => (
+        return tabs.map((tab, index) => (
             <Tab.Pane eventKey={index} key={index}>
                 {tab.body}
             </Tab.Pane>
