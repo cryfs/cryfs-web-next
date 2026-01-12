@@ -12,10 +12,7 @@ class CachedValue<T> {
 
   get = async (): Promise<T> => {
     return await this.mutex.runExclusive(async () => {
-      if (typeof this.value === 'undefined') {
-        this.value = await this.creator();
-      }
-      return this.value;
+      return this.value ??= await this.creator();
     });
   };
 }

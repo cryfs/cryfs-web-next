@@ -31,7 +31,7 @@ export const email_myself = async (
     },
   };
 
-  if (typeof reply_to !== 'undefined' && reply_to !== '') {
+  if (reply_to !== undefined && reply_to !== '') {
     params.ReplyToAddresses = [reply_to];
   }
 
