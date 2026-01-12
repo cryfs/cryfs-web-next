@@ -34,6 +34,7 @@ const Teaser = () => (
                             sizes="2013px"
                             style={{ objectFit: 'cover', objectPosition: 'left top' }}
                             priority
+                            fetchPriority="high"
                         />
                     </div>
                     <div className={`${styles.mdTitleText} lead text-center`}>
@@ -56,7 +57,7 @@ const Teaser = () => (
             <div className="clearfix">
                 <div className={styles.smContent}>
                     <div className={`${styles.smImage} text-center`}>
-                        <Picture src={logoImage} alt="Logo" width={200} height={150} />
+                        <Picture src={logoImage} alt="Logo" width={200} height={150} priority fetchPriority="high" />
                         <div className="lead text-center title-text">
                             <h1 className={styles.smTitleTextH1}>{teaser_header}</h1>
                             <p className={styles.smTitleTextP}>{teaser_paragraph1}</p>
