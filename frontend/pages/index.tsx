@@ -12,9 +12,9 @@ const Index = () => (
     <Layout>
         {/* TODO translate tags in here*/}
         <MetaTags
-            title="CryFS: A cryptographic filesystem for the cloud"
+            title="CryFS: Encrypt your cloud storage"
             url="https://www.cryfs.org"
-            description="CryFS encrypts your Dropbox and protects you against hackers and data leaks. It also works well together with other cloud providers."
+            description="CryFS encrypts your files locally before syncing to the cloud. Protect your data from hackers, breaches, and unauthorized access on Dropbox, Google Drive, iCloud, and more."
         />
 
         <Teaser />

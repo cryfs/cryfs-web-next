@@ -57,7 +57,7 @@ function NewsletterSection() {
     return (
         <Container className="text-center">
             {/*TODO Translate*/}
-            <h2>Get notified when there are updates!</h2>
+            <h2>Stay updated on new releases and security news</h2>
             <div className={styles.registrationBox}>
                 <Form className="justify-content-center">
                     <Row>
