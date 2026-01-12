@@ -23,18 +23,13 @@ function RouteHashBasedModal({ hash, labelledBy, header, showCloseButtonInFooter
         // When we're supposed to toggle it, we just change the URL.
         // The routing listener will then trigger onRouteChangeComplete,
         // which will take care of the actual showing/hiding of the modal.
-        const currentShow = new Url(currentUrlRef.current).hash === hash;
-        if (currentShow) {
-            const url = new Url(currentUrlRef.current);
+        const url = new Url(currentUrlRef.current);
+        if (url.hash === hash) {
             url.set('hash', '');
-            const newUrl = url.toString();
-            void router.replace(newUrl);
         } else {
-            const url = new Url(currentUrlRef.current);
             url.set('hash', hash);
-            const newUrl = url.toString();
-            void router.replace(newUrl);
         }
+        void router.replace(url.toString());
     }, [hash, router]);
 
     useEffect(() => {
