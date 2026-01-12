@@ -15,13 +15,13 @@ interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 const Link = ({
   children,
   href,
-  legacyBehavior,
-  passHref,
-  prefetch,
-  replace,
-  scroll,
-  shallow,
-  locale,
+  legacyBehavior: _legacyBehavior,
+  passHref: _passHref,
+  prefetch: _prefetch,
+  replace: _replace,
+  scroll: _scroll,
+  shallow: _shallow,
+  locale: _locale,
   ...props
 }: LinkProps) => {
   // Filter out Next.js-specific props that shouldn't be passed to DOM elements
@@ -34,4 +34,4 @@ const Link = ({
 
 export default Link;
 module.exports = Link;
-module.exports.default = Link;
+(module.exports as { default: typeof Link }).default = Link;

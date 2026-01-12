@@ -10,4 +10,4 @@ const Script = ({ children, ...props }: ScriptProps) => {
 
 export default Script;
 module.exports = Script;
-module.exports.default = Script;
+(module.exports as { default: typeof Script }).default = Script;

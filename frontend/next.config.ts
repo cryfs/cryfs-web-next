@@ -5,10 +5,10 @@ import { promises as fs } from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
 import { VersionNumber } from './config/CryfsVersion';
-// @ts-expect-error - ncp doesn't have type declarations
-import ncpModule from 'ncp';
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
+const ncpModule: { ncp: (source: string, destination: string, callback: (err: Error | null) => void) => void } = require('ncp');
 
-const ncp = promisify(ncpModule.ncp as (source: string, destination: string, callback: (err: Error | null) => void) => void);
+const ncp = promisify(ncpModule.ncp);
 
 const config: NextConfig = {
   output: 'export',

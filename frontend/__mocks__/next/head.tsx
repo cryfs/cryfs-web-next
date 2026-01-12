@@ -12,4 +12,4 @@ const Head = ({ children }: HeadProps) => {
 
 export default Head;
 module.exports = Head;
-module.exports.default = Head;
+(module.exports as { default: typeof Head }).default = Head;
