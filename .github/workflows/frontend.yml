@@ -9,10 +9,11 @@ on:
 
 # Concurrency control:
 # - For master: serialize to prevent out-of-order deployments and preserve test feedback
+# - For PRs: group by PR number and cancel outdated runs
 # - For other branches: allow parallel runs per branch
 concurrency:
-  group: ${{ github.ref == 'refs/heads/master' && 'master-deploy-frontend' || format('ci-frontend-{0}', github.ref) }}
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || (github.ref == 'refs/heads/master' && 'master-deploy-frontend' || format('ci-frontend-{0}', github.ref)) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   test:
@@ -129,3 +130,83 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-preview:
+    needs: [test, test-e2e]
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write  # Required to post PR comments
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'frontend/package.json'
+          cache: npm
+          cache-dependency-path: frontend/package.json
+      - name: Cache Build
+        uses: actions/cache@v4
+        with:
+          path: frontend/.next/cache
+          key: v1-build-cache-frontend-${{ runner.os }}-${{ hashFiles('frontend/package-lock.json') }}-${{ hashFiles('frontend/**.[jt]s', 'frontend/**.[jt]sx') }}
+          restore-keys: |
+            v1-build-cache-frontend-${{ runner.os }}-${{ hashFiles('frontend/package-lock.json') }}-
+      - name: Install Dependencies
+        working-directory: frontend
+        run: npm install
+      - name: Build
+        working-directory: frontend
+        run: npm run build
+      - name: Deploy to Cloudflare Pages
+        id: cloudflare-deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy frontend/out --project-name=cryfs-preview --branch=${{ github.head_ref }}
+      - name: Post Preview URL Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deploymentUrl = '${{ steps.cloudflare-deploy.outputs.deployment-url }}';
+            const sha = '${{ github.event.pull_request.head.sha }}'.substring(0, 7);
+
+            const body = `## 🚀 Preview Deployment
+
+            | Name | Link |
+            |------|------|
+            | **Preview URL** | ${deploymentUrl} |
+            | **Commit** | ${sha} |
+
+            This preview was deployed to Cloudflare Pages.`;
+
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('Preview Deployment')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
