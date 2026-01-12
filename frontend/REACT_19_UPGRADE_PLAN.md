@@ -304,7 +304,29 @@ Verify none of these removed APIs are used:
 - ✅ `ReactDOM.hydrate` - Not used
 - ✅ `unmountComponentAtNode` - Not used
 
-### 4.3 useRef TypeScript Changes
+### 4.3 Form Hook Changes (React 19)
+
+**`useFormState` → `useActionState`:**
+
+`useFormState` is deprecated in React 19 and will be removed in a future release. Use `useActionState` instead, which includes a new `pending` property:
+
+```javascript
+// Before (React 18)
+import { useFormState } from 'react-dom';
+const [state, formAction] = useFormState(action, initialState);
+
+// After (React 19)
+import { useActionState } from 'react';
+const [state, formAction, isPending] = useActionState(action, initialState);
+```
+
+**`useFormStatus` new properties:**
+
+In React 19, `useFormStatus` returns additional properties: `data`, `method`, and `action`. In React 18, only `pending` was available.
+
+**Status:** ✅ Neither `useFormState` nor `useFormStatus` are used in the codebase - no changes needed.
+
+### 4.4 useRef TypeScript Changes
 
 In React 19, `useRef()` now requires an argument. This is a TypeScript breaking change:
 
@@ -320,7 +342,7 @@ const ref = useRef<HTMLDivElement>(null);
 
 **Status:** ✅ No `useRef` usage found in the codebase - no changes needed.
 
-### 4.4 Ref Callback Cleanup Functions (New in React 19)
+### 4.5 Ref Callback Cleanup Functions (New in React 19)
 
 React 19 supports returning a cleanup function from ref callbacks:
 
@@ -344,7 +366,7 @@ ref={(node) => { if (node) node.focus(); }}
 
 **Status:** ✅ No ref callbacks with implicit returns found in the codebase.
 
-### 4.5 Context.Provider Deprecation
+### 4.6 Context.Provider Deprecation
 
 In React 19, you can render `<Context>` directly instead of `<Context.Provider>`:
 
@@ -364,7 +386,7 @@ In React 19, you can render `<Context>` directly instead of `<Context.Provider>`
 
 **Status:** ✅ No Context usage found in the codebase - no changes needed.
 
-### 4.6 act() Import Change
+### 4.7 act() Import Change
 
 In React 19, `act()` is imported from `react` instead of `react-dom/test-utils`:
 
@@ -378,19 +400,19 @@ import { act } from 'react';
 
 **Status:** ✅ No `react-dom/test-utils` imports found - tests use `@testing-library/react` which handles this internally.
 
-### 4.7 react-test-renderer Deprecation
+### 4.8 react-test-renderer Deprecation
 
 `react-test-renderer` is deprecated in React 19. Migrate to `@testing-library/react`.
 
 **Status:** ✅ Not used - tests already use `@testing-library/react`.
 
-### 4.8 useEffect Timing Changes
+### 4.9 useEffect Timing Changes
 
 React 19 has stricter timing for `useEffect` cleanup. Review cleanup functions in:
 - `components/RoutingListener.tsx`
 - Converted components with route listeners
 
-### 4.9 Hydration Error Improvements
+### 4.10 Hydration Error Improvements
 
 React 19 provides better hydration error messages and is more forgiving of third-party elements:
 - Better diff output showing exactly what mismatched
@@ -398,7 +420,7 @@ React 19 provides better hydration error messages and is more forgiving of third
 
 After upgrade, run `npm run build && npm start` and verify no hydration mismatches in the console.
 
-### 4.10 Error Handling Changes
+### 4.11 Error Handling Changes
 
 React 19 adds new error handling options to `createRoot` and `hydrateRoot`:
 - `onCaughtError` - Called when React catches an error in an Error Boundary
@@ -428,7 +450,21 @@ In Next.js 15, these APIs are now async and return Promises:
 
 **Status:** ✅ Not applicable - this codebase uses Pages Router, not App Router. These APIs are only async in App Router.
 
-### 5.3 Caching Behavior Changes
+### 5.3 Runtime Configuration (Breaking Change)
+
+The `runtime` segment configuration no longer accepts `experimental-edge`. Use `edge` instead:
+
+```javascript
+// Before
+export const runtime = 'experimental-edge'
+
+// After
+export const runtime = 'edge'
+```
+
+**Status:** ✅ No `runtime` configuration found in the codebase - no changes needed.
+
+### 5.4 Caching Behavior Changes
 
 Next.js 15 changes caching defaults:
 
@@ -438,10 +474,14 @@ Next.js 15 changes caching defaults:
 | GET Route Handlers | Cached by default | **Not cached** by default |
 | Client Router Cache | Cached | **Not cached** (staleTime=0) |
 
-To opt into caching in Next.js 15:
+**Opting into caching:**
+
 ```javascript
-// For fetch
+// For individual fetch requests
 fetch(url, { cache: 'force-cache' })
+
+// For all fetches in a layout/page (segment config)
+export const fetchCache = 'default-cache'
 
 // For Route Handlers
 export const dynamic = 'force-static'
@@ -455,9 +495,9 @@ experimental: {
 }
 ```
 
-**Status:** ✅ No fetch() calls with caching concerns. Forms use POST requests which aren't cached.
+**Status:** ✅ No fetch() calls with caching concerns. No API routes. Forms use POST requests which aren't cached.
 
-### 5.4 next.config.js Updates
+### 5.5 next.config.js Updates
 
 Review `/home/user/cryfs-web-next/frontend/next.config.js` for deprecated options:
 - `swcMinify` - Now default, can be removed if present (not in current config ✅)
@@ -471,7 +511,7 @@ Review `/home/user/cryfs-web-next/frontend/next.config.js` for deprecated option
 - Uses `pageExtensions: ['js', 'mdx']` - ✅ Still supported
 - No deprecated experimental flags found
 
-### 5.5 Image Component Changes
+### 5.6 Image Component Changes
 
 The codebase uses `next-export-optimize-images/image` instead of `next/image`. Files using Image:
 - `components/Layout.js`
@@ -482,7 +522,7 @@ The codebase uses `next-export-optimize-images/image` instead of `next/image`. F
 
 **Action:** Verify `next-export-optimize-images` package is compatible with Next.js 15. Check their changelog for any breaking changes.
 
-### 5.6 ESLint 9 Support
+### 5.7 ESLint 9 Support
 
 Next.js 15 introduces ESLint 9 support while maintaining backward compatibility with ESLint 8.
 
@@ -496,7 +536,7 @@ Current setup:
 
 **Recommendation:** Keep ESLint 8 for this upgrade. ESLint 9 migration can be done separately.
 
-### 5.7 Removed Features
+### 5.8 Removed Features
 
 - **`@next/font`** - Removed in favor of `next/font`
   **Status:** ✅ Not used in codebase
@@ -507,7 +547,7 @@ Current setup:
 - **Speed Insights auto-instrumentation** - Removed
   **Status:** ✅ Not used in codebase
 
-### 5.8 Turbopack (Optional)
+### 5.9 Turbopack (Optional)
 
 Next.js 15 makes Turbopack stable for development:
 ```bash
@@ -657,7 +697,9 @@ If critical issues are discovered:
 
 ### Verified Non-Issues (No Risk)
 
-Based on codebase analysis, these React 19 breaking changes do NOT apply:
+Based on codebase analysis, these React 19 / Next.js 15 breaking changes do NOT apply:
+
+**React 19:**
 - ✅ No `useRef` without arguments
 - ✅ No `forwardRef` usage
 - ✅ No `PropTypes` usage
@@ -669,7 +711,16 @@ Based on codebase analysis, these React 19 breaking changes do NOT apply:
 - ✅ No `react-test-renderer` usage
 - ✅ No `ReactDOM.render` or `ReactDOM.hydrate` calls
 - ✅ No implicit ref callback returns
+- ✅ No `useFormState` or `useFormStatus` usage
+
+**Next.js 15:**
 - ✅ No async cookies/headers/params (Pages Router, not App Router)
+- ✅ No `runtime = 'experimental-edge'` configuration
+- ✅ No `@next/font` usage (uses custom font loading)
+- ✅ No API routes with GET handlers needing cache config
+- ✅ No `fetchCache` segment configs
+- ✅ No `geo` or `ip` usage on NextRequest
+- ✅ No Speed Insights auto-instrumentation
 
 ---
 
