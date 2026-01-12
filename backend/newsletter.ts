@@ -1,5 +1,5 @@
+import { createHash } from 'crypto';
 import Mailchimp from 'mailchimp-api-v3';
-import md5 from 'md5';
 import { email_myself } from './email';
 import secret from './secret';
 import CachedValue from './cached_value';
@@ -54,7 +54,7 @@ const response_error_unknown: LambdaResponse = {
   }),
 };
 
-const subscriber_hash = (email: string): string => md5(email.toLowerCase());
+const subscriber_hash = (email: string): string => createHash('md5').update(email.toLowerCase()).digest('hex');
 
 const email_is_subscribed = async (email: string): Promise<boolean> => {
   const mc = await mailchimp.get();

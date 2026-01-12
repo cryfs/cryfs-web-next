@@ -1,6 +1,6 @@
-// @ts-check
-/** @type {import('jest').Config} */
-module.exports = {
+import type { Config } from 'jest';
+
+const config: Config = {
   testEnvironment: 'node',
   testMatch: ['**/*.test.ts'],
   testPathIgnorePatterns: ['/node_modules/'],
@@ -9,8 +9,10 @@ module.exports = {
   },
   collectCoverageFrom: [
     '*.ts',
-    '!jest.config.js',
+    '!jest.config.ts',
   ],
   clearMocks: true,
   resetModules: true,
 };
+
+export default config;
