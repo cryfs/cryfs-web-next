@@ -15,7 +15,7 @@ export type AlternatingSectionsProps = {
 }
 
 const AlternatingSections = (props: AlternatingSectionsProps) => {
-    let styleIndex = (typeof props.start_index === 'undefined') ? 0 : props.start_index
+    let styleIndex = props.start_index ?? 0
 
     return <> {
         React.Children.map(props.children, (child: React.ReactElement<SectionProps>) => {

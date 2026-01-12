@@ -13,7 +13,7 @@ const MetaTags = (props: MetaTagsProps) => (
     <Head>
         <meta property="og:title" content={props.title} />
         <meta property="og:url" content={props.url} />
-        <meta property="og:type" content={(typeof props.type == 'undefined') ? "website" : props.type} />
+        <meta property="og:type" content={props.type ?? "website"} />
         <meta property="og:image" content={Logo.src} />
         <meta property="og:description" content={props.description} />
         {(props.type == 'article') &&
