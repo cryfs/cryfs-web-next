@@ -1,20 +1,24 @@
-"use strict";
-
-import Button from 'react-bootstrap/Button';
+import Button, { ButtonProps } from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from 'react';
+
+interface AsyncButtonProps extends Omit<ButtonProps, 'onClick'> {
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
+    block?: boolean;
+    children?: React.ReactNode;
+}
 
 // A button that has a onClick handler attached which potentially takes a bit more time.
 // The button will disable itself and show a progress spinner while running the onClick handler.
-function AsyncButton({ onClick, block, className, children, ...forwardProps }) {
+function AsyncButton({ onClick, block, className, children, ...forwardProps }: AsyncButtonProps) {
     const [running, setRunning] = useState(false);
 
     // In React Bootstrap 2.x, block prop is removed. Use w-100 class instead.
     const buttonClassName = block ? `w-100 ${className || ''}`.trim() : className;
 
-    const clickHandler = async (event) => {
+    const clickHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
         if (running) {
@@ -44,4 +48,4 @@ function AsyncButton({ onClick, block, className, children, ...forwardProps }) {
     );
 }
 
-export default AsyncButton
+export default AsyncButton;

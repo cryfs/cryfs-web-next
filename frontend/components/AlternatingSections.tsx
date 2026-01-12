@@ -9,9 +9,9 @@ type SectionProps = {
     className?: string
 }
 
-type AlternatingSectionsProps = {
+export type AlternatingSectionsProps = {
     start_index?: number
-    children: React.ReactElement<SectionProps>[]
+    children: React.ReactElement<SectionProps> | React.ReactElement<SectionProps>[]
 }
 
 const AlternatingSections = (props: AlternatingSectionsProps) => {

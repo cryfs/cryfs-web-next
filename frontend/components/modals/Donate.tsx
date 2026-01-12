@@ -1,9 +1,7 @@
-"use strict";
-
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import RouteHashBasedModal from './RouteHashBasedModal'
-import Script from 'next/script'
+import RouteHashBasedModal from './RouteHashBasedModal';
+import Script from 'next/script';
 import styles from './Donate.module.css';
 
 const DonateModal = () => (
@@ -14,15 +12,15 @@ const DonateModal = () => (
                 <iframe
                     className={styles.iframe}
                     src="https://donorbox.org/embed/cryfs?amount=25&recurring=true&show_content=true"
-                    seamless="seamless"
+                    seamless={true}
                     name="donorbox"
                     frameBorder="0"
                     scrolling="no"
-                    allowpaymentrequest="allowpaymentrequest"
+                    allowFullScreen
                 />
             </div>
         </Modal.Body>
     </RouteHashBasedModal>
-)
+);
 
-export default DonateModal
+export default DonateModal;

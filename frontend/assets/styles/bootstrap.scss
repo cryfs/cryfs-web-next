@@ -1,2 +1,6 @@
 $font-size-base: 1.1rem;
-@import '../../node_modules/bootstrap/scss/bootstrap.scss'
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+body {
+  background: black;
+}

@@ -6,7 +6,7 @@ const withExportImages = require('next-export-optimize-images');
 const mdx = require('@next/mdx')
 const fs = require('fs');
 const { join } = require('path');
-const { VersionNumber } = require('./config/CryfsVersion.js');
+const { VersionNumber } = require('./config/CryfsVersion.ts');
 const ncp = require('ncp').ncp
 
 /**
@@ -53,7 +53,7 @@ const config = {
 
         return defaultPathMap;
     },
-    pageExtensions: ['js', 'mdx'],
+    pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
     images: {
         loader: 'custom',
     },

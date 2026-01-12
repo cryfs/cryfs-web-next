@@ -1,5 +1,4 @@
-"use strict";
-
+import React, { useState, ChangeEvent } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Collapse from 'react-bootstrap/Collapse';
@@ -7,17 +6,16 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
-import fetch from 'unfetch'
+import fetch from 'unfetch';
 import AsyncButton from "../AsyncButton";
-import { logAnalyticsEvent } from '../Analytics'
-import React, { useState } from 'react';
+import { logAnalyticsEvent } from '../Analytics';
 import styles from './NewsletterSection.module.css';
 
 function NewsletterSection() {
     const [email, setEmail] = useState('');
     const [notification, setNotification] = useState('');
 
-    const onEmailChange = (val) => {
+    const onEmailChange = (val: ChangeEvent<HTMLInputElement>) => {
         setEmail(val.target.value);
     };
 
@@ -29,7 +27,7 @@ function NewsletterSection() {
         try {
             const response = await fetch('https://backend.cryfs.org/newsletter/register', {
                 method: 'POST',
-                header: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: email,
                     token: 'fd0kAn1zns',
@@ -73,7 +71,7 @@ function NewsletterSection() {
                         </Col>
                         <Col md={{ span: 2, offset: 0 }}>
                             <Form.Group>
-                                <AsyncButton type="Submit" onClick={onSubmit} variant="primary" block={true}>
+                                <AsyncButton type="submit" onClick={onSubmit} variant="primary" block={true}>
                                     Get Notified &nbsp;
                                     <FontAwesomeIcon icon={faAngleDoubleRight} />
                                 </AsyncButton>
@@ -92,7 +90,7 @@ function NewsletterSection() {
                         </Collapse>
                         <Collapse in={notification === 'error_unsubscribed'} className={`lead ${styles.notificationError}`}>
                             <div>You&apos;ve unsubscribed before and we can&apos;t resubscribe you to protect against spam. Please send an
-                            email to messmer@cryfs.org.</div>
+                                email to messmer@cryfs.org.</div>
                         </Collapse>
                         <Collapse in={notification === 'error_unknown'} className={`lead ${styles.notificationError}`}>
                             <div>An error occurred. Please subscribe by sending an email to messmer@cryfs.org.</div>
@@ -104,4 +102,4 @@ function NewsletterSection() {
     );
 }
 
-export default NewsletterSection
+export default NewsletterSection;
