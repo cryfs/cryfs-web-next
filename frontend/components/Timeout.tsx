@@ -10,7 +10,7 @@ export const timeout = (delayMs: number): Promise<void> => {
 export const promiseWithTimeout = async <T,>(promise: Promise<T>, waitMsUntilCancelled: number): Promise<T> => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined = undefined
     const failureCase: Promise<T> = new Promise((_resolve, reject) => {
-        timeoutId = setTimeout(() => reject("Timeout waiting for promise"), waitMsUntilCancelled)
+        timeoutId = setTimeout(() => reject(new Error("Timeout waiting for promise")), waitMsUntilCancelled)
     })
     const successCase: Promise<T> = promise.finally(() => {
         clearTimeout(timeoutId)

@@ -6,7 +6,7 @@ import React, { useEffect, useRef } from 'react';
 
 // TODO Log copying the download instruction command (and check we didn't miss any other events from the old Ruby implementation)
 
-export const logAnalyticsEvent = async (category: string, action: string): Promise<void> => {
+export const logAnalyticsEvent = (category: string, action: string): void => {
     logGoogleAnalyticsEvent(category, action);
     logMatomoAnalyticsEvent(category, action);
 };
@@ -16,7 +16,7 @@ export function AnalyticsSetup() {
     const routingListenerRef = useRef<RoutingListener | null>(null);
 
     useEffect(() => {
-        const onRouteChangeComplete = async (url: string) => {
+        const onRouteChangeComplete = (url: string) => {
             // Log page view
             // TODO This logs the correct page url but the old page title because page title updates are too slow
             logGoogleAnalyticsPageview(url);

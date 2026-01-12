@@ -12,7 +12,7 @@ const load_values = async (): Promise<SecretValues> => {
   const validate = (keys: readonly string[], params: Record<string, string>): void => {
     const missing = keys.filter((k) => params[k] === undefined);
     if (missing.length > 0) {
-      throw new Error(`missing keys: ${missing}`);
+      throw new Error(`missing keys: ${missing.join(', ')}`);
     }
   };
 

@@ -5,7 +5,7 @@ import { mockContactAPI } from '../fixtures/api-mocks';
 test.describe('Contact Form Flow', () => {
   let homePage: HomePage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(({ page }) => {
     homePage = new HomePage(page);
   });
 
@@ -56,8 +56,7 @@ test.describe('Contact Form Flow', () => {
     let capturedRequest: { email: string; message: string; token: string } | null = null;
 
     await page.route('**/contact/send', async (route) => {
-      const postData = route.request().postDataJSON();
-      capturedRequest = postData;
+      capturedRequest = route.request().postDataJSON() as { email: string; message: string; token: string };
       await route.fulfill({ status: 200, body: '{}' });
     });
 

@@ -1,13 +1,22 @@
 jest.mock('@aws-sdk/client-ssm');
 
+interface MockSSMModule {
+  __mockSend: jest.Mock;
+  GetParametersCommand: typeof import('@aws-sdk/client-ssm').GetParametersCommand;
+}
+
+interface SecretModule {
+  default: (key: string) => Promise<string>;
+}
+
 describe('secret', () => {
   let secret: (key: string) => Promise<string>;
   let mockSend: jest.Mock;
   let GetParametersCommand: typeof import('@aws-sdk/client-ssm').GetParametersCommand;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.resetModules();
-    const ssmClient = require('@aws-sdk/client-ssm');
+    const ssmClient = await import('@aws-sdk/client-ssm') as unknown as MockSSMModule;
     mockSend = ssmClient.__mockSend;
     GetParametersCommand = ssmClient.GetParametersCommand;
     mockSend.mockReset();
@@ -21,7 +30,8 @@ describe('secret', () => {
       ],
     });
 
-    secret = require('./secret').default;
+    const secretModule = await import('./secret') as SecretModule;
+    secret = secretModule.default;
 
     const mailchimpToken = await secret('MAILCHIMP_API_TOKEN');
     const mailchimpList = await secret('MAILCHIMP_LIST_ID');
@@ -35,7 +45,8 @@ describe('secret', () => {
       Parameters: [{ Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token-123' }],
     });
 
-    secret = require('./secret').default;
+    const secretModule = await import('./secret') as SecretModule;
+    secret = secretModule.default;
 
     await expect(secret('MAILCHIMP_API_TOKEN')).rejects.toThrow('missing keys');
   });
@@ -48,7 +59,8 @@ describe('secret', () => {
       ],
     });
 
-    secret = require('./secret').default;
+    const secretModule = await import('./secret') as SecretModule;
+    secret = secretModule.default;
 
     await secret('MAILCHIMP_API_TOKEN');
     await secret('MAILCHIMP_LIST_ID');
@@ -64,7 +76,8 @@ describe('secret', () => {
       ],
     });
 
-    secret = require('./secret').default;
+    const secretModule = await import('./secret') as SecretModule;
+    secret = secretModule.default;
 
     const unknownKey = await secret('UNKNOWN_KEY');
     expect(unknownKey).toBeUndefined();
@@ -78,11 +91,13 @@ describe('secret', () => {
       ],
     });
 
-    secret = require('./secret').default;
+    const secretModule = await import('./secret') as SecretModule;
+    secret = secretModule.default;
     await secret('MAILCHIMP_API_TOKEN');
 
     expect(mockSend).toHaveBeenCalledTimes(1);
-    const command = mockSend.mock.calls[0][0];
+    const calls = mockSend.mock.calls as Array<[{ input: Record<string, unknown> }]>;
+    const command = calls[0][0];
     expect(command).toBeInstanceOf(GetParametersCommand);
     expect(command.input).toEqual({
       Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID'],

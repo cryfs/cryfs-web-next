@@ -10,13 +10,17 @@ export class RoutingListener {
 
         this.onChangeCallbacks = []
 
-        Router.events.on('routeChangeComplete', this.onRouteChangeComplete)
-        Router.events.on('hashChangeComplete', this.onRouteChangeComplete)
+        Router.events.on('routeChangeComplete', this.handleRouteChange)
+        Router.events.on('hashChangeComplete', this.handleRouteChange)
     }
 
     finish = () => {
-        Router.events.off('routeChangeComplete', this.onRouteChangeComplete)
-        Router.events.off('hashChangeComplete', this.onRouteChangeComplete)
+        Router.events.off('routeChangeComplete', this.handleRouteChange)
+        Router.events.off('hashChangeComplete', this.handleRouteChange)
+    }
+
+    handleRouteChange = (url: string) => {
+        void this.onRouteChangeComplete(url)
     }
 
     addListener = (func: (url: string) => void | Promise<void>) => {

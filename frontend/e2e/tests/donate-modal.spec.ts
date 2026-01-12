@@ -5,7 +5,7 @@ import { NavigationPage } from '../pages/navigation.page';
 test.describe('Donate Modal Flow', () => {
   let homePage: HomePage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(({ page }) => {
     homePage = new HomePage(page);
   });
 

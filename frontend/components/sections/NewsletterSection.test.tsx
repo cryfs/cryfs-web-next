@@ -94,6 +94,7 @@ describe('NewsletterSection', () => {
           'https://backend.cryfs.org/newsletter/register',
           expect.objectContaining({
             method: 'POST',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             body: expect.stringContaining('user@test.com'),
           })
         );
@@ -204,7 +205,7 @@ describe('NewsletterSection', () => {
   describe('analytics', () => {
     it('logs analytics event on click', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       mockFetch.mockResolvedValueOnce({ ok: true });
 
       render(<NewsletterSection />);
@@ -219,7 +220,7 @@ describe('NewsletterSection', () => {
 
     it('logs success analytics event on successful submission', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       mockFetch.mockResolvedValueOnce({ ok: true });
 
       render(<NewsletterSection />);
@@ -234,7 +235,7 @@ describe('NewsletterSection', () => {
 
     it('logs error analytics event on failed submission', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       mockFetch.mockResolvedValueOnce({
         ok: false,
         json: () => Promise.resolve({ error: 'invalid-email' }),

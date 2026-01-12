@@ -1,11 +1,14 @@
 import type { NextConfig } from 'next';
 import withExportImages from 'next-export-optimize-images';
 import mdx from '@next/mdx';
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import { join } from 'path';
+import { promisify } from 'util';
 import { VersionNumber } from './config/CryfsVersion';
 // @ts-expect-error - ncp doesn't have type declarations
-import ncp from 'ncp';
+import ncpModule from 'ncp';
+
+const ncp = promisify(ncpModule.ncp as (source: string, destination: string, callback: (err: Error | null) => void) => void);
 
 const config: NextConfig = {
   output: 'export',
@@ -31,20 +34,12 @@ const config: NextConfig = {
       },
       "warnings": {},
     });
-    fs.writeFile(join(outDir, 'version_info.json'), version_info, function (err) {
-      if (err) {
-        throw err;
-      }
-      console.log("Written version_info.json");
-    });
+    await fs.writeFile(join(outDir, 'version_info.json'), version_info);
+    console.log("Written version_info.json");
 
     // Copy all files from assets/static
-    ncp.ncp(join(dir, 'assets/static'), outDir, (err: Error | null) => {
-      if (err) {
-        throw err;
-      }
-      console.log("Copied static files");
-    });
+    await ncp(join(dir, 'assets/static'), outDir);
+    console.log("Copied static files");
 
     return defaultPathMap;
   },

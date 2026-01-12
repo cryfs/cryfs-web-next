@@ -4,12 +4,12 @@ import MetaTags from './MetaTags';
 
 // Helper to query meta tags from document.head
 const getMetaContent = (property: string): string | null => {
-  const meta = document.head.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null;
+  const meta = document.head.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
   return meta?.content ?? null;
 };
 
 const getMetaName = (name: string): string | null => {
-  const meta = document.head.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
+  const meta = document.head.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
   return meta?.content ?? null;
 };
 

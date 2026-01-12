@@ -5,7 +5,7 @@ import DownloadModal from './Download';
 
 // Mock the RouteHashBasedModal to simplify testing
 jest.mock('./RouteHashBasedModal', () => {
-  return function MockRouteHashBasedModal({ children, header }: any) {
+  return function MockRouteHashBasedModal({ children, header }: { children?: React.ReactNode; header?: string }) {
     return (
       <div data-testid="mock-modal">
         {header && <div data-testid="modal-header">{header}</div>}
@@ -130,7 +130,7 @@ describe('DownloadModal', () => {
 
     it('logs analytics event when switching tabs', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       render(<DownloadModal />);
 
       await user.click(screen.getByText('Debian'));
@@ -140,7 +140,7 @@ describe('DownloadModal', () => {
 
     it('logs analytics event for Other tab', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       render(<DownloadModal />);
 
       await user.click(screen.getByText('Other'));
@@ -242,7 +242,7 @@ describe('DownloadModal', () => {
 
     it('does not re-trigger analytics when clicking active tab', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       render(<DownloadModal />);
 
       // Click on Ubuntu (already active) - should still log

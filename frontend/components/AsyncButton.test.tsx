@@ -119,7 +119,7 @@ describe('AsyncButton', () => {
   it('prevents default form submission behavior', async () => {
     const user = userEvent.setup();
     const handleClick = jest.fn().mockResolvedValue(undefined);
-    const handleSubmit = jest.fn((e) => e.preventDefault());
+    const handleSubmit = jest.fn((e: React.FormEvent<HTMLFormElement>) => e.preventDefault());
 
     render(
       <form onSubmit={handleSubmit}>

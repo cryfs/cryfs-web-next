@@ -30,10 +30,10 @@ interface TabsProps {
 function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
     const [activeTab, setActiveTab] = useState(initiallyActive === undefined ? 0 : initiallyActive);
 
-    const toggle = async (tabIndex: number) => {
+    const toggle = (tabIndex: number) => {
         const tab = tabsFunc()[tabIndex];
         if (!tab) return;
-        await logAnalyticsEvent('download', `click_${tab.analytics_name}_tab`);
+        logAnalyticsEvent('download', `click_${tab.analytics_name}_tab`);
         if (activeTab !== tabIndex) {
             setActiveTab(tabIndex);
         }
@@ -44,7 +44,7 @@ function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
             <Col md="4" key={index}>
                 <Nav.Item className={styles.tabHeader}>
                     <Nav.Link className={classnames({ active: activeTab === index })}
-                        onClick={async () => { await toggle(index); }}>
+                        onClick={() => { toggle(index); }}>
                         {tab.header}
                     </Nav.Link>
                 </Nav.Item>

@@ -1,7 +1,9 @@
-export const __mockSend = jest.fn();
+type SSMResponse = { Parameters: Array<{ Name: string; Value: string }> };
+
+export const __mockSend = jest.fn<Promise<SSMResponse>, [GetParametersCommand]>();
 
 export class SSMClient {
-  send(command: GetParametersCommand): Promise<{ Parameters: Array<{ Name: string; Value: string }> }> {
+  send(command: GetParametersCommand): Promise<SSMResponse> {
     return __mockSend(command);
   }
 }

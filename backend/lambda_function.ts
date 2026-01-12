@@ -39,11 +39,12 @@ export const LambdaFunction = (
       response.headers = Object.assign({}, response.headers || {}, cors_headers);
       return response as APIGatewayProxyResult;
     } catch (err) {
-      console.log(`Error calling function. Error message: ${err}. Event: ${JSON.stringify(event)}`);
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.log(`Error calling function. Error message: ${errMsg}. Event: ${JSON.stringify(event)}`);
       await email_myself(
         'CryFS Backend',
         'Error',
-        `Error calling function. Error message: ${err}. Event: ${JSON.stringify(event)}`
+        `Error calling function. Error message: ${errMsg}. Event: ${JSON.stringify(event)}`
       );
 
       return {

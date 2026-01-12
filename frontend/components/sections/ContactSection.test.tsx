@@ -130,12 +130,14 @@ describe('ContactSection', () => {
           'https://backend.cryfs.org/contact/send',
           expect.objectContaining({
             method: 'POST',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             body: expect.stringContaining('My feedback'),
           })
         );
       });
 
-      const callBody = JSON.parse(mockFetch.mock.calls[0][1].body);
+      const calls = mockFetch.mock.calls as [string, { body: string }][];
+      const callBody = JSON.parse(calls[0][1].body) as { email: string; message: string };
       expect(callBody.email).toBe('test@test.com');
       expect(callBody.message).toBe('My feedback');
     });
@@ -153,7 +155,8 @@ describe('ContactSection', () => {
         expect(screen.getByText('Thank you.')).toBeInTheDocument();
       });
 
-      const callBody = JSON.parse(mockFetch.mock.calls[0][1].body);
+      const calls = mockFetch.mock.calls as [string, { body: string }][];
+      const callBody = JSON.parse(calls[0][1].body) as { email: string; message: string };
       expect(callBody.email).toBe('');
       expect(callBody.message).toBe('Anonymous message');
     });
@@ -221,7 +224,7 @@ describe('ContactSection', () => {
   describe('analytics', () => {
     it('logs analytics event on click', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       mockFetch.mockResolvedValueOnce({ ok: true });
 
       render(<ContactSection />);
@@ -236,7 +239,7 @@ describe('ContactSection', () => {
 
     it('logs success analytics event on successful submission', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       mockFetch.mockResolvedValueOnce({ ok: true });
 
       render(<ContactSection />);
@@ -251,7 +254,7 @@ describe('ContactSection', () => {
 
     it('logs error analytics event on empty message', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
 
       render(<ContactSection />);
 
@@ -264,7 +267,7 @@ describe('ContactSection', () => {
 
     it('logs error analytics event on failed submission', async () => {
       const user = userEvent.setup();
-      const { logAnalyticsEvent } = require('../Analytics');
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       mockFetch.mockResolvedValueOnce({ ok: false });
 
       render(<ContactSection />);
