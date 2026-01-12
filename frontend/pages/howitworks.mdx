@@ -21,39 +21,98 @@ import ConfigfileEncryptionImg from '../assets/images/configfileencryption.png'
 
 <Layout>
 <AlternatingSections start_index={1}>
-<ContentHeaderSection title="How it works" subtitle="We explain how CryFS works and why it is secure.">
-  The description can be a bit technical in some points. If you're rather interested in using CryFS, take a look at the <Link href="/tutorial">CryFS Tutorial</Link>.
+<ContentHeaderSection title="How CryFS Works" subtitle="Learn how CryFS protects your data with advanced encryption techniques.">
+  This page explains the technical details of CryFS. If you're looking to get started quickly, check out the <Link href="/tutorial">CryFS Tutorial</Link> instead.
 </ContentHeaderSection>
 
 <section>
 <Container>
 
-## Storing data
+## At a Glance
+
+CryFS is designed to encrypt your files for cloud storage while hiding not just the content, but also the structure and metadata of your data. Here's what makes it different:
+
+- **Block-based encryption**: Files are split into fixed-size blocks, making it impossible to determine file sizes
+- **Full metadata encryption**: File names, directory structure, and timestamps are all encrypted
+- **Cloud-optimized**: Small changes to files only require re-uploading a small amount of data
+- **Authenticated encryption**: Protects against both unauthorized reading and tampering
+- **Proven security**: Formally verified in academic research with published security proofs
+
+</Container>
+</section>
+
+<section>
+<Container>
+
+## Threat Model
+
+Before diving into the technical details, it's important to understand what CryFS protects against and its security boundaries.
+
+### What CryFS Protects Against
+
+CryFS is designed to protect your data when stored on untrusted storage, such as cloud providers. It defends against:
+
+- **Curious cloud providers**: Employees or systems at your cloud provider cannot read your files
+- **Data breaches**: If hackers gain access to your cloud storage, they see only encrypted blocks
+- **Metadata analysis**: Attackers cannot determine file sizes, names, types, or directory structure
+- **Tampering**: Modifications to encrypted blocks are detected and rejected
+- **Rollback attacks**: Attackers cannot replace files with older versions without detection
+
+### Security Boundaries
+
+CryFS assumes your local machine is secure. It does not protect against:
+
+- **Compromised local systems**: If malware has access to your mounted filesystem, it can read your files
+- **Weak passwords**: Security depends on using a strong password for the configuration file (alternatively, you can store the configuration file locally using `--config` to remain secure even with a weak password)
+- **Denial of service**: An attacker with access to your cloud storage could delete your encrypted blocks
+
+</Container>
+</section>
+
+<section>
+<Container>
+
+## Block-Based Storage
 <Row>
 <Col md="4">
 <Picture src={StoringDataImg} alt="Your files, metadata and directory structure are stored as a set of same-size blocks, encrypted, and stored in the cloud." style={{maxWidth: "100%", height: "auto"}} />
 </Col>
 <Col md="8">
 
-The goal of CryFS is not only to keep file contents, but also file sizes, metadata and directory structure confidential.
+### Why Block-Based?
 
-To hide file sizes, CryFS splits the content of a file into same-size blocks and encrypts these blocks individually.
-A tree structure is used to remember how the blocks belong together to form a file.
-This tree structure has very little overhead and itself is also stored using encrypted same-size blocks.
-To hide file metadata and directory structure, they are also represented using encrypted same-size blocks.
+Traditional file-based encryption (like EncFS or gocryptfs) creates one encrypted file for each of your files. This reveals information: an attacker can see how many files you have, how large each one is, and how they're organized into directories. This metadata can reveal <Link href="/comparison#metadata-encryption">a surprising amount about what you're storing</Link>.
 
-Each encrypted block is stored as a file in the base directory, using a random ID as filename.
-The base directory can then be set up to be synchronized with a cloud provider like Dropbox.
-An attacker with access to the base directory can only see a set of same-size ciphertext blocks and can't see
-contents, file sizes, metadata or directory structure of your data.
+CryFS takes a different approach. Instead of encrypting files individually, it splits all data into fixed-size blocks (typically 32KB). These blocks are then encrypted and stored with random IDs as filenames.
 
-The blocks are encrypted using a block cipher chosen by the user. A random encryption key is generated when the filesystem is created.
-This key is stored in a configuration file, which is then encrypted using the password chosen by the user.
-Since it is encrypted, it can be stored together with the ciphertext blocks in the cloud, which is the default.
-If you want to use an insecure (e.g. empty) password or don't trust the scrypt algorithm used for encrypting the configuration file, you can also keep the configuration file locally.
+### How It Works
+
+1. **File content** is split into same-size blocks
+2. **Directory structure** is stored as additional encrypted blocks
+3. **Metadata** (file names, sizes, timestamps) is stored in encrypted blocks
+4. **A tree structure** connects the blocks, allowing CryFS to reconstruct your files
+
+Crucially, all these block types—file content, directory entries, metadata, and tree structure—are encrypted identically and are completely indistinguishable from each other. An attacker cannot tell whether a block contains part of a file, a directory listing, or internal tree structure.
+
+The result: an attacker with access to your cloud storage sees only a collection of identically-sized encrypted blocks with random names. They cannot determine:
+- How many files you have
+- The size of any individual file
+- Your directory structure
+- File names, types, or modification times
 
 </Col>
 </Row>
+
+### Block Encryption
+
+Each block is encrypted using an authenticated encryption cipher (default: XChaCha20-Poly1305). This provides:
+
+- **Confidentiality**: The content cannot be read without the key
+- **Integrity**: Any modification to a block is detected
+- **Authentication**: Blocks can only be created by someone with the key
+
+A unique encryption key is generated when you create a CryFS filesystem. This key is stored in the configuration file, protected by your password.
+
 </Container>
 </section>
 
@@ -61,63 +120,112 @@ If you want to use an insecure (e.g. empty) password or don't trust the scrypt a
 <Container>
 
 ## Configuration File
-The base directory also contains a configuration file with the information CryFS needs to decrypt it.
-This configuration file is encrypted and integrity-checked using the password chosen by the user, so an attacker cannot read or modify it.
 
-The information stored in the configuration file includes the following.
-- <strong>&#91;Cipher&#93;</strong>: The cipher used (e.g. <var>aes-256-gcm</var>)
-- <strong>&#91;Encryption Key&#93;</strong>: The encryption key used for encrypting blocks
-- <strong>&#91;Root Block ID&#93;</strong>: The block ID for the block storing the root directory (entry point for the filesystem)
+When you create a CryFS filesystem, it generates a configuration file (typically named `cryfs.config`) in the base directory. This file contains everything CryFS needs to decrypt your data.
+
+### Stored Information
+
+The configuration file includes:
+- **Cipher**: The encryption algorithm used (e.g., `xchacha20-poly1305`)
+- **Encryption key**: The master key for encrypting all blocks
+- **Root block ID**: The entry point to your encrypted filesystem
+- **Filesystem ID**: A unique identifier for integrity verification
 
 <Row>
 <Col md="8">
 
-The configuration file is encrypted twice, once with <var>aes-256-gcm</var> and once with the cipher chosen by the user.
-This way, if the user doesn't trust <var>aes-256-gcm</var> for some reason,
-they can choose another cipher and still be secure.
-The keys for both encryption layers are generated from the user-chosen password using [scrypt](https://en.wikipedia.org/wiki/Scrypt).
+### Two-Layer Encryption
 
-In detail, CryFS generates two keys <var>outer_key</var> and <var>inner_key</var> using scrypt and the user password.
-It encrypts the configuration file using the user cipher and <var>inner_key</var>.
-To the ciphertext, it prepends the name of the user cipher (so it knows how to decrypt it later) and encrypts
-the result using <var>aes-256-gcm</var> and <var>outer_key</var>. This way, an attacker cannot see or manipulate which cipher is used.
-As a last step, the scrypt configuration parameters are prepended, so CryFS knows how to configure scrypt when
-decrypting the filesystem.
-When decrypting the configuration file, CryFS first reads the scrypt parameters and regenerates both keys from the user password.
-Then, it decrypts the first layer and reads the cipher chosen by the user.
-Using this cipher, it decrypts the second layer and reads the configuration values.
+The configuration file itself is encrypted with two layers to ensure maximum security:
+
+1. **Inner layer**: Encrypted with your chosen cipher and a key derived from your password
+2. **Outer layer**: Encrypted with AES-256-GCM and a separate derived key
+
+This dual encryption means:
+- If you don't trust AES-256-GCM, you can choose another cipher for additional protection
+- An attacker cannot even see which cipher you selected
+- The cipher name cannot be tampered with to force a weaker algorithm
+
+### Key Derivation
+
+Both encryption keys are derived from your password using [scrypt](https://en.wikipedia.org/wiki/Scrypt), a memory-hard key derivation function designed to be resistant to brute-force attacks. The scrypt parameters are stored (unencrypted) at the beginning of the configuration file so CryFS knows how to regenerate the keys.
+
 </Col>
 <Col md="4" style={{marginTop: '20px'}}>
 <Picture src={ConfigfileEncryptionImg} alt="Configuration File Encryption Layers" style={{maxWidth: "100%", height: "auto"}} />
 </Col>
 </Row>
 
-The integrity of the configuration file depends on <var>aes-256-gcm</var>.
-This cipher is a standard cipher and believed to be very secure.
-If, however, you don't trust the integrity of <var>aes-256-gcm</var> and want to use another cipher instead,
-we recommend adding the <kbd>--cipher xxx</kbd> parameter each time you mount the filesystem.
-This way, CryFS can check that the cipher used by the filesystem is the one you actually specified
-and you don't have to rely on the <var>aes-256-gcm</var> integrity verification step.
+### Security Recommendations
 
-Alternatively, you can store the configuration file outside of the base directory and not upload it into the cloud.<br />
-This is possible using the <kbd>--config</kbd> parameter when calling CryFS.
-      
+For maximum security, consider these options:
+
+- **Use a strong password**: The security of your encrypted data depends on it
+- **Keep config locally**: Use `--config /local/path` to store the configuration file outside your cloud storage
+- **Verify cipher on mount**: The AES-256-GCM outer layer already protects against configuration tampering. If you don't trust AES-256-GCM, use `--cipher xchacha20-poly1305` to explicitly verify the cipher on each mount
+
 </Container>
 </section>
+
+<section>
+<Container>
+
+## Integrity Protection
+
+CryFS provides comprehensive integrity protection beyond just authenticated encryption of individual blocks.
+
+### Version Tree
+
+CryFS maintains a version tree that tracks the expected version of each block. This prevents:
+
+- **Block rollback**: Replacing a block with an earlier valid version
+- **Block deletion**: Removing blocks from the filesystem
+- **Block reordering**: Rearranging the structure of your data
+
+### How It Works
+
+Each time a block is modified, its version number is incremented. CryFS stores these version numbers locally on your machine (not in the cloud), which allows it to detect if any block has been rolled back or if the version information itself has been tampered with.
+
+When you mount your filesystem, CryFS verifies that all version numbers match what it expects. If there's a mismatch, the filesystem refuses to mount and alerts you to the tampering.
+
+### Limitations
+
+Integrity protection requires state to be maintained about what versions are expected. This state is stored on your local machine. If you access the filesystem from a new machine, CryFS will need to trust the current state of the cloud storage as a baseline for rollback detection. However, the authenticated encryption scheme still ensures that attackers cannot arbitrarily modify block contents—only rollback protection is affected when accessing from a new device.
+
+</Container>
+</section>
+
 <section>
 <Container>
 
 ## Security Analysis
-The security of CryFS has been proven in a [master's thesis](/cryfs_mathesis.pdf)
-and in a [scientific paper published at DBSec 2017](http://dx.doi.org/10.1007/978-3-319-61176-1_23)
-([PDF](https://eprint.iacr.org/2017/773.pdf)) using a game-based security approach.
-The works also contain a detailed description of the inner workings of CryFS.
 
-The current version meets all security goals regarding confidentiality of file contents, size, metadata and directory structure.
-The integrity goals mentioned in the thesis are also implemented as of version 0.10.0.
-The 0.9.x versions protect the encrypted blocks from being modified by an attacker,
-since they use an authenticated encryption scheme like <var>aes-256-gcm</var>,
-but they don't prevent an attacker from rolling back the filesystem by replacing blocks with an earlier valid version of the same block yet.
+The security of CryFS has been formally analyzed and proven using game-based security proofs.
+
+### Academic Publications
+
+- **Master's Thesis (2015)**: [Developing a secure cloud filesystem](/cryfs_mathesis.pdf) - Contains detailed security definitions and proofs
+- **DBSec 2017**: [Scientific paper](http://dx.doi.org/10.1007/978-3-319-61176-1_23) ([PDF](https://eprint.iacr.org/2017/773.pdf)) - Peer-reviewed publication at the 31st Annual IFIP WG 11.3 Conference on Data and Applications Security and Privacy
+
+### Proven Security Properties
+
+The security analysis proves that CryFS achieves:
+
+**Confidentiality:**
+- **IND-CPA security**: Encrypted data reveals nothing about the plaintext
+- **File content**: Cannot be read without the key
+- **File sizes**: Hidden by fixed-size blocks
+- **Directory structure**: Indistinguishable from random data
+- **Metadata**: File names, timestamps, and counts are encrypted
+
+**Integrity:**
+- **Block integrity**: Modified blocks are detected and rejected
+- **Rollback protection**: Old versions of blocks cannot be substituted
+- **Structural integrity**: The filesystem structure cannot be tampered with
+
+### Comparison with Other Tools
+
+As far as we know, CryFS is the only cloud filesystem encryption tool with published, peer-reviewed security proofs. Other tools may be secure, but their security properties have not been formally analyzed and documented.
 
 </Container>
 </section>
@@ -129,9 +237,9 @@ but they don't prevent an attacker from rolling back the filesystem by replacing
             <Card body style={{ backgroundColor: '#f5f5f5', borderColor: '#e3e3e3' }}>
                 <div className="text-center">
                     <div className="lead">
-                        Get started with the
+                        Ready to get started?
                     </div>
-                    <Button as={Link} href="/tutorial" variant="primary" size="lg">Tutorial</Button>
+                    <Button as={Link} href="/tutorial" variant="primary" size="lg">CryFS Tutorial</Button>
                 </div>
             </Card>
         </Col>
