@@ -88,16 +88,15 @@ const tabs = (): TabDefinition[] => [
         body: (
             <>
                 <h3>Easy Install</h3>
-                <p>For Ubuntu 17.04 and later</p>
+                <p>CryFS is available in the official Ubuntu repositories.</p>
                 <Console>
                     <ConsoleCommand className={styles.easyinstallCommand}>
                         sudo apt install cryfs
                     </ConsoleCommand>
                 </Console>
-                <h3>Alternative: Build from source</h3>
+                <h3>Build from Source</h3>
                 <p>
-                    Follow the instructions <a href="https://github.com/cryfs/cryfs">here</a> for building CryFS from source.
-                    You can for example choose this path if you want a version that is newer than the one in the software repositories of your operating system.
+                    For the latest version, you can <a href="https://github.com/cryfs/cryfs">build CryFS from source</a>.
                 </p>
             </>
         )
@@ -116,16 +115,15 @@ const tabs = (): TabDefinition[] => [
         body: (
             <>
                 <h3>Easy Install</h3>
-                <p>For Debian Stretch and later</p>
+                <p>CryFS is available in the official Debian repositories.</p>
                 <Console>
                     <ConsoleCommand className={styles.easyinstallCommand}>
                         sudo apt install cryfs
                     </ConsoleCommand>
                 </Console>
-                <h3>Alternative: Build from source</h3>
+                <h3>Build from Source</h3>
                 <p>
-                    Follow the instructions <a href="https://github.com/cryfs/cryfs">here</a> for building CryFS from source.
-                    You can for example choose this path if you want a version that is newer than the one in the software repositories of your operating system.
+                    For the latest version, you can <a href="https://github.com/cryfs/cryfs">build CryFS from source</a>.
                 </p>
             </>
         )
@@ -145,11 +143,11 @@ const tabs = (): TabDefinition[] => [
             <>
                 <h3>Other Linux</h3>
                 <p>
-                    If your linux is based on Debian, you could try the Debian or Ubuntu packages from their software repositories. You can also <a href="https://github.com/cryfs/cryfs">build CryFS from source</a>.
+                    Many Linux distributions include CryFS in their package repositories. Check your distribution&apos;s package manager, or <a href="https://github.com/cryfs/cryfs">build from source</a>.
                 </p>
-                <h3>Mac OS X</h3>
+                <h3>macOS</h3>
                 <p>
-                    You can install CryFS using Homebrew. Try:
+                    Install CryFS using <a href="https://brew.sh/">Homebrew</a>:
                 </p>
                 <Console>
                     <ConsoleCommand className={styles.easyinstallCommand}>
@@ -159,23 +157,24 @@ const tabs = (): TabDefinition[] => [
                         brew install cryfs/tap/cryfs
                     </ConsoleCommand>
                 </Console>
+                <p>
+                    Note: <a href="https://osxfuse.github.io/">macFUSE</a> is required for CryFS to work on macOS.
+                </p>
                 <h3>Windows</h3>
-                <p>Windows support is highly experimental. Please take caution and make regular backups.</p>
-                <p>First install:</p>
+                <p>Windows support is experimental. Please make regular backups of important data.</p>
+                <p>Prerequisites:</p>
                 <ul>
                     <li>
-                        <a href="https://github.com/dokan-dev/dokany/releases">DokanY</a>
-                        <span>&nbsp;</span>
-                        <span>(tested with DokanY 2.2.0.1000, but newer versions might work as well) and</span>
+                        <a href="https://github.com/dokan-dev/dokany/releases">DokanY</a> (version 2.2.0 or later)
                     </li>
                     <li>
                         <a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads">Microsoft Visual C++ Redistributable for Visual Studio 2022</a>
                     </li>
                 </ul>
-                <p>And then install CryFS:</p>
+                <p>Download CryFS:</p>
                 <ul>
                     <li>
-                        <a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi">CryFS x64</a> (<a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi.asc">signature</a>)
+                        <a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi">CryFS {VersionNumber} (64-bit)</a> (<a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi.asc">signature</a>)
                     </li>
                 </ul>
             </>

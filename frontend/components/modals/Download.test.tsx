@@ -92,13 +92,13 @@ describe('DownloadModal', () => {
       // There may be multiple "Easy Install" headings (Ubuntu and Debian)
       const easyInstalls = screen.getAllByText('Easy Install');
       expect(easyInstalls.length).toBeGreaterThan(0);
-      expect(screen.getByText(/Ubuntu 17.04 and later/)).toBeInTheDocument();
+      expect(screen.getByText(/CryFS is available in the official Ubuntu repositories/)).toBeInTheDocument();
     });
 
-    it('shows alternative build from source option', () => {
+    it('shows build from source option', () => {
       render(<DownloadModal />);
-      // There may be multiple "Alternative: Build from source" sections
-      const alternatives = screen.getAllByText('Alternative: Build from source');
+      // There may be multiple "Build from Source" sections
+      const alternatives = screen.getAllByText('Build from Source');
       expect(alternatives.length).toBeGreaterThan(0);
     });
   });
@@ -112,7 +112,7 @@ describe('DownloadModal', () => {
       await user.click(screen.getByText('Debian'));
 
       // Debian content should be visible
-      expect(screen.getByText(/Debian Stretch and later/)).toBeInTheDocument();
+      expect(screen.getByText(/CryFS is available in the official Debian repositories/)).toBeInTheDocument();
     });
 
     it('switches to Other tab when clicked', async () => {
@@ -124,7 +124,7 @@ describe('DownloadModal', () => {
 
       // Other content should be visible
       expect(screen.getByText('Other Linux')).toBeInTheDocument();
-      expect(screen.getByText('Mac OS X')).toBeInTheDocument();
+      expect(screen.getByText('macOS')).toBeInTheDocument();
       expect(screen.getByText('Windows')).toBeInTheDocument();
     });
 
@@ -179,7 +179,7 @@ describe('DownloadModal', () => {
 
       await user.click(screen.getByText('Other'));
 
-      expect(screen.getByText(/Windows support is highly experimental/)).toBeInTheDocument();
+      expect(screen.getByText(/Windows support is experimental/)).toBeInTheDocument();
     });
 
     it('shows DokanY link', async () => {
@@ -211,7 +211,7 @@ describe('DownloadModal', () => {
 
       await user.click(screen.getByText('Other'));
 
-      expect(screen.getByRole('link', { name: /CryFS x64/i })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /CryFS.*64-bit/i })).toBeInTheDocument();
     });
   });
 
@@ -220,7 +220,7 @@ describe('DownloadModal', () => {
       render(<DownloadModal />);
 
       // Check that Ubuntu content is visible
-      expect(screen.getByText(/Ubuntu 17.04 and later/)).toBeInTheDocument();
+      expect(screen.getByText(/CryFS is available in the official Ubuntu repositories/)).toBeInTheDocument();
     });
 
     it('maintains tab state after multiple switches', async () => {
@@ -229,7 +229,7 @@ describe('DownloadModal', () => {
 
       // Switch to Debian
       await user.click(screen.getByText('Debian'));
-      expect(screen.getByText(/Debian Stretch and later/)).toBeInTheDocument();
+      expect(screen.getByText(/CryFS is available in the official Debian repositories/)).toBeInTheDocument();
 
       // Switch to Other
       await user.click(screen.getByText('Other'));
@@ -237,7 +237,7 @@ describe('DownloadModal', () => {
 
       // Switch back to Ubuntu
       await user.click(screen.getByText('Ubuntu'));
-      expect(screen.getByText(/Ubuntu 17.04 and later/)).toBeInTheDocument();
+      expect(screen.getByText(/CryFS is available in the official Ubuntu repositories/)).toBeInTheDocument();
     });
 
     it('does not re-trigger analytics when clicking active tab', async () => {
