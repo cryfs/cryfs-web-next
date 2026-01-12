@@ -1,4 +1,4 @@
-import Image from 'next-export-optimize-images/image'
+import Picture from 'next-export-optimize-images/picture'
 import AlternatingSections from '../components/AlternatingSections'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
@@ -33,7 +33,7 @@ import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, Co
 <Container>
 <Row>
     <Col md={{size: 8, offset: 2}}>
-        <Image src={ComparisonImg} style={{marginTop: '5px', marginBottom: '30px', width: '100%', height: 'auto'}} alt="Encrypting your Dropbox" />
+        <Picture src={ComparisonImg} style={{marginTop: '5px', marginBottom: '30px', width: '100%', height: 'auto'}} alt="Encrypting your Dropbox" />
     </Col>
 </Row>
 <div style={{color: '#777', fontSize: '14px'}}>
@@ -84,7 +84,7 @@ This is why we only describe open source solutions here.
 
 <Row>
 <Col md="6">
-    <Image src={VeraCryptImg} alt="VeraCrypt" className={styles.image} />
+    <Picture src={VeraCryptImg} alt="VeraCrypt" className={styles.image} />
 </Col>
 <Col md="6">
 
@@ -144,7 +144,7 @@ This solves the problem we described for VeraCrypt.
 
 </Col>
 <Col md="6">
-<Image src={GocryptfsImg} alt="Gocryptfs" className={styles.image} />
+<Picture src={GocryptfsImg} alt="Gocryptfs" className={styles.image} />
 </Col>
 </Row>
 
@@ -180,7 +180,7 @@ The [alternatives](https://www.cryfs.org) mentioned above do also protect agains
 
 <Row>
 <Col md="6">
-<Image src={EncfsImg} alt="EncFS" className={styles.image} />
+<Picture src={EncfsImg} alt="EncFS" className={styles.image} />
 </Col>
 <Col md="6">
 
@@ -235,7 +235,7 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 
 </Col>
 <Col md="7">
-<Image src={ECryptFsImg} alt="eCryptfs" className={styles.image} />
+<Picture src={ECryptFsImg} alt="eCryptfs" className={styles.image} />
 </Col>
 </Row>
 
@@ -248,7 +248,7 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 
 <Row>
 <Col md="6">
-<Image src={CryFsImg} alt="CryFS" className={styles.image} />
+<Picture src={CryFsImg} alt="CryFS" className={styles.image} />
 </Col>
 <Col md="5">
 

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import Image from 'next-export-optimize-images/image';
+import Picture from 'next-export-optimize-images/picture';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -79,7 +79,7 @@ const tabs = (): TabDefinition[] => [
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <Image src={UbuntuLogo} alt="Ubuntu" width={61} height={61} />
+                    <Picture src={UbuntuLogo} alt="Ubuntu" width={61} height={61} />
                 </Col>
                 <Col md="12" className={styles.osName}>
                     Ubuntu
@@ -107,7 +107,7 @@ const tabs = (): TabDefinition[] => [
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <Image src={DebianLogo} alt="Debian" width={50} height={61} />
+                    <Picture src={DebianLogo} alt="Debian" width={50} height={61} />
                 </Col>
                 <Col md="12" className={styles.osName}>
                     Debian
@@ -135,7 +135,7 @@ const tabs = (): TabDefinition[] => [
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <Image src={OtherLogo} alt="Other" width={61} height={61} />
+                    <Picture src={OtherLogo} alt="Other" width={61} height={61} />
                 </Col>
                 <Col md="12" className={styles.osName}>
                     Other

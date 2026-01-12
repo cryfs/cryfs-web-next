@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Image from 'next-export-optimize-images/image';
+import Picture from 'next-export-optimize-images/picture';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Container from 'react-bootstrap/Container';
@@ -51,7 +51,7 @@ function MyNavBar() {
 const GithubRibbon = () => (
     <a href="https://github.com/cryfs/cryfs">
         {/*TODO Translate*/}
-        <Image
+        <Picture
             src={githubRibbon}
             alt="Fork me on GitHub"
             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"

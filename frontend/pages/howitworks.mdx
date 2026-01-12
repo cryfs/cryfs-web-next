@@ -1,4 +1,4 @@
-import Image from 'next-export-optimize-images/image'
+import Picture from 'next-export-optimize-images/picture'
 import AlternatingSections from '../components/AlternatingSections'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
@@ -31,7 +31,7 @@ import ConfigfileEncryptionImg from '../assets/images/configfileencryption.png'
 ## Storing data
 <Row>
 <Col md="4">
-<Image src={StoringDataImg} alt="Your files, metadata and directory structure are stored as a set of same-size blocks, encrypted, and stored in the cloud." style={{maxWidth: "100%", height: "auto"}} />
+<Picture src={StoringDataImg} alt="Your files, metadata and directory structure are stored as a set of same-size blocks, encrypted, and stored in the cloud." style={{maxWidth: "100%", height: "auto"}} />
 </Col>
 <Col md="8">
 
@@ -88,7 +88,7 @@ Then, it decrypts the first layer and reads the cipher chosen by the user.
 Using this cipher, it decrypts the second layer and reads the configuration values.
 </Col>
 <Col md="4" style={{marginTop: '20px'}}>
-<Image src={ConfigfileEncryptionImg} alt="Configuration File Encryption Layers" style={{maxWidth: "100%", height: "auto"}} />
+<Picture src={ConfigfileEncryptionImg} alt="Configuration File Encryption Layers" style={{maxWidth: "100%", height: "auto"}} />
 </Col>
 </Row>
 
