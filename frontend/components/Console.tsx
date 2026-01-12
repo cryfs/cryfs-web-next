@@ -12,7 +12,7 @@ export const Console = (props: ConsoleProps) => (
 
 type ConsoleCommandProps = {
     children: React.ReactNode;
-    className?: string;
+    className?: string | undefined;
 }
 
 export const ConsoleCommand = ({ children, className }: ConsoleCommandProps) => (

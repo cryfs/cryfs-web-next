@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Script from 'next/script'
 
 const google_analytics_id = "UA-65863982-1"

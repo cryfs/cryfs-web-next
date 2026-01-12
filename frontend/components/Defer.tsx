@@ -1,7 +1,7 @@
 type Deferred<T> = {
-    promise?: Promise<T>,
-    resolve?: (value: T) => void,
-    reject?: (error: Error) => void
+    promise: Promise<T>,
+    resolve: (value: T) => void,
+    reject: (error: Error) => void
 }
 
 /*
@@ -11,19 +11,21 @@ type Deferred<T> = {
    promise.resolve("value")
    const value = await promise
  */
-const Defer = <T,>() => {
-    let deferred: Deferred<T> = {
-        promise: undefined,
-        resolve: undefined,
-        reject: undefined,
-    }
+const Defer = <T,>(): Deferred<T> => {
+    let resolveFunc: ((value: T) => void) | undefined;
+    let rejectFunc: ((error: Error) => void) | undefined;
 
-    deferred.promise = new Promise((resolve, reject) => {
-        deferred.resolve = resolve;
-        deferred.reject = reject;
-    })
+    const promise = new Promise<T>((resolve, reject) => {
+        resolveFunc = resolve;
+        rejectFunc = reject;
+    });
 
-    return deferred
+    // These are guaranteed to be set after Promise constructor runs
+    return {
+        promise,
+        resolve: resolveFunc!,
+        reject: rejectFunc!,
+    };
 }
 
 export default Defer

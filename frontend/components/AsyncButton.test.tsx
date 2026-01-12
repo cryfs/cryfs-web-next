@@ -135,14 +135,14 @@ describe('AsyncButton', () => {
     expect(handleClick).toHaveBeenCalled();
   });
 
-  it('forwards additional props to the Button component', () => {
+  it('forwards variant prop to the Button component', () => {
     render(
-      <AsyncButton onClick={jest.fn()} color="primary" data-testid="async-btn">
+      <AsyncButton onClick={jest.fn()} variant="primary">
         Submit
       </AsyncButton>
     );
 
-    expect(screen.getByTestId('async-btn')).toBeInTheDocument();
+    expect(screen.getByRole('button')).toHaveClass('btn-primary');
   });
 
   it('handles synchronous onClick handlers', async () => {

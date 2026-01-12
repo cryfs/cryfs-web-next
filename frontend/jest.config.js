@@ -1,12 +1,14 @@
+// @ts-check
 const nextJest = require('next/jest');
 
 const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files
+  // Provide the path to your Next.js app to load next.config.ts and .env files
   dir: './',
 });
 
+/** @type {import('jest').Config} */
 const customJestConfig = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     // Handle module aliases
@@ -31,13 +33,13 @@ const customJestConfig = {
     '<rootDir>/.next/',
   ],
   collectCoverageFrom: [
-    'components/**/*.{js,jsx,ts,tsx}',
-    'pages/**/*.{js,jsx,ts,tsx}',
+    'components/**/*.{ts,tsx}',
+    'pages/**/*.{ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
   ],
   testMatch: [
-    '**/*.test.{js,jsx,ts,tsx}',
+    '**/*.test.{ts,tsx}',
   ],
 };
 

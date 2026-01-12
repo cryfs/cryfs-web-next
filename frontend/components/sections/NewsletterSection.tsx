@@ -50,7 +50,7 @@ function NewsletterSection() {
                     setNotification('error_unknown');
                 }
             }
-        } catch (err) {
+        } catch {
             setNotification('error_unknown');
         }
     };
@@ -79,20 +79,20 @@ function NewsletterSection() {
                         </Col>
                     </Row>
                 </Form>
-                <Collapse in={notification !== ''} className={styles.notificationArea}>
+                <Collapse in={notification !== ''} className={styles.notificationArea ?? ''}>
                     <div>
                         {/*TODO Translate*/}
-                        <Collapse in={notification === 'success'} className={`lead ${styles.notificationSuccess}`}>
+                        <Collapse in={notification === 'success'} className={`lead ${styles.notificationSuccess ?? ''}`}>
                             <div>Thank you. You&apos;ll get a confirmation email shortly.</div>
                         </Collapse>
-                        <Collapse in={notification === 'error_invalid_email'} className={`lead ${styles.notificationError}`}>
+                        <Collapse in={notification === 'error_invalid_email'} className={`lead ${styles.notificationError ?? ''}`}>
                             <div>Invalid email address.</div>
                         </Collapse>
-                        <Collapse in={notification === 'error_unsubscribed'} className={`lead ${styles.notificationError}`}>
+                        <Collapse in={notification === 'error_unsubscribed'} className={`lead ${styles.notificationError ?? ''}`}>
                             <div>You&apos;ve unsubscribed before and we can&apos;t resubscribe you to protect against spam. Please send an
                                 email to messmer@cryfs.org.</div>
                         </Collapse>
-                        <Collapse in={notification === 'error_unknown'} className={`lead ${styles.notificationError}`}>
+                        <Collapse in={notification === 'error_unknown'} className={`lead ${styles.notificationError ?? ''}`}>
                             <div>An error occurred. Please subscribe by sending an email to messmer@cryfs.org.</div>
                         </Collapse>
                     </div>
