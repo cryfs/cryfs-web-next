@@ -97,7 +97,7 @@ describe('secret', () => {
 
     expect(mockSend).toHaveBeenCalledTimes(1);
     const calls = mockSend.mock.calls as Array<[{ input: Record<string, unknown> }]>;
-    const command = calls[0][0];
+    const command = calls[0]![0];
     expect(command).toBeInstanceOf(GetParametersCommand);
     expect(command.input).toEqual({
       Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID'],

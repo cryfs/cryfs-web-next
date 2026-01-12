@@ -30,7 +30,7 @@ describe('email_myself', () => {
 
     expect(mockSend).toHaveBeenCalledTimes(1);
     const calls = mockSend.mock.calls as Array<[{ input: Record<string, unknown> }]>;
-    const command = calls[0][0];
+    const command = calls[0]![0];
     expect(command).toBeInstanceOf(SendEmailCommand);
     expect(command.input).toEqual({
       Source: 'Test Sender <messmer@cryfs.org>',
@@ -46,7 +46,7 @@ describe('email_myself', () => {
     await email_myself('Sender', 'Subject', 'Message', 'reply@example.com');
 
     const calls = mockSend.mock.calls as Array<[{ input: Record<string, unknown> }]>;
-    const command = calls[0][0];
+    const command = calls[0]![0];
     expect(command.input.ReplyToAddresses).toEqual(['reply@example.com']);
   });
 
@@ -54,7 +54,7 @@ describe('email_myself', () => {
     await email_myself('Sender', 'Subject', 'Message', undefined);
 
     const calls = mockSend.mock.calls as Array<[{ input: Record<string, unknown> }]>;
-    const command = calls[0][0];
+    const command = calls[0]![0];
     expect(command.input).not.toHaveProperty('ReplyToAddresses');
   });
 
@@ -62,7 +62,7 @@ describe('email_myself', () => {
     await email_myself('Sender', 'Subject', 'Message', '');
 
     const calls = mockSend.mock.calls as Array<[{ input: Record<string, unknown> }]>;
-    const command = calls[0][0];
+    const command = calls[0]![0];
     expect(command.input).not.toHaveProperty('ReplyToAddresses');
   });
 });

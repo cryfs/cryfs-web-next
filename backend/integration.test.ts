@@ -137,7 +137,7 @@ describe('Integration Tests', () => {
       expect(sesClient.__mockSend).toHaveBeenCalledTimes(1);
       type EmailInput = { input: { Destination: { ToAddresses: string[] }; Message: { Subject: { Data: string }; Body: { Text: { Data: string } } }; ReplyToAddresses: string[] } };
       const calls = sesClient.__mockSend.mock.calls as Array<[EmailInput]>;
-      const command = calls[0][0];
+      const command = calls[0]![0];
       expect(command).toBeInstanceOf(sesClient.SendEmailCommand);
       expect(command.input.Destination.ToAddresses).toEqual(['messmer@cryfs.org']);
       expect(command.input.Message.Subject.Data).toContain('visitor@example.com');
@@ -166,7 +166,7 @@ describe('Integration Tests', () => {
       expect(sesClient.__mockSend).toHaveBeenCalled();
       type ErrorEmailInput = { input: { Message: { Subject: { Data: string } } } };
       const calls = sesClient.__mockSend.mock.calls as Array<[ErrorEmailInput]>;
-      const command = calls[0][0];
+      const command = calls[0]![0];
       expect(command.input.Message.Subject.Data).toContain('Error');
     });
   });
@@ -189,7 +189,7 @@ describe('Integration Tests', () => {
       expect(ssmClient.__mockSend).toHaveBeenCalledTimes(1);
       type SSMInput = { input: Record<string, unknown> };
       const calls = ssmClient.__mockSend.mock.calls as Array<[SSMInput]>;
-      const command = calls[0][0];
+      const command = calls[0]![0];
       expect(command).toBeInstanceOf(ssmClient.GetParametersCommand);
       expect(command.input).toEqual({
         Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID'],
