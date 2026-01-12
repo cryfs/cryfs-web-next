@@ -21,40 +21,40 @@ import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, Co
     title="CryFS: Comparison of encrypted cloud storage solutions"
     url="https://www.cryfs.org/comparison"
     type="article"
-    description="Encrypting your Dropbox is easy. Find out about the possible solutions and their pros and cons."
+    description="Encrypt your Dropbox, Google Drive, OneDrive, or other cloud storage. Compare encryption tools and find the right solution for your needs."
 />
 
 <Layout>
 <AlternatingSections start_index={1}>
-<ContentHeaderSection title="Encrypt your Dropbox" subtitle="You want to encrypt your Dropbox and don't know which tool to use? Read on.">
+<ContentHeaderSection title="Encrypt your Cloud Storage" subtitle="Want to encrypt your Dropbox, Google Drive, OneDrive, or other cloud storage? Here's how to choose the right tool.">
 </ContentHeaderSection>
 
 <section>
 <Container>
 <Row>
     <Col md={{size: 8, offset: 2}}>
-        <Picture src={ComparisonImg} style={{marginTop: '5px', marginBottom: '30px', width: '100%', height: 'auto'}} alt="Encrypting your Dropbox" />
+        <Picture src={ComparisonImg} style={{marginTop: '5px', marginBottom: '30px', width: '100%', height: 'auto'}} alt="Encrypting your cloud storage" />
     </Col>
 </Row>
 <div style={{color: '#777', fontSize: '14px'}}>
     Disclaimer: This article is written by the developers of CryFS. We (think we) kept it objective and linked to sources for all information presented.
 </div>
 
-Having your data in the cloud can be very convenient. However, it can also be a risk.
-Data leaks are happening from time to time and you don't want to be the one who gets blackmailed or whose private pictures get public.
-You usually also don't want hackers to be able to modify your files and change your yearly earnings report (or whatever else you're storing in the cloud).
-Even if you trust the security measures of your cloud provider against hackers, its employees can still access your files
-and its computer systems might use your files to create a personality profile to show you targeted advertising.
+Cloud storage is incredibly convenient—access your files from anywhere, automatic backups, seamless sharing.
+But convenience comes with risks. Data breaches happen regularly, and you don't want your private photos, documents, or financial records exposed.
+Even if you trust your cloud provider's security against external hackers, their employees can still access your files,
+and their systems may analyze your data for advertising or AI training purposes.
+You also don't want attackers to be able to silently modify your files without you noticing.
 
 All these risks can be avoided when you encrypt your files before uploading them.
 You could add important files to a zip archive and set a password for example.
 However, that is complicated and you would have to zip/unzip the archive each time you want to access your files.
 
-More convenient solutions offer the concept of a virtual filesystem.
-That is, you enter your password (which is called <var>mounting</var> the virtual filesystem) and then get a directory
-on your computer where you can work with your files as if it was a normal directory.
-In reality, the directory is not stored to your harddrive, but all content is encrypted and only the encrypted data is stored and synchronized to the cloud.
-All this happens in the background and you don't notice it when working with your files, so it is very convenient.
+Better solutions use the concept of a virtual filesystem.
+You enter your password (called <var>mounting</var> the filesystem) and get a directory
+where you can work with your files normally.
+Behind the scenes, everything is encrypted—only the encrypted data is stored and synchronized to the cloud.
+This happens transparently, so you get strong security without changing how you work.
 
 In the following, we will explain the available tools and explain how they can be used with cloud storage.
 If you're just interested in the results, <a href="#summary">scroll down</a>.
@@ -65,11 +65,18 @@ If you're just interested in the results, <a href="#summary">scroll down</a>.
 <Container>
 
 ## Proprietary Solutions
-There are some proprietary solutions on the market, but that means you don't know what the software is doing.
+There are proprietary solutions on the market, but that means you don't know what the software is doing.
 Nobody can check it for vulnerabilities or backdoors.
 It might be secure, or it might just as well not be.
 The developers might have been approached by government organizations and have been forced to put backdoors into the software.
 Or maybe hackers found a way to smuggle bad code into the software and nobody noticed.
+
+A recent example illustrates another risk of proprietary solutions: **Boxcryptor**, once a popular cloud encryption tool,
+was [acquired by Dropbox in late 2022](https://www.boxcryptor.com/en/blog/post/new-chapter-for-boxcryptor/)
+and abruptly discontinued. Users had to scramble to decrypt their files and find alternatives.
+With open-source tools, even if the original developers abandon the project, the community can continue maintaining it
+or users can at least always access their data.
+
 In short: It's a bad idea to use proprietary cryptography software.
 For open source cryptography software, the source code is open. Everyone can see and check it.
 Vulnerabilities can be found and fixed, backdoors can be noticed.
@@ -89,8 +96,8 @@ This is why we only describe open source solutions here.
 <Col md="6">
 
 [TrueCrypt has been discontinued](http://truecrypt.sourceforge.net/)
-some time ago and [has some vulnerabilities](http://www.pcworld.com/article/2987439/encryption/newly-found-truecrypt-flaw-allows-full-system-compromise.html),
-so we will focus on its (inofficial) successor [VeraCrypt](https://veracrypt.io/) here.
+and [has known vulnerabilities](http://www.pcworld.com/article/2987439/encryption/newly-found-truecrypt-flaw-allows-full-system-compromise.html),
+so we will focus on its successor [VeraCrypt](https://veracrypt.io/) here.
 
 VeraCrypt runs on Windows, Linux and Mac, and is believed to be a secure encryption tool to encrypt your files locally.
 It keeps your files confidential, but does not protect the integrity, i.e. a hacker can't read your files, but they could modify them without you noticing.
@@ -248,19 +255,19 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 </Col>
 <Col md="5">
 
-Since all of the solutions above have significant disadvantages when used with Dropbox,
+Since all of the solutions above have significant disadvantages when used with cloud storage,
 we developed [CryFS](https://www.cryfs.org).
 Like all other solutions described here, it offers a virtual filesystem and you can work with your files without thinking about the
 encryption that is happening in the background.
 While it can also be used for local encryption as an alternative to the other tools listed here,
-it was built specifically to be used together with Dropbox or other cloud storage providers.
-It supports Linux and Mac, and since version 0.10 has experimental Windows support.
+it was built specifically to be used together with cloud storage providers like Dropbox, Google Drive, OneDrive, and others.
+It supports Linux, Mac, and has experimental Windows support since version 0.10.
 
 </Col>
 <Col md="12">
 
-CryFS follows established security standards and is the only tool in this list that works well together with Dropbox
-and is secure. As opposed to VeraCrypt, it keeps its data in small encrypted blocks and changing a small file
+CryFS follows established security standards and is the only tool in this list that works well together with cloud storage
+while providing comprehensive security. As opposed to VeraCrypt, it keeps its data in small encrypted blocks and changing a small file
 results in only a small amount of data to be re-uploaded.
 As opposed to gocryptfs, EncFS and eCryptfs, it doesn't only encrypt your file contents, but also file sizes, file metadata and
 directory structure. See <a href="#metadata-encryption">why metadata encryption matters</a> to understand how much information can leak through unencrypted metadata.
@@ -270,9 +277,8 @@ As far as we know, CryFS is the only solution in this list for which this has be
 
 CryFS offers confidentiality and, since version 0.10, also integrity of your data. This means, attackers cannot read your files, file sizes
 or directory structure, and also prevents attackers from modifying any of that.
-The main drawback of CryFS is that it is relatively new.
-The current version is not considered stable yet by the developers and if you decide to use it, regular backups are strongly recommended.
-It has gotten quite a bit more stable recently though and is successfully used in a lot of settings already.
+CryFS has been actively developed since 2015 and is now a mature, stable solution used by thousands of users.
+As with any encryption tool, regular backups are still recommended as a best practice.
 
 The increase in security when compared to other file systems comes at a performance cost.
 CryFS is fast enough to be used in practice.
@@ -328,9 +334,8 @@ There are many tools available, but most have not been designed to be used in th
 Gocrypfs, EncFS and eCryptfs don't encrypt directory structure. EncFS has [unpatched security vulnerabilities](https://defuse.ca/audits/encfs.htm) and is no longer actively maintained.
 eCryptfs might cause crashes or undefined behavior if there is more than one device connected to your Dropbox.
 VeraCrypt works, as long as your container file is small, i.e. you don't mind synchronizing the whole container file on each change, and if you always let it finish synchronization before modifying the files on another computer.
-CryFS solves all of these issues, but because of the increased security it is a bit slower.
-It is also a very new project and currently only available for Linux and Mac, but has experimental Windows support in the newest version.
-So if you don't need Windows support today, you can give it a try.
+CryFS solves all of these issues, but the increased security comes with a slight performance trade-off.
+CryFS is available for Linux and Mac, with experimental Windows support since version 0.10.
 
 <ComparisonTable>
     <ComparisonTableHead>
@@ -355,7 +360,7 @@ So if you don't need Windows support today, you can give it a try.
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
         </ComparisonTableRow>
-        <ComparisonTableRow title="Works together with Dropbox">
+        <ComparisonTableRow title="Works well with cloud storage">
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
