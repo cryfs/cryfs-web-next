@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next-export-optimize-images/image';
+import Picture from 'next-export-optimize-images/picture';
 import Button from 'react-bootstrap/Button';
 import Link from "next/link";
 import { logAnalyticsEvent } from './Analytics';
@@ -25,7 +25,7 @@ const Teaser = () => (
             <div className="clearfix">
                 <div className={styles.mdContent}>
                     <div className={styles.mdImage}>
-                        <Image
+                        <Picture
                             src={teaserImage}
                             alt=""
                             fill
@@ -54,7 +54,7 @@ const Teaser = () => (
             <div className="clearfix">
                 <div className={styles.smContent}>
                     <div className={`${styles.smImage} text-center`}>
-                        <Image src={logoImage} alt="Logo" width={200} height={150} />
+                        <Picture src={logoImage} alt="Logo" width={200} height={150} />
                         <div className="lead text-center title-text">
                             <h1 className={styles.smTitleTextH1}>{teaser_header}</h1>
                             <p className={styles.smTitleTextP}>{teaser_paragraph1}</p>
