@@ -93,10 +93,7 @@ describe('RoutingListener', () => {
 
       await listener.onRouteChangeComplete('https://example.com/another/path');
 
-      // Note: There's an off-by-one bug in the source code for HTTPS URLs
-      // (indexOf('/', 7) finds the second '/' in "https://" at position 7)
-      // The expected behavior would be '/another/path', but actual is:
-      expect(listener.url).toBe('/example.com/another/path');
+      expect(listener.url).toBe('/another/path');
     });
 
     it('calls all registered callbacks with the URL', async () => {

@@ -30,8 +30,10 @@ export class RoutingListener {
     onRouteChangeComplete = async (url: string) => {
         this.url = url
         if (this.url.startsWith("http://") || this.url.startsWith("https://")) {
-            // Make it a relative URL
-            this.url = this.url.substr(this.url.indexOf('/', 7))
+            // Make it a relative URL. Skip past the protocol slashes:
+            // "http://".length = 7, "https://".length = 8
+            const protocolLength = this.url.startsWith("https://") ? 8 : 7
+            this.url = this.url.substring(this.url.indexOf('/', protocolLength))
         }
 
         const promises = this.onChangeCallbacks.map(async (callback) => {
