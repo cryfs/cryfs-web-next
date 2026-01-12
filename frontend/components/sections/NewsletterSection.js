@@ -10,74 +10,55 @@ import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
 import fetch from 'unfetch'
 import AsyncButton from "../AsyncButton";
 import { logAnalyticsEvent } from '../Analytics'
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './NewsletterSection.module.css';
 
-class NewsletterSection extends React.Component {
-    constructor(props) {
-        super(props)
+function NewsletterSection() {
+    const [email, setEmail] = useState('');
+    const [notification, setNotification] = useState('');
 
-        this.state = {
-            email: '',
-        }
-    }
+    const onEmailChange = (val) => {
+        setEmail(val.target.value);
+    };
 
-    onEmailChange = (val) => {
-        this.setState({
-            email: val.target.value,
-        })
-    }
+    const onSubmit = async () => {
+        setNotification('');
 
-    onSubmit = async () => {
-        this.setState({
-            notification: '',
-        })
-
-        await logAnalyticsEvent('interested_user_form', 'click')
+        await logAnalyticsEvent('interested_user_form', 'click');
 
         try {
             const response = await fetch('https://backend.cryfs.org/newsletter/register', {
                 method: 'POST',
                 header: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    email: this.state.email,
+                    email: email,
                     token: 'fd0kAn1zns',
                 }),
-            })
+            });
 
             if (response.ok) {
-                await logAnalyticsEvent('interested_user_form', 'success')
-                this.setState({
-                    notification: 'success',
-                })
+                await logAnalyticsEvent('interested_user_form', 'success');
+                setNotification('success');
             } else {
-                await logAnalyticsEvent('interested_user_form', 'error')
-                const body = await response.json()
-                const reason = body['error']
+                await logAnalyticsEvent('interested_user_form', 'error');
+                const body = await response.json();
+                const reason = body['error'];
                 if (reason === 'invalid-email') {
-                    this.setState({
-                        notification: 'error_invalid_email',
-                    })
+                    setNotification('error_invalid_email');
                 } else if (reason === 'unsubscribed') {
-                    this.setState({
-                        notification: 'error_unsubscribed',
-                    })
+                    setNotification('error_unsubscribed');
                 } else {
-                    console.log(`Unknown error response: ${reason}`)
-                    this.setState({
-                        notification: 'error_unknown',
-                    })
+                    console.log(`Unknown error response: ${reason}`);
+                    setNotification('error_unknown');
                 }
             }
         } catch (err) {
-            this.setState({
-                notification: 'error_unknown',
-            })
+            setNotification('error_unknown');
         }
-    }
+    };
 
-    render = () => {
-        return <Container className="text-center">
+    return (
+        <Container className="text-center">
             {/*TODO Translate*/}
             <h2>Get notified when there are updates!</h2>
             <div className={styles.registrationBox}>
@@ -87,12 +68,12 @@ class NewsletterSection extends React.Component {
                             <Form.Group>
                                 <Form.Label htmlFor="inputEmail" className="visually-hidden">Email Address:</Form.Label>
                                 <Form.Control type="email" name="email" id="inputEmail" placeholder="Enter email" required={true}
-                                    autoComplete="off" value={this.state.email} onChange={this.onEmailChange} />
+                                    autoComplete="off" value={email} onChange={onEmailChange} />
                             </Form.Group>
                         </Col>
                         <Col md={{ span: 2, offset: 0 }}>
                             <Form.Group>
-                                <AsyncButton type="Submit" onClick={this.onSubmit} variant="primary" block={true}>
+                                <AsyncButton type="Submit" onClick={onSubmit} variant="primary" block={true}>
                                     Get Notified &nbsp;
                                     <FontAwesomeIcon icon={faAngleDoubleRight} />
                                 </AsyncButton>
@@ -100,27 +81,27 @@ class NewsletterSection extends React.Component {
                         </Col>
                     </Row>
                 </Form>
-                <Collapse in={this.state.notification != ''} className={styles.notificationArea}>
+                <Collapse in={notification !== ''} className={styles.notificationArea}>
                     <div>
                         {/*TODO Translate*/}
-                        <Collapse in={this.state.notification == 'success'} className={`lead ${styles.notificationSuccess}`}>
+                        <Collapse in={notification === 'success'} className={`lead ${styles.notificationSuccess}`}>
                             <div>Thank you. You&apos;ll get a confirmation email shortly.</div>
                         </Collapse>
-                        <Collapse in={this.state.notification == 'error_invalid_email'} className={`lead ${styles.notificationError}`}>
+                        <Collapse in={notification === 'error_invalid_email'} className={`lead ${styles.notificationError}`}>
                             <div>Invalid email address.</div>
                         </Collapse>
-                        <Collapse in={this.state.notification == 'error_unsubscribed'} className={`lead ${styles.notificationError}`}>
+                        <Collapse in={notification === 'error_unsubscribed'} className={`lead ${styles.notificationError}`}>
                             <div>You&apos;ve unsubscribed before and we can&apos;t resubscribe you to protect against spam. Please send an
                             email to messmer@cryfs.org.</div>
                         </Collapse>
-                        <Collapse in={this.state.notification == 'error_unknown'} className={`lead ${styles.notificationError}`}>
+                        <Collapse in={notification === 'error_unknown'} className={`lead ${styles.notificationError}`}>
                             <div>An error occurred. Please subscribe by sending an email to messmer@cryfs.org.</div>
                         </Collapse>
                     </div>
                 </Collapse>
             </div>
         </Container>
-    }
+    );
 }
 
 export default NewsletterSection

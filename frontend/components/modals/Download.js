@@ -1,6 +1,6 @@
 "use strict";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next-export-optimize-images/image';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
@@ -18,66 +18,48 @@ import classnames from 'classnames'
 import { logAnalyticsEvent } from '../Analytics'
 import styles from './Download.module.css';
 
-class Tabs extends React.Component {
-    constructor(props) {
-        super(props)
+function Tabs({ tabs: tabsFunc, initiallyActive }) {
+    const [activeTab, setActiveTab] = useState(typeof initiallyActive === "undefined" ? 0 : initiallyActive);
 
-        this.state = {
-            activeTab: ((typeof this.props.initiallyActive == "undefined") ? 0 : this.props.initiallyActive),
+    const toggle = async (tabIndex) => {
+        const tab_analytics_name = tabsFunc()[tabIndex].analytics_name;
+        await logAnalyticsEvent('download', `click_${tab_analytics_name}_tab`);
+        if (activeTab !== tabIndex) {
+            setActiveTab(tabIndex);
         }
-    }
+    };
 
-    toggle = async (tabIndex) => {
-        const tab_analytics_name = this.props.tabs()[tabIndex].analytics_name
-        await logAnalyticsEvent('download', `click_${tab_analytics_name}_tab`)
-        if (this.state.activeTab !== tabIndex) {
-            this.setState({
-                activeTab: tabIndex
-            })
-        }
-    }
+    const renderTabHeaders = () => {
+        return tabsFunc().map((tab, index) => (
+            <Col md="4" key={index}>
+                <Nav.Item className={styles.tabHeader}>
+                    <Nav.Link className={classnames({ active: activeTab === index })}
+                        onClick={async () => { await toggle(index); }}>
+                        {tab.header}
+                    </Nav.Link>
+                </Nav.Item>
+            </Col>
+        ));
+    };
 
-    renderTabHeaders = () => {
-        let index = -1
+    const renderTabBodies = () => {
+        return tabsFunc().map((tab, index) => (
+            <Tab.Pane eventKey={index} key={index}>
+                {tab.body}
+            </Tab.Pane>
+        ));
+    };
 
-        return this.props.tabs().map((tab) => {
-            index += 1
-
-            return ((index) => (
-                <Col md="4" key={index}>
-                    <Nav.Item className={styles.tabHeader}>
-                        <Nav.Link className={classnames({ active: this.state.activeTab === index })}
-                            onClick={async () => { await this.toggle(index) }}>
-                            {tab.header}
-                        </Nav.Link>
-                    </Nav.Item>
-                </Col>))(index)
-        })
-    }
-
-    renderTabBodies = () => {
-        let index = -1
-
-        return this.props.tabs().map((tab) => {
-            index += 1
-
-            return ((index) => (
-                <Tab.Pane eventKey={index} key={index}>
-                    {tab.body}
-                </Tab.Pane>))(index)
-        })
-    }
-
-    render = () => (
-        <Tab.Container activeKey={this.state.activeTab}>
+    return (
+        <Tab.Container activeKey={activeTab}>
             <Nav variant="tabs" className="row">
-                {this.renderTabHeaders()}
+                {renderTabHeaders()}
             </Nav>
             <Tab.Content className={styles.tabContent}>
-                {this.renderTabBodies()}
+                {renderTabBodies()}
             </Tab.Content>
         </Tab.Container>
-    )
+    );
 }
 
 const tabs = () => [

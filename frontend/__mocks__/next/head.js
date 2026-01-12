@@ -1,7 +1,8 @@
 const React = require('react');
 
 const Head = ({ children }) => {
-  return React.createElement(React.Fragment, null, children);
+  // Render children into a div so tests can query them
+  return React.createElement('div', { 'data-testid': 'next-head' }, children);
 };
 
 module.exports = Head;

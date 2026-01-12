@@ -40,12 +40,8 @@ const Teaser = () => (
                         <h1 className={styles.mdTitleTextH1}>{teaser_header}</h1>
                         <p className={styles.mdTitleTextP}>{teaser_paragraph1}</p>
                         <p className={styles.mdTitleTextP}>
-                            <Link passHref href="/#download">
-                                <Button variant="primary" size="lg" onClick={onDownloadButtonClick}>Download</Button>
-                            </Link>
-                            <Link passHref href="/tutorial">
-                                <Button variant="info" size="lg" className={styles.tutorialButton} onClick={onTutorialButtonClick}>Tutorial</Button>
-                            </Link>
+                            <Button as={Link} href="/#download" variant="primary" size="lg" onClick={onDownloadButtonClick}>Download</Button>
+                            <Button as={Link} href="/tutorial" variant="info" size="lg" className={styles.tutorialButton} onClick={onTutorialButtonClick}>Tutorial</Button>
                         </p>
                     </div>
                 </div>

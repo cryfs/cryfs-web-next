@@ -2,7 +2,7 @@
 
 import Head from 'next/head'
 import Image from 'next-export-optimize-images/image'
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -14,47 +14,40 @@ import styles from './Layout.module.css';
 import githubRibbon from '../assets/images/github_ribbon.png';
 import favicon from '../assets/images/favicon.png';
 
-class MyNavBar extends React.Component {
-    constructor(props) {
-        super(props);
+function MyNavBar() {
+    const [isOpen, setIsOpen] = useState(false);
 
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-            isOpen: false
-        };
-    }
-    toggle = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-    }
-    render = () => {
-        return <Navbar expand="md" bg="dark" data-bs-theme="dark">
+    const toggle = () => {
+        setIsOpen(!isOpen);
+    };
+
+    return (
+        <Navbar expand="md" bg="dark" data-bs-theme="dark">
             <div className={styles.navbar}>
-                <Navbar.Toggle onClick={this.toggle} aria-controls="main-navbar" />
+                <Navbar.Toggle onClick={toggle} aria-controls="main-navbar" />
                 <Navbar.Brand href="/"><div className={styles.brand}>CryFS</div></Navbar.Brand>
-                <Navbar.Collapse in={this.state.isOpen} id="main-navbar">
+                <Navbar.Collapse in={isOpen} id="main-navbar">
                     <Nav>
                         <Nav.Item>
-                            <Link legacyBehavior passHref href="/howitworks"><Nav.Link className={styles.link}>How it works</Nav.Link></Link>
+                            <Nav.Link as={Link} href="/howitworks" className={styles.link}>How it works</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Link legacyBehavior passHref href="/tutorial"><Nav.Link className={styles.link}>Tutorial</Nav.Link></Link>
+                            <Nav.Link as={Link} href="/tutorial" className={styles.link}>Tutorial</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Link legacyBehavior passHref href="/comparison"><Nav.Link className={styles.link}>Compare</Nav.Link></Link>
+                            <Nav.Link as={Link} href="/comparison" className={styles.link}>Compare</Nav.Link>
                         </Nav.Item>
                         <Nav.Item className="d-none d-md-block">
-                            <Link legacyBehavior passHref href="/#download"><Nav.Link className={styles.link}>Download</Nav.Link></Link>
+                            <Nav.Link as={Link} href="/#download" className={styles.link}>Download</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Link legacyBehavior passHref href="/#donate"><Nav.Link className={styles.link}>Donate</Nav.Link></Link>
+                            <Nav.Link as={Link} href="/#donate" className={styles.link}>Donate</Nav.Link>
                         </Nav.Item>
                     </Nav>
                 </Navbar.Collapse>
             </div>
         </Navbar>
-    }
+    );
 }
 
 const GithubRibbon = props => (

@@ -1,71 +1,68 @@
 "use strict";
 
-import { withRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import Url from "url-parse";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { RoutingListener } from '../RoutingListener'
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-class RouteHashBasedModal extends React.Component {
-    constructor(props) {
-        super(props)
+function RouteHashBasedModal({ hash, labelledBy, header, showCloseButtonInFooter, children, ...forwardProps }) {
+    const router = useRouter();
+    const [show, setShow] = useState(() => new Url(router.asPath).hash === hash);
+    const routingListenerRef = useRef(null);
+    const currentUrlRef = useRef(router.asPath);
 
-        this.state = {
-            show: new Url(props.router.asPath).hash == this.props.hash
-        }
-
-        this.routingListener = new RoutingListener(props.router.asPath)
-        this.routingListener.addListener(this.onRouteChangeComplete)
-    }
-
-    toggle = () => {
+    const toggle = useCallback(() => {
         // When we're supposed to toggle it, we just change the URL.
         // The routing listener will then trigger onRouteChangeComplete,
         // which will take care of the actual showing/hiding of the modal.
-        if (this.state.show) {
-            const url = new Url(this.routingListener.url)
-            url.set('hash', '')
-            const newUrl = url.toString()
-            this.props.router.replace(newUrl)
+        const currentShow = new Url(currentUrlRef.current).hash === hash;
+        if (currentShow) {
+            const url = new Url(currentUrlRef.current);
+            url.set('hash', '');
+            const newUrl = url.toString();
+            router.replace(newUrl);
         } else {
-            const url = new Url(this.routingListener.url)
-            url.set('hash', this.props.hash)
-            const newUrl = url.toString()
-            this.props.router.replace(newUrl)
+            const url = new Url(currentUrlRef.current);
+            url.set('hash', hash);
+            const newUrl = url.toString();
+            router.replace(newUrl);
         }
-    }
+    }, [hash, router]);
 
-    onRouteChangeComplete = (url) => {
-        const url_ = new Url(url)
-        this.setState({
-            show: url_.hash == this.props.hash,
-        })
-    }
+    useEffect(() => {
+        const onRouteChangeComplete = (url) => {
+            currentUrlRef.current = url;
+            const url_ = new Url(url);
+            setShow(url_.hash === hash);
+        };
 
-    componentWillUnmount = () => {
-        this.routingListener.finish()
-    }
+        routingListenerRef.current = new RoutingListener(router.asPath);
+        routingListenerRef.current.addListener(onRouteChangeComplete);
 
-    render = () => {
-        let { labelledBy, header, showCloseButtonInFooter, ...forwardProps } = this.props
+        return () => {
+            if (routingListenerRef.current) {
+                routingListenerRef.current.finish();
+            }
+        };
+    }, [hash, router.asPath]);
 
-        return <Modal show={this.state.show} onHide={this.toggle} {...forwardProps}>
-            {(typeof this.props.header != 'undefined') &&
+    return (
+        <Modal show={show} onHide={toggle} {...forwardProps}>
+            {(typeof header !== 'undefined') &&
                 <Modal.Header id={labelledBy} closeButton>
                     <Modal.Title>{header}</Modal.Title>
                 </Modal.Header>
             }
-            {this.props.children}
+            {children}
             {(showCloseButtonInFooter) &&
                 <Modal.Footer>
-                    <Button variant="outline-secondary" onClick={this.toggle}>Close</Button>
+                    <Button variant="outline-secondary" onClick={toggle}>Close</Button>
                 </Modal.Footer>
             }
         </Modal>
-    }
+    );
 }
 
-const RouteHashBasedModalWithRouter = withRouter(RouteHashBasedModal)
-
-export default RouteHashBasedModalWithRouter
+export default RouteHashBasedModal

@@ -28,19 +28,8 @@ const mockRouter = {
   replace: jest.fn(() => Promise.resolve(true)),
 };
 
-jest.mock('next/dist/client/router', () => ({
-  withRouter: (Component: React.ComponentType<any>) => {
-    const WithRouter = (props: any) => (
-      <Component {...props} router={mockRouter} />
-    );
-    return WithRouter;
-  },
-  Router: {
-    events: {
-      on: jest.fn(),
-      off: jest.fn(),
-    },
-  },
+jest.mock('next/router', () => ({
+  useRouter: () => mockRouter,
 }));
 
 describe('RouteHashBasedModal', () => {

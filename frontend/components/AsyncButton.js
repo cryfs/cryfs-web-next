@@ -4,57 +4,44 @@ import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-import React from 'react';
+import React, { useState } from 'react';
 
 // A button that has a onClick handler attached which potentially takes a bit more time.
 // The button will disable itself and show a progress spinner while running the onClick handler.
-class AsyncButton extends React.Component {
-    constructor(props) {
-        super(props)
+function AsyncButton({ onClick, block, className, children, ...forwardProps }) {
+    const [running, setRunning] = useState(false);
 
-        this.state = {
-            running: false,
-        }
+    // In React Bootstrap 2.x, block prop is removed. Use w-100 class instead.
+    const buttonClassName = block ? `w-100 ${className || ''}`.trim() : className;
 
-        const {onClick, block, className, ...forwardProps} = props
-        this.onClick = onClick
-        // In React Bootstrap 2.x, block prop is removed. Use w-100 class instead.
-        this.className = block ? `w-100 ${className || ''}`.trim() : className
-        this.forwardProps = forwardProps
-    }
+    const clickHandler = async (event) => {
+        event.preventDefault();
 
-    clickHandler = async (event) => {
-        event.preventDefault()
-
-        if (this.state.running) {
+        if (running) {
             // Already running. Somehow it got triggered twice. Ignore it.
-            console.log("Button onClick handler already running. Ignore second trigger.")
-            return
+            console.log("Button onClick handler already running. Ignore second trigger.");
+            return;
         }
 
-        this.setState({
-            running: true,
-        })
+        setRunning(true);
 
         try {
-            await this.props.onClick(event)
+            await onClick(event);
         } finally {
-            this.setState({
-                running: false,
-            })
+            setRunning(false);
         }
-    }
+    };
 
-    render = () => (
-        <Button onClick={this.clickHandler} disabled={this.state.running} className={this.className} {...this.forwardProps}>
-            <Collapse in={!this.state.running}>
-                <span>{this.props.children}</span>
+    return (
+        <Button onClick={clickHandler} disabled={running} className={buttonClassName} {...forwardProps}>
+            <Collapse in={!running}>
+                <span>{children}</span>
             </Collapse>
-            <Collapse in={this.state.running}>
+            <Collapse in={running}>
                 <span><FontAwesomeIcon icon={faSpinner} className="fa-pulse" /></span>
             </Collapse>
         </Button>
-    )
+    );
 }
 
 export default AsyncButton

@@ -25,13 +25,7 @@ beforeAll(() => {
   };
 
   console.warn = (...args) => {
-    // Suppress specific warnings
-    if (
-      typeof args[0] === 'string' &&
-      args[0].includes('componentWillReceiveProps')
-    ) {
-      return;
-    }
+    // No class component warnings to suppress after React 19 migration
     originalWarn.call(console, ...args);
   };
 });
