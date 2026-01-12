@@ -3,8 +3,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ContactSection from './ContactSection';
 
-// Get the mocked fetch
-const mockFetch = require('unfetch') as jest.Mock;
+// Mock global fetch
+const mockFetch = jest.fn();
+global.fetch = mockFetch as typeof fetch;
 
 // Mock the Analytics module
 jest.mock('../Analytics', () => ({
