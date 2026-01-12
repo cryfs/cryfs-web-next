@@ -16,7 +16,7 @@ const DonateModal = () => (
                     name="donorbox"
                     frameBorder="0"
                     scrolling="no"
-                    allowFullScreen
+                    allow="payment"
                 />
             </div>
         </Modal.Body>
