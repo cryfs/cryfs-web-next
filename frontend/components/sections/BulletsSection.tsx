@@ -50,7 +50,7 @@ const BulletsSection = () => (
                 <p>Set up in minutes and forget about it. CryFS runs silently in the background while you work with your files normally — no workflow changes needed.</p>
             </BulletPoint>
             <BulletPoint title="Secure" icon={faLock} details_link_target="/howitworks">
-                <p>Nothing leaves your computer unencrypted. File contents, names, sizes, and folder structure are all protected — even if your cloud provider is breached.</p>
+                <p>Nothing leaves your computer unencrypted. File contents, metadata, and folder structure are all protected — even if your cloud provider is breached.</p>
             </BulletPoint>
             <BulletPoint title="Free & Open Source" icon={faComments} details_link_target="http://www.gnu.org/philosophy/free-sw.html" external_link={true} >
                 <p>Licensed under LGPL and fully <a href="https://github.com/cryfs/cryfs">open source on GitHub</a>. Inspect the code yourself, contribute improvements, or simply use it for free — forever.</p>
