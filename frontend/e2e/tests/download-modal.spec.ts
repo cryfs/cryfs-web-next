@@ -36,13 +36,13 @@ test.describe('Download Modal Flow', () => {
     const debianTab = homePage.getDownloadTab('Debian');
     await debianTab.click();
     await expect(debianTab.locator('.nav-link')).toHaveClass(/active/);
-    await expect(homePage.getDownloadTabContent()).toContainText('Debian Stretch');
+    await expect(homePage.getDownloadTabContent()).toContainText('official Debian repositories');
 
     // Click Other tab
     const otherTab = homePage.getDownloadTab('Other');
     await otherTab.click();
     await expect(otherTab.locator('.nav-link')).toHaveClass(/active/);
-    await expect(homePage.getDownloadTabContent()).toContainText('Mac OS X');
+    await expect(homePage.getDownloadTabContent()).toContainText('macOS');
   });
 
   test('displays Ubuntu installation instructions', async () => {
@@ -64,7 +64,7 @@ test.describe('Download Modal Flow', () => {
     await homePage.openDownloadModal();
     await homePage.getDownloadTab('Other').click();
     const content = homePage.getDownloadTabContent();
-    await expect(content).toContainText('Mac OS X');
+    await expect(content).toContainText('macOS');
     await expect(content).toContainText('brew install');
   });
 
