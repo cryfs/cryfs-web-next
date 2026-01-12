@@ -21,7 +21,7 @@ function NewsletterSection() {
     const onSubmit = async () => {
         setNotification('');
 
-        await logAnalyticsEvent('interested_user_form', 'click');
+        logAnalyticsEvent('interested_user_form', 'click');
 
         try {
             const response = await fetch('https://backend.cryfs.org/newsletter/register', {
@@ -34,12 +34,12 @@ function NewsletterSection() {
             });
 
             if (response.ok) {
-                await logAnalyticsEvent('interested_user_form', 'success');
+                logAnalyticsEvent('interested_user_form', 'success');
                 setNotification('success');
             } else {
-                await logAnalyticsEvent('interested_user_form', 'error');
-                const body = await response.json();
-                const reason = body['error'];
+                logAnalyticsEvent('interested_user_form', 'error');
+                const body = await response.json() as { error?: string };
+                const reason = body.error;
                 if (reason === 'invalid-email') {
                     setNotification('error_invalid_email');
                 } else if (reason === 'unsubscribed') {

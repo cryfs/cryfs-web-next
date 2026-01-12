@@ -7,7 +7,7 @@ jest.mock('@aws-sdk/client-ssm');
 jest.mock('@aws-sdk/client-ses');
 jest.mock('mailchimp-api-v3');
 
-import type { APIGatewayProxyEvent, Context } from 'aws-lambda';
+import type { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 
 interface MockSSMClient {
   __mockSend: jest.Mock;
@@ -27,21 +27,27 @@ interface MockMailchimpType {
   __mockPut: jest.Mock;
 }
 
+interface NewsletterModule {
+  register: (event: APIGatewayProxyEvent, context: Context) => Promise<APIGatewayProxyResult>;
+}
+
+interface ContactModule {
+  send: (event: APIGatewayProxyEvent, context: Context) => Promise<APIGatewayProxyResult>;
+}
+
 describe('Integration Tests', () => {
   const validToken = 'fd0kAn1zns';
   let ssmClient: MockSSMClient;
   let sesClient: MockSESClient;
   let Mailchimp: MockMailchimpType;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.resetModules();
 
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    ssmClient = require('@aws-sdk/client-ssm');
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    sesClient = require('@aws-sdk/client-ses');
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    Mailchimp = require('mailchimp-api-v3').default;
+    ssmClient = await import('@aws-sdk/client-ssm') as unknown as MockSSMClient;
+    sesClient = await import('@aws-sdk/client-ses') as unknown as MockSESClient;
+    const mailchimpModule = await import('mailchimp-api-v3') as unknown as { default: MockMailchimpType };
+    Mailchimp = mailchimpModule.default;
 
     ssmClient.__mockSend.mockReset();
     sesClient.__mockSend.mockReset();
@@ -63,8 +69,7 @@ describe('Integration Tests', () => {
     test('complete successful registration flow', async () => {
       Mailchimp.__mockPost.mockResolvedValue({ id: 'new-member' });
 
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { register } = require('./newsletter');
+      const { register } = await import('./newsletter') as NewsletterModule;
 
       const event = {
         body: JSON.stringify({
@@ -78,7 +83,7 @@ describe('Integration Tests', () => {
       expect(result.statusCode).toBe(200);
       expect(JSON.parse(result.body)).toEqual({ success: true });
 
-      expect(result.headers['Access-Control-Allow-Origin']).toBe('https://www.cryfs.org');
+      expect(result.headers?.['Access-Control-Allow-Origin']).toBe('https://www.cryfs.org');
 
       expect(Mailchimp.__mockPost).toHaveBeenCalledWith({
         path: '/lists/list-id/members',
@@ -92,8 +97,7 @@ describe('Integration Tests', () => {
     });
 
     test('invalid token blocks Mailchimp call', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { register } = require('./newsletter');
+      const { register } = await import('./newsletter') as NewsletterModule;
 
       const event = {
         body: JSON.stringify({
@@ -105,15 +109,15 @@ describe('Integration Tests', () => {
       const result = await register(event, {} as Context);
 
       expect(result.statusCode).toBe(400);
-      expect(JSON.parse(result.body).error).toBe('Wrong token');
+      const body = JSON.parse(result.body) as { error: string };
+      expect(body.error).toBe('Wrong token');
       expect(Mailchimp.__mockPost).not.toHaveBeenCalled();
     });
   });
 
   describe('Contact Form Flow', () => {
     test('complete contact form submission', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { send } = require('./contact');
+      const { send } = await import('./contact') as ContactModule;
 
       const event = {
         body: JSON.stringify({
@@ -128,10 +132,12 @@ describe('Integration Tests', () => {
       expect(result.statusCode).toBe(200);
       expect(JSON.parse(result.body)).toEqual({ success: true });
 
-      expect(result.headers['Access-Control-Allow-Origin']).toBe('https://www.cryfs.org');
+      expect(result.headers?.['Access-Control-Allow-Origin']).toBe('https://www.cryfs.org');
 
       expect(sesClient.__mockSend).toHaveBeenCalledTimes(1);
-      const command = sesClient.__mockSend.mock.calls[0][0];
+      type EmailInput = { input: { Destination: { ToAddresses: string[] }; Message: { Subject: { Data: string }; Body: { Text: { Data: string } } }; ReplyToAddresses: string[] } };
+      const calls = sesClient.__mockSend.mock.calls as Array<[EmailInput]>;
+      const command = calls[0]![0];
       expect(command).toBeInstanceOf(sesClient.SendEmailCommand);
       expect(command.input.Destination.ToAddresses).toEqual(['messmer@cryfs.org']);
       expect(command.input.Message.Subject.Data).toContain('visitor@example.com');
@@ -144,8 +150,7 @@ describe('Integration Tests', () => {
     test('Mailchimp error triggers error notification', async () => {
       Mailchimp.__mockPost.mockRejectedValue({ title: 'API Error', detail: 'Service unavailable' });
 
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { register } = require('./newsletter');
+      const { register } = await import('./newsletter') as NewsletterModule;
 
       const event = {
         body: JSON.stringify({
@@ -159,7 +164,9 @@ describe('Integration Tests', () => {
       expect(result.statusCode).toBe(500);
 
       expect(sesClient.__mockSend).toHaveBeenCalled();
-      const command = sesClient.__mockSend.mock.calls[0][0];
+      type ErrorEmailInput = { input: { Message: { Subject: { Data: string } } } };
+      const calls = sesClient.__mockSend.mock.calls as Array<[ErrorEmailInput]>;
+      const command = calls[0]![0];
       expect(command.input.Message.Subject.Data).toContain('Error');
     });
   });
@@ -168,8 +175,7 @@ describe('Integration Tests', () => {
     test('secrets are loaded from SSM on first request', async () => {
       Mailchimp.__mockPost.mockResolvedValue({ id: 'member' });
 
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { register } = require('./newsletter');
+      const { register } = await import('./newsletter') as NewsletterModule;
 
       const event = {
         body: JSON.stringify({
@@ -181,7 +187,9 @@ describe('Integration Tests', () => {
       await register(event, {} as Context);
 
       expect(ssmClient.__mockSend).toHaveBeenCalledTimes(1);
-      const command = ssmClient.__mockSend.mock.calls[0][0];
+      type SSMInput = { input: Record<string, unknown> };
+      const calls = ssmClient.__mockSend.mock.calls as Array<[SSMInput]>;
+      const command = calls[0]![0];
       expect(command).toBeInstanceOf(ssmClient.GetParametersCommand);
       expect(command.input).toEqual({
         Names: ['MAILCHIMP_API_TOKEN', 'MAILCHIMP_LIST_ID'],

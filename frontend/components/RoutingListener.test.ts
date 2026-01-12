@@ -25,8 +25,9 @@ describe('RoutingListener', () => {
     it('registers event listeners on Router events', () => {
       new RoutingListener('/');
 
-      expect(Router.events.on).toHaveBeenCalledWith('routeChangeComplete', expect.any(Function));
-      expect(Router.events.on).toHaveBeenCalledWith('hashChangeComplete', expect.any(Function));
+      const events = Router.events as { on: jest.Mock; off: jest.Mock };
+      expect(events.on).toHaveBeenCalledWith('routeChangeComplete', expect.any(Function));
+      expect(events.on).toHaveBeenCalledWith('hashChangeComplete', expect.any(Function));
     });
 
     it('initializes with empty callback array', () => {
@@ -40,8 +41,9 @@ describe('RoutingListener', () => {
       const listener = new RoutingListener('/');
       listener.finish();
 
-      expect(Router.events.off).toHaveBeenCalledWith('routeChangeComplete', expect.any(Function));
-      expect(Router.events.off).toHaveBeenCalledWith('hashChangeComplete', expect.any(Function));
+      const events = Router.events as { on: jest.Mock; off: jest.Mock };
+      expect(events.off).toHaveBeenCalledWith('routeChangeComplete', expect.any(Function));
+      expect(events.off).toHaveBeenCalledWith('hashChangeComplete', expect.any(Function));
     });
   });
 
@@ -169,11 +171,12 @@ describe('RoutingListener', () => {
       listener.finish();
 
       // Verify the off calls match the on calls
-      const onCalls = (Router.events.on as jest.Mock).mock.calls;
-      const offCalls = (Router.events.off as jest.Mock).mock.calls;
+      const events = Router.events as { on: jest.Mock; off: jest.Mock };
+      const onCalls = events.on.mock.calls as string[][];
+      const offCalls = events.off.mock.calls as string[][];
 
-      expect(offCalls[0][0]).toBe(onCalls[0][0]); // routeChangeComplete
-      expect(offCalls[1][0]).toBe(onCalls[1][0]); // hashChangeComplete
+      expect(offCalls[0]?.[0]).toBe(onCalls[0]?.[0]); // routeChangeComplete
+      expect(offCalls[1]?.[0]).toBe(onCalls[1]?.[0]); // hashChangeComplete
     });
   });
 });

@@ -15,10 +15,10 @@ jest.mock('../RoutingListener', () => ({
 
 // Mock url-parse
 jest.mock('url-parse', () => {
-  return jest.fn().mockImplementation((url) => ({
+  return jest.fn().mockImplementation((url: string | undefined) => ({
     hash: url?.includes('#test-hash') ? '#test-hash' : '',
     set: jest.fn(),
-    toString: jest.fn().mockReturnValue(url || '/'),
+    toString: jest.fn().mockReturnValue(url ?? '/'),
   }));
 });
 
@@ -194,8 +194,8 @@ describe('RouteHashBasedModal', () => {
   });
 
   describe('cleanup', () => {
-    it('cleans up routing listener on unmount', () => {
-      const { RoutingListener } = require('../RoutingListener');
+    it('cleans up routing listener on unmount', async () => {
+      const { RoutingListener } = await import('../RoutingListener') as { RoutingListener: jest.Mock };
       mockRouter.asPath = '/';
 
       const { unmount } = render(
@@ -207,8 +207,10 @@ describe('RouteHashBasedModal', () => {
       unmount();
 
       // RoutingListener.finish should have been called
-      const instance = RoutingListener.mock.results[0]?.value;
-      if (instance) {
+      const mockResults = RoutingListener.mock.results;
+      const firstResult = mockResults[0];
+      if (firstResult && firstResult.type === 'return') {
+        const instance = firstResult.value as { finish: jest.Mock };
         expect(instance.finish).toHaveBeenCalled();
       }
     });

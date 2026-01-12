@@ -18,11 +18,11 @@ function ContactSection() {
     const send = async () => {
         setNotification('');
 
-        await logAnalyticsEvent('contact_form', 'click');
+        logAnalyticsEvent('contact_form', 'click');
 
         try {
             if (message === '') {
-                await logAnalyticsEvent('contact_form', 'error');
+                logAnalyticsEvent('contact_form', 'error');
                 setNotification('error:empty');
             } else {
                 const response = await fetch('https://backend.cryfs.org/contact/send', {
@@ -36,10 +36,10 @@ function ContactSection() {
                 });
 
                 if (response.ok) {
-                    await logAnalyticsEvent('contact_form', 'success');
+                    logAnalyticsEvent('contact_form', 'success');
                     setNotification('success');
                 } else {
-                    await logAnalyticsEvent('contact_form', 'error');
+                    logAnalyticsEvent('contact_form', 'error');
                     setNotification('error');
                 }
             }

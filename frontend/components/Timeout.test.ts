@@ -20,7 +20,7 @@ describe('Timeout utilities', () => {
 
       // Promise should not be resolved yet
       let resolved = false;
-      promise.then(() => {
+      void promise.then(() => {
         resolved = true;
       });
 
@@ -65,7 +65,7 @@ describe('Timeout utilities', () => {
       // Advance time past the timeout
       jest.advanceTimersByTime(1000);
 
-      await expect(resultPromise).rejects.toBe('Timeout waiting for promise');
+      await expect(resultPromise).rejects.toThrow('Timeout waiting for promise');
     });
 
     it('clears timeout when promise resolves quickly', async () => {

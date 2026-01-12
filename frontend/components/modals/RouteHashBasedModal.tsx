@@ -28,12 +28,12 @@ function RouteHashBasedModal({ hash, labelledBy, header, showCloseButtonInFooter
             const url = new Url(currentUrlRef.current);
             url.set('hash', '');
             const newUrl = url.toString();
-            router.replace(newUrl);
+            void router.replace(newUrl);
         } else {
             const url = new Url(currentUrlRef.current);
             url.set('hash', hash);
             const newUrl = url.toString();
-            router.replace(newUrl);
+            void router.replace(newUrl);
         }
     }, [hash, router]);
 

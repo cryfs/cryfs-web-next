@@ -5,7 +5,7 @@ import { mockNewsletterAPI } from '../fixtures/api-mocks';
 test.describe('Newsletter Signup Flow', () => {
   let homePage: HomePage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(({ page }) => {
     homePage = new HomePage(page);
   });
 
@@ -56,8 +56,7 @@ test.describe('Newsletter Signup Flow', () => {
     let capturedRequest: { email: string; token: string } | null = null;
 
     await page.route('**/newsletter/register', async (route) => {
-      const postData = route.request().postDataJSON();
-      capturedRequest = postData;
+      capturedRequest = route.request().postDataJSON() as { email: string; token: string };
       await route.fulfill({ status: 200, body: '{}' });
     });
 

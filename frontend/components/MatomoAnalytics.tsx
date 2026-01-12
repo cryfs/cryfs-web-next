@@ -1,5 +1,11 @@
 import Script from 'next/script'
 
+declare global {
+    interface Window {
+        _paq?: Array<unknown[]>;
+    }
+}
+
 const matomo_analytics_init = `
     var _paq = window._paq = window._paq || [];
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
@@ -15,15 +21,12 @@ const matomo_analytics_init = `
 `
 
 export const logMatomoAnalyticsEvent = (category: string, action: string) => {
-    // @ts-ignore
-    window._paq.push(['trackEvent', category, action])
+    window._paq?.push(['trackEvent', category, action])
 }
 
 export const logMatomoAnalyticsPageview = (path: string) => {
-    // @ts-ignore
-    window._paq.push(['setCustomUrl', path])
-    // @ts-ignore
-    window._paq.push(['trackPageView', path])
+    window._paq?.push(['setCustomUrl', path])
+    window._paq?.push(['trackPageView', path])
 }
 
 export const MatomoAnalyticsRoot = () => (

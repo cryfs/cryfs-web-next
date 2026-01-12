@@ -22,7 +22,7 @@ interface MockMailchimpType {
   __mockPut: jest.Mock;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-member-access
 const MockMailchimp = require('mailchimp-api-v3').default as MockMailchimpType;
 const mockedEmailMyself = email_myself as jest.Mock;
 
@@ -230,6 +230,7 @@ describe('newsletter register', () => {
     await register(event, {} as Context);
 
     expect(MockMailchimp.__mockGet).toHaveBeenCalledWith({
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       path: expect.stringContaining('55502f40dc8b7c769880b10874abc9d0'),
     });
   });
