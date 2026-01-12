@@ -1,3 +1,8 @@
+.tabCol {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
 .tabHeader {
     cursor: pointer;
 }
@@ -14,7 +19,13 @@
 
 .osName {
     vertical-align: middle;
-    font-size: x-large;
+    font-size: large;
+}
+
+@media (min-width: 768px) {
+    .osName {
+        font-size: x-large;
+    }
 }
 
 .easyinstallCommand {

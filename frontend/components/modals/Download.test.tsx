@@ -55,16 +55,28 @@ describe('DownloadModal', () => {
       expect(screen.getByText('Debian')).toBeInTheDocument();
     });
 
-    it('renders Other tab', () => {
+    it('renders Other Linux tab', () => {
       render(<DownloadModal />);
-      expect(screen.getByText('Other')).toBeInTheDocument();
+      expect(screen.getByText('Other Linux')).toBeInTheDocument();
+    });
+
+    it('renders macOS tab', () => {
+      render(<DownloadModal />);
+      expect(screen.getByText('macOS')).toBeInTheDocument();
+    });
+
+    it('renders Windows tab', () => {
+      render(<DownloadModal />);
+      expect(screen.getByText('Windows')).toBeInTheDocument();
     });
 
     it('renders OS logos', () => {
       render(<DownloadModal />);
       expect(screen.getByAltText('Ubuntu')).toBeInTheDocument();
       expect(screen.getByAltText('Debian')).toBeInTheDocument();
-      expect(screen.getByAltText('Other')).toBeInTheDocument();
+      expect(screen.getByAltText('Other Linux')).toBeInTheDocument();
+      expect(screen.getByAltText('macOS')).toBeInTheDocument();
+      expect(screen.getByAltText('Windows')).toBeInTheDocument();
     });
 
     it('renders link to older releases', () => {
@@ -115,17 +127,31 @@ describe('DownloadModal', () => {
       expect(screen.getByText(/CryFS is available in the official Debian repositories/)).toBeInTheDocument();
     });
 
-    it('switches to Other tab when clicked', async () => {
+    it('switches to Other Linux tab when clicked', async () => {
       const user = userEvent.setup();
       render(<DownloadModal />);
 
-      // Click on Other tab
-      await user.click(screen.getByText('Other'));
+      await user.click(screen.getByText('Other Linux'));
 
-      // Other content should be visible
-      expect(screen.getByText('Other Linux')).toBeInTheDocument();
-      expect(screen.getByText('macOS')).toBeInTheDocument();
-      expect(screen.getByText('Windows')).toBeInTheDocument();
+      expect(screen.getByText(/Check your distribution/)).toBeInTheDocument();
+    });
+
+    it('switches to macOS tab when clicked', async () => {
+      const user = userEvent.setup();
+      render(<DownloadModal />);
+
+      await user.click(screen.getByText('macOS'));
+
+      expect(screen.getByText('brew install --cask macfuse')).toBeInTheDocument();
+    });
+
+    it('switches to Windows tab when clicked', async () => {
+      const user = userEvent.setup();
+      render(<DownloadModal />);
+
+      await user.click(screen.getByText('Windows'));
+
+      expect(screen.getByText(/Windows support is experimental/)).toBeInTheDocument();
     });
 
     it('logs analytics event when switching tabs', async () => {
@@ -138,14 +164,24 @@ describe('DownloadModal', () => {
       expect(logAnalyticsEvent).toHaveBeenCalledWith('download', 'click_debian_tab');
     });
 
-    it('logs analytics event for Other tab', async () => {
+    it('logs analytics event for macOS tab', async () => {
       const user = userEvent.setup();
       const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       render(<DownloadModal />);
 
-      await user.click(screen.getByText('Other'));
+      await user.click(screen.getByText('macOS'));
 
-      expect(logAnalyticsEvent).toHaveBeenCalledWith('download', 'click_other_tab');
+      expect(logAnalyticsEvent).toHaveBeenCalledWith('download', 'click_macos_tab');
+    });
+
+    it('logs analytics event for Windows tab', async () => {
+      const user = userEvent.setup();
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
+      render(<DownloadModal />);
+
+      await user.click(screen.getByText('Windows'));
+
+      expect(logAnalyticsEvent).toHaveBeenCalledWith('download', 'click_windows_tab');
     });
   });
 
@@ -162,22 +198,33 @@ describe('DownloadModal', () => {
     });
   });
 
-  describe('Other tab content', () => {
+  describe('macOS tab content', () => {
     it('shows macOS Homebrew commands', async () => {
       const user = userEvent.setup();
       render(<DownloadModal />);
 
-      await user.click(screen.getByText('Other'));
+      await user.click(screen.getByText('macOS'));
 
       expect(screen.getByText('brew install --cask macfuse')).toBeInTheDocument();
       expect(screen.getByText('brew install cryfs/tap/cryfs')).toBeInTheDocument();
     });
 
+    it('shows macFUSE requirement note', async () => {
+      const user = userEvent.setup();
+      render(<DownloadModal />);
+
+      await user.click(screen.getByText('macOS'));
+
+      expect(screen.getByText(/is required for CryFS to work on macOS/)).toBeInTheDocument();
+    });
+  });
+
+  describe('Windows tab content', () => {
     it('shows Windows installation information', async () => {
       const user = userEvent.setup();
       render(<DownloadModal />);
 
-      await user.click(screen.getByText('Other'));
+      await user.click(screen.getByText('Windows'));
 
       expect(screen.getByText(/Windows support is experimental/)).toBeInTheDocument();
     });
@@ -186,7 +233,7 @@ describe('DownloadModal', () => {
       const user = userEvent.setup();
       render(<DownloadModal />);
 
-      await user.click(screen.getByText('Other'));
+      await user.click(screen.getByText('Windows'));
 
       expect(screen.getByRole('link', { name: /dokany/i })).toHaveAttribute(
         'href',
@@ -198,7 +245,7 @@ describe('DownloadModal', () => {
       const user = userEvent.setup();
       render(<DownloadModal />);
 
-      await user.click(screen.getByText('Other'));
+      await user.click(screen.getByText('Windows'));
 
       expect(
         screen.getByRole('link', { name: /Visual C\+\+ Redistributable/i })
@@ -209,7 +256,7 @@ describe('DownloadModal', () => {
       const user = userEvent.setup();
       render(<DownloadModal />);
 
-      await user.click(screen.getByText('Other'));
+      await user.click(screen.getByText('Windows'));
 
       expect(screen.getByRole('link', { name: /CryFS.*64-bit/i })).toBeInTheDocument();
     });
@@ -231,9 +278,13 @@ describe('DownloadModal', () => {
       await user.click(screen.getByText('Debian'));
       expect(screen.getByText(/CryFS is available in the official Debian repositories/)).toBeInTheDocument();
 
-      // Switch to Other
-      await user.click(screen.getByText('Other'));
-      expect(screen.getByText('Other Linux')).toBeInTheDocument();
+      // Switch to macOS
+      await user.click(screen.getByText('macOS'));
+      expect(screen.getByText('brew install --cask macfuse')).toBeInTheDocument();
+
+      // Switch to Windows
+      await user.click(screen.getByText('Windows'));
+      expect(screen.getByText(/Windows support is experimental/)).toBeInTheDocument();
 
       // Switch back to Ubuntu
       await user.click(screen.getByText('Ubuntu'));
