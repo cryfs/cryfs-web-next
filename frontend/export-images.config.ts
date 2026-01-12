@@ -1,5 +1,6 @@
-/** @type {import('next-export-optimize-images').Config} */
-const config = {
+import type { Config } from 'next-export-optimize-images';
+
+const config: Config = {
   convertFormat: [
     ['png', 'webp'],
     ['jpeg', 'webp'],
@@ -12,10 +13,10 @@ const config = {
     png: {
       quality: 80,
     },
-    jpeg: {
+    jpg: {
       quality: 80,
     },
   },
-}
+};
 
-module.exports = config
+export default config;

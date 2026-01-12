@@ -31,8 +31,9 @@ function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
     const [activeTab, setActiveTab] = useState(initiallyActive === undefined ? 0 : initiallyActive);
 
     const toggle = async (tabIndex: number) => {
-        const tab_analytics_name = tabsFunc()[tabIndex].analytics_name;
-        await logAnalyticsEvent('download', `click_${tab_analytics_name}_tab`);
+        const tab = tabsFunc()[tabIndex];
+        if (!tab) return;
+        await logAnalyticsEvent('download', `click_${tab.analytics_name}_tab`);
         if (activeTab !== tabIndex) {
             setActiveTab(tabIndex);
         }

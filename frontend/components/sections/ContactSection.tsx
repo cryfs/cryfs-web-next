@@ -43,7 +43,7 @@ function ContactSection() {
                     setNotification('error');
                 }
             }
-        } catch (err) {
+        } catch {
             setNotification('error');
         }
     };
@@ -92,18 +92,18 @@ function ContactSection() {
                             <div className="clearfix" />
                             <Col md="12">
                                 <Collapse in={notification !== ''}
-                                    className={styles.notificationArea}>
+                                    className={styles.notificationArea ?? ''}>
                                     <div>
                                         <Collapse in={notification === 'success'}
-                                            className={`lead ${styles.notificationSuccess}`}>
+                                            className={`lead ${styles.notificationSuccess ?? ''}`}>
                                             <div>Thank you.</div>
                                         </Collapse>
                                         <Collapse in={notification === 'error:empty'}
-                                            className={`lead ${styles.notificationError}`}>
+                                            className={`lead ${styles.notificationError ?? ''}`}>
                                             <div>Please enter a message to send.</div>
                                         </Collapse>
                                         <Collapse in={notification === 'error'}
-                                            className={`lead ${styles.notificationError}`}>
+                                            className={`lead ${styles.notificationError ?? ''}`}>
                                             <div>Sorry, there was an error sending your message.</div>
                                         </Collapse>
                                     </div>
