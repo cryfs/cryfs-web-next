@@ -155,11 +155,19 @@ However, that is also a disadvantage.
 Since there is an encrypted file for each of your files, a hacker can exactly see how many files you have, how
 large each file is and how they are structured into directories.
 This might not be a problem for some applications, but it can be a problem faster than you would think at first.
-Say they see that you have folders organized by year and month, each containing dozens of files between 2-8 megabytes,
-then they can say with fair certainty that you are storing a photo library there—and potentially identify which events or trips you documented based on the number of photos and dates.
-Or say you store a copy of leaked confidential documents (not that we recommend that),
-authorities could ask your cloud provider to hand over your encrypted files and analyze them.
-When the number of files, file sizes and directory structure match the leaked documents, they know you're storing them.
+For example:
+
+- **Photo libraries**: Folders organized by year and month, each containing dozens of 2-8 megabyte files, clearly indicate a photo collection—and could reveal which events or trips you documented based on dates and photo counts.
+- **Pirated movies or TV shows**: Large files of 1-4 gigabytes with sizes matching known releases make identification trivial, since encoding groups use standard settings.
+- **Tax returns and financial records**: PDFs organized by year with sizes matching standard government forms reveal your filing history.
+- **Medical imaging**: X-rays, MRIs, and CT scans stored as DICOM files have characteristic sizes that could expose sensitive health information.
+- **Leaked confidential documents**: If authorities request your encrypted files from your cloud provider, they can match the file structure against known leaks to identify what you're storing.
+
+Some metadata patterns can also signal to attackers that you're a worthwhile target:
+
+- **Cryptocurrency wallet backups**: Bitcoin, Ethereum, and other wallets have distinctive directory structures and file sizes—revealing not just that you hold crypto, but potentially which wallets and how much.
+- **Password manager databases**: Small files matching known formats (KeePass, 1Password) indicate you likely have credentials worth stealing.
+
 The same thing is also an issue for [watermarking attacks](https://en.wikipedia.org/wiki/Watermarking_attack), which we will not explain in detail here.
 There are [alternatives](https://www.cryfs.org) to gocryptfs that are not vulnerable to these attacks and also hide your file sizes, metadata and directory structure.
 
