@@ -3,12 +3,7 @@ import withExportImages from 'next-export-optimize-images';
 import mdx from '@next/mdx';
 import { promises as fs } from 'fs';
 import { join } from 'path';
-import { promisify } from 'util';
 import { VersionNumber } from './config/CryfsVersion';
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
-const ncpModule: { ncp: (source: string, destination: string, callback: (err: Error | null) => void) => void } = require('ncp');
-
-const ncp = promisify(ncpModule.ncp);
 
 const config: NextConfig = {
   output: 'export',
@@ -38,7 +33,7 @@ const config: NextConfig = {
     console.log("Written version_info.json");
 
     // Copy all files from assets/static
-    await ncp(join(dir, 'assets/static'), outDir);
+    await fs.cp(join(dir, 'assets/static'), outDir, { recursive: true });
     console.log("Copied static files");
 
     return defaultPathMap;

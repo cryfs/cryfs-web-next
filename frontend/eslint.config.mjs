@@ -15,7 +15,7 @@ const compat = new FlatCompat({
 
 export default tseslint.config(
   {
-    ignores: ['node_modules/', '.next/', 'out/', 'eslint.config.mjs', 'jest.config.js', 'playwright.config.ts', 'next-env.d.ts', 'config/*.d.ts'],
+    ignores: ['node_modules/', '.next/', 'out/', 'eslint.config.mjs', 'jest.config.mjs', 'playwright.config.ts', 'next-env.d.ts', 'config/*.d.ts'],
   },
   ...compat.extends('next/core-web-vitals'),
   tseslint.configs.recommendedTypeChecked,
