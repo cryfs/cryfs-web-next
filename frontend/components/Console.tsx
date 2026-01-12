@@ -11,13 +11,14 @@ export const Console = (props: ConsoleProps) => (
 )
 
 type ConsoleCommandProps = {
-    children: React.ReactNode
+    children: React.ReactNode;
+    className?: string;
 }
 
-export const ConsoleCommand = (props: ConsoleCommandProps) => (
-    <div className={styles.line} {...props}>
+export const ConsoleCommand = ({ children, className }: ConsoleCommandProps) => (
+    <div className={`${styles.line} ${className || ''}`}>
         <span className={styles.linestart}>$</span>
-        {props.children}
+        {children}
     </div>
 )
 

@@ -1,13 +1,11 @@
-"use strict";
-
-import Layout from '../components/Layout'
-import AlternatingSections from '../components/AlternatingSections'
-import DonateModal from '../components/modals/Donate'
-import DownloadModal from '../components/modals/Download'
-import Teaser from '../components/Teaser'
-import NewsletterSection from '../components/sections/NewsletterSection'
-import BulletsSection from '../components/sections/BulletsSection'
-import ContactSection from '../components/sections/ContactSection'
+import Layout from '../components/Layout';
+import AlternatingSections from '../components/AlternatingSections';
+import DonateModal from '../components/modals/Donate';
+import DownloadModal from '../components/modals/Download';
+import Teaser from '../components/Teaser';
+import NewsletterSection from '../components/sections/NewsletterSection';
+import BulletsSection from '../components/sections/BulletsSection';
+import ContactSection from '../components/sections/ContactSection';
 import MetaTags from "../components/MetaTags";
 
 const Index = () => (

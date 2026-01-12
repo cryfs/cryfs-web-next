@@ -2,7 +2,7 @@ import { Router } from "next/dist/client/router";
 
 export class RoutingListener {
     url: string
-    onChangeCallbacks: ((url: string) => Promise<void>)[]
+    onChangeCallbacks: ((url: string) => void | Promise<void>)[]
 
     constructor(initialUrl: string) {
         this.url = initialUrl
@@ -19,7 +19,7 @@ export class RoutingListener {
         Router.events.off('hashChangeComplete', this.onRouteChangeComplete)
     }
 
-    addListener = (func: (url: string) => Promise<void>) => {
+    addListener = (func: (url: string) => void | Promise<void>) => {
         this.onChangeCallbacks.push(func)
     }
 

@@ -1,28 +1,37 @@
-"use strict";
-
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { faAngleDoubleRight, faComments, faLightbulb, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleRight, faComments, faLightbulb, faLock, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import styles from './BulletsSection.module.css';
 
-const BulletPoint = (props) => (
+interface BulletPointProps {
+    icon: IconDefinition;
+    title: string;
+    details_link_target: string;
+    external_link?: boolean;
+    children?: React.ReactNode;
+}
+
+const BulletPoint = ({ icon, title, details_link_target, external_link, children }: BulletPointProps) => (
     <Col lg="4">
         <div className="text-center">
-            <FontAwesomeIcon icon={props.icon} className={styles.icon} />
-            <h2 className={styles.title}>{props.title}</h2>
-            {props.children}
+            <FontAwesomeIcon icon={icon} className={styles.icon} />
+            <h2 className={styles.title}>{title}</h2>
+            {children}
             <p>
-                {(!props.external_link) ?
-                    <Button as={Link} href={props.details_link_target} variant="outline-secondary">
-                        {/*TODO Translate*/}
-                        Details &nbsp;
-                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                    </Button> :
-                    <Button variant="outline-secondary" href={props.details_link_target}>
+                {!external_link ?
+                    <Link href={details_link_target} passHref legacyBehavior>
+                        <Button as="a" variant="outline-secondary">
+                            {/*TODO Translate*/}
+                            Details &nbsp;
+                            <FontAwesomeIcon icon={faAngleDoubleRight} />
+                        </Button>
+                    </Link> :
+                    <Button variant="outline-secondary" href={details_link_target}>
                         {/*TODO Translate*/}
                         Details &nbsp;
                         <FontAwesomeIcon icon={faAngleDoubleRight} />
@@ -31,7 +40,7 @@ const BulletPoint = (props) => (
             </p>
         </div>
     </Col>
-)
+);
 
 const BulletsSection = () => (
     <Container>
@@ -48,6 +57,6 @@ const BulletsSection = () => (
             </BulletPoint>
         </Row>
     </Container>
-)
+);
 
 export default BulletsSection;

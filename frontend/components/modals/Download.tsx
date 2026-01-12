@@ -1,5 +1,3 @@
-"use strict";
-
 import React, { useState } from 'react';
 import Image from 'next-export-optimize-images/image';
 import Modal from 'react-bootstrap/Modal';
@@ -8,20 +6,31 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
-import { Console, ConsoleCommand } from '../../components/Console'
-import RouteHashBasedModal from './RouteHashBasedModal'
-import { VersionNumber } from '../../config/CryfsVersion'
-import UbuntuLogo from '../../assets/images/ubuntu.png'
-import DebianLogo from '../../assets/images/debian.png'
-import OtherLogo from '../../assets/images/other_os.png'
-import classnames from 'classnames'
-import { logAnalyticsEvent } from '../Analytics'
+import { Console, ConsoleCommand } from '../../components/Console';
+import RouteHashBasedModal from './RouteHashBasedModal';
+import { VersionNumber } from '../../config/CryfsVersion';
+import UbuntuLogo from '../../assets/images/ubuntu.png';
+import DebianLogo from '../../assets/images/debian.png';
+import OtherLogo from '../../assets/images/other_os.png';
+import classnames from 'classnames';
+import { logAnalyticsEvent } from '../Analytics';
 import styles from './Download.module.css';
 
-function Tabs({ tabs: tabsFunc, initiallyActive }) {
-    const [activeTab, setActiveTab] = useState(typeof initiallyActive === "undefined" ? 0 : initiallyActive);
+interface TabDefinition {
+    analytics_name: string;
+    header: React.ReactNode;
+    body: React.ReactNode;
+}
 
-    const toggle = async (tabIndex) => {
+interface TabsProps {
+    tabs: () => TabDefinition[];
+    initiallyActive?: number;
+}
+
+function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
+    const [activeTab, setActiveTab] = useState(initiallyActive === undefined ? 0 : initiallyActive);
+
+    const toggle = async (tabIndex: number) => {
         const tab_analytics_name = tabsFunc()[tabIndex].analytics_name;
         await logAnalyticsEvent('download', `click_${tab_analytics_name}_tab`);
         if (activeTab !== tabIndex) {
@@ -62,7 +71,7 @@ function Tabs({ tabs: tabsFunc, initiallyActive }) {
     );
 }
 
-const tabs = () => [
+const tabs = (): TabDefinition[] => [
     {
         analytics_name: 'ubuntu',
         header: (
@@ -170,7 +179,7 @@ const tabs = () => [
             </>
         )
     },
-]
+];
 
 const DownloadModal = () => (
     <RouteHashBasedModal hash="#download" header={`Download CryFS ${VersionNumber}`} showCloseButtonInFooter labelledBy="downloadModalTitle" size="lg">
@@ -188,6 +197,6 @@ const DownloadModal = () => (
             </Container>
         </Modal.Body>
     </RouteHashBasedModal>
-)
+);
 
-export default DownloadModal
+export default DownloadModal;

@@ -53,7 +53,7 @@ const config = {
 
         return defaultPathMap;
     },
-    pageExtensions: ['js', 'mdx'],
+    pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
     images: {
         loader: 'custom',
     },

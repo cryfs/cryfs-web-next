@@ -1,15 +1,13 @@
-"use strict";
-
-import Head from 'next/head'
-import Image from 'next-export-optimize-images/image'
+import Head from 'next/head';
+import Image from 'next-export-optimize-images/image';
 import React, { useState } from 'react';
-import Link from 'next/link'
+import Link from 'next/link';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { AnalyticsSetup } from '../components/Analytics'
+import { AnalyticsSetup } from '../components/Analytics';
 import styles from './Layout.module.css';
 import githubRibbon from '../assets/images/github_ribbon.png';
 import favicon from '../assets/images/favicon.png';
@@ -50,7 +48,7 @@ function MyNavBar() {
     );
 }
 
-const GithubRibbon = props => (
+const GithubRibbon = () => (
     <a href="https://github.com/cryfs/cryfs">
         {/*TODO Translate*/}
         <Image
@@ -60,9 +58,9 @@ const GithubRibbon = props => (
             className={styles.ribbon}
         />
     </a>
-)
+);
 
-const Footer = props => (
+const Footer = () => (
     <section className={styles.footerSection}>
         <Container>
             <footer className={styles.footer}>
@@ -78,9 +76,13 @@ const Footer = props => (
             </footer>
         </Container>
     </section>
-)
+);
 
-const Layout = (props) => (
+interface LayoutProps {
+    children?: React.ReactNode;
+}
+
+const Layout = ({ children }: LayoutProps) => (
     <>
         <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -90,9 +92,9 @@ const Layout = (props) => (
         <AnalyticsSetup /> { /* AnalyticsSetup must be in Layout and not in _document because otherwise componentDidMount isn't executed */}
         <MyNavBar />
         <GithubRibbon />
-        {props.children}
+        {children}
         <Footer />
     </>
-)
+);
 
-export default Layout
+export default Layout;

@@ -13,18 +13,18 @@ const customJestConfig = {
     '^@/components/(.*)$': '<rootDir>/components/$1',
     '^@/pages/(.*)$': '<rootDir>/pages/$1',
     // Handle image imports
-    '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
+    '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.ts',
     // Handle CSS modules
     '\\.module\\.css$': 'identity-obj-proxy',
     // Handle unfetch
-    '^unfetch$': '<rootDir>/__mocks__/unfetch.js',
-    '^isomorphic-unfetch$': '<rootDir>/__mocks__/unfetch.js',
+    '^unfetch$': '<rootDir>/__mocks__/unfetch.ts',
+    '^isomorphic-unfetch$': '<rootDir>/__mocks__/unfetch.ts',
     // Handle Next.js modules
-    '^next/router$': '<rootDir>/__mocks__/next/router.js',
-    '^next/dist/client/router$': '<rootDir>/__mocks__/next/router.js',
-    '^next/link$': '<rootDir>/__mocks__/next/link.js',
-    '^next/head$': '<rootDir>/__mocks__/next/head.js',
-    '^next/script$': '<rootDir>/__mocks__/next/script.js',
+    '^next/router$': '<rootDir>/__mocks__/next/router.tsx',
+    '^next/dist/client/router$': '<rootDir>/__mocks__/next/router.tsx',
+    '^next/link$': '<rootDir>/__mocks__/next/link.tsx',
+    '^next/head$': '<rootDir>/__mocks__/next/head.tsx',
+    '^next/script$': '<rootDir>/__mocks__/next/script.tsx',
   },
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',

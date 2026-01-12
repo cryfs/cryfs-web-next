@@ -54,6 +54,7 @@
     "@types/node": "22.9.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/url-parse": "^1.4.11",
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.0.0",
     "identity-obj-proxy": "^3.0.0",
