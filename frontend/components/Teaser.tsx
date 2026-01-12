@@ -25,6 +25,8 @@ const Teaser = () => (
             <div className="clearfix">
                 <div className={styles.mdContent}>
                     <div className={styles.mdImage}>
+                        {/* TODO: priority causes double image download (WebP + JPG) due to preload bug
+                            https://github.com/dc7290/next-export-optimize-images/issues/1285 */}
                         <Picture
                             src={teaserImage}
                             alt=""
