@@ -8,7 +8,7 @@ import teaserImage from '../assets/images/teaser.jpg';
 import logoImage from '../assets/images/logo.png';
 
 {/*TODO Translate*/ }
-const teaser_header = "Encrypt your files before they reach the cloud";
+const teaser_header = "Encrypt your cloud storage";
 const teaser_paragraph1 = "CryFS encrypts your files locally, so only you can read them — even if your cloud storage is compromised. Works seamlessly with Dropbox, Google Drive, iCloud, OneDrive, and any cloud provider.";
 
 const onDownloadButtonClick = () => {

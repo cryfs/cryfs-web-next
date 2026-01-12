@@ -25,8 +25,8 @@ export class HomePage extends BasePage {
     super(page);
 
     // Teaser buttons (desktop)
-    this.downloadButton = page.locator('section').filter({ hasText: 'Encrypt your files before' }).getByRole('button', { name: 'Download' });
-    this.tutorialButton = page.locator('section').filter({ hasText: 'Encrypt your files before' }).getByRole('button', { name: 'Tutorial' });
+    this.downloadButton = page.locator('section').filter({ hasText: 'Encrypt your cloud storage' }).getByRole('button', { name: 'Download' });
+    this.tutorialButton = page.locator('section').filter({ hasText: 'Encrypt your cloud storage' }).getByRole('button', { name: 'Tutorial' });
 
     // Newsletter
     this.newsletterEmailInput = page.locator('#inputEmail');
