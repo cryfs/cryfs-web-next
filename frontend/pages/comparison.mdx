@@ -236,6 +236,52 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 
 </Container>
 </section>
+<section id="cryfs">
+<Container>
+
+## CryFS
+
+<Row>
+<Col md="6">
+<Picture src={CryFsImg} alt="CryFS" className={styles.image} />
+</Col>
+<Col md="5">
+
+Since all of the solutions above have significant disadvantages when used with Dropbox,
+we developed [CryFS](https://www.cryfs.org).
+Like all other solutions described here, it offers a virtual filesystem and you can work with your files without thinking about the
+encryption that is happening in the background.
+While it can also be used for local encryption as an alternative to the other tools listed here,
+it was built specifically to be used together with Dropbox or other cloud storage providers.
+It supports Linux and Mac, and since version 0.10 has experimental Windows support.
+
+</Col>
+<Col md="12">
+
+CryFS follows established security standards and is the only tool in this list that works well together with Dropbox
+and is secure. As opposed to VeraCrypt, it keeps its data in small encrypted blocks and changing a small file
+results in only a small amount of data to be re-uploaded.
+As opposed to gocryptfs, EncFS and eCryptfs, it doesn't only encrypt your file contents, but also file sizes, file metadata and
+directory structure. See <a href="#metadata-encryption">why metadata encryption matters</a> to understand how much information can leak through unencrypted metadata.
+More information on how this is achieved can be found <Link href="/howitworks">here</Link>.
+The security of CryFS has been proven in a [master's thesis](/cryfs_mathesis.pdf) in 2015.
+As far as we know, CryFS is the only solution in this list for which this has been done.
+
+CryFS offers confidentiality and, since version 0.10, also integrity of your data. This means, attackers cannot read your files, file sizes
+or directory structure, and also prevents attackers from modifying any of that.
+The main drawback of CryFS is that it is relatively new.
+The current version is not considered stable yet by the developers and if you decide to use it, regular backups are strongly recommended.
+It has gotten quite a bit more stable recently though and is successfully used in a lot of settings already.
+
+The increase in security when compared to other file systems comes at a performance cost.
+CryFS is fast enough to be used in practice.
+I'm getting a read speed to 170MB/s and a write speed of 80MB/s on my SSD machine, but other file systems are even faster.
+
+</Col>
+</Row>
+
+</Container>
+</section>
 <section id="metadata-encryption">
 <Container>
 
@@ -269,52 +315,6 @@ Some metadata patterns can also signal to attackers that you're a worthwhile tar
 - **Password manager databases**: Small files matching known formats (KeePass, 1Password) indicate you likely have credentials worth stealing.
 
 This is also relevant for [watermarking attacks](https://en.wikipedia.org/wiki/Watermarking_attack), which we will not explain in detail here.
-
-</Container>
-</section>
-<section id="cryfs">
-<Container>
-
-## CryFS
-
-<Row>
-<Col md="6">
-<Picture src={CryFsImg} alt="CryFS" className={styles.image} />
-</Col>
-<Col md="5">
-
-Since all of the solutions above have significant disadvantages when used with Dropbox,
-we developed [CryFS](https://www.cryfs.org).
-Like all other solutions described here, it offers a virtual filesystem and you can work with your files without thinking about the
-encryption that is happening in the background.
-While it can also be used for local encryption as an alternative to the other tools listed here,
-it was built specifically to be used together with Dropbox or other cloud storage providers.
-It supports Linux and Mac, and since version 0.10 has experimental Windows support.
-
-</Col>
-<Col md="12">
-
-CryFS follows established security standards and is the only tool in this list that works well together with Dropbox
-and is secure. As opposed to VeraCrypt, it keeps its data in small encrypted blocks and changing a small file
-results in only a small amount of data to be re-uploaded.
-As opposed to gocryptfs, EncFS and eCryptfs, it doesn't only encrypt your file contents, but also file sizes, file metadata and
-directory structure.
-More information on how this is achieved can be found <Link href="/howitworks">here</Link>.
-The security of CryFS has been proven in a [master's thesis](/cryfs_mathesis.pdf) in 2015.
-As far as we know, CryFS is the only solution in this list for which this has been done.
-
-CryFS offers confidentiality and, since version 0.10, also integrity of your data. This means, attackers cannot read your files, file sizes
-or directory structure, and also prevents attackers from modifying any of that.
-The main drawback of CryFS is that it is relatively new.
-The current version is not considered stable yet by the developers and if you decide to use it, regular backups are strongly recommended.
-It has gotten quite a bit more stable recently though and is successfully used in a lot of settings already.
-
-The increase in security when compared to other file systems comes at a performance cost.
-CryFS is fast enough to be used in practice.
-I'm getting a read speed to 170MB/s and a write speed of 80MB/s on my SSD machine, but other file systems are even faster.
-
-</Col>
-</Row>
 
 </Container>
 </section>
