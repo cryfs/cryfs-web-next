@@ -1,8 +1,9 @@
 const React = require('react');
+const ReactDOM = require('react-dom');
 
 const Head = ({ children }) => {
-  // Render children into a div so tests can query them
-  return React.createElement('div', { 'data-testid': 'next-head' }, children);
+  // Portal children into actual document.head so meta/title elements work correctly
+  return ReactDOM.createPortal(children, document.head);
 };
 
 module.exports = Head;

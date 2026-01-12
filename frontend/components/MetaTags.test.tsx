@@ -1,11 +1,24 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import MetaTags from './MetaTags';
 
-// The Head component is mocked to render children into a div with data-testid="next-head"
-// Meta tags inside body get normalized by jsdom, so we test that rendering works correctly
+// Helper to query meta tags from document.head
+const getMetaContent = (property: string): string | null => {
+  const meta = document.head.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null;
+  return meta?.content ?? null;
+};
+
+const getMetaName = (name: string): string | null => {
+  const meta = document.head.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
+  return meta?.content ?? null;
+};
 
 describe('MetaTags', () => {
+  beforeEach(() => {
+    // Clear any meta tags from previous tests
+    document.head.innerHTML = '';
+  });
+
   it('renders without crashing', () => {
     render(
       <MetaTags
@@ -15,7 +28,6 @@ describe('MetaTags', () => {
       />
     );
     // If we get here without throwing, the component rendered successfully
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
   });
 
   it('renders with required props', () => {
@@ -27,8 +39,10 @@ describe('MetaTags', () => {
       />
     );
 
-    // The Head mock wrapper is rendered
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('og:title')).toBe('CryFS - Secure Cloud Storage');
+    expect(getMetaContent('og:url')).toBe('https://cryfs.org');
+    expect(getMetaContent('og:description')).toBe('Encrypt your Dropbox with CryFS');
+    expect(getMetaName('description')).toBe('Encrypt your Dropbox with CryFS');
   });
 
   it('renders title element', () => {
@@ -40,8 +54,7 @@ describe('MetaTags', () => {
       />
     );
 
-    // Component renders successfully with title prop
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(document.head.querySelector('title')?.textContent).toBe('Page Title');
   });
 
   it('defaults og:type to website when not provided', () => {
@@ -53,8 +66,7 @@ describe('MetaTags', () => {
       />
     );
 
-    // Component renders successfully with default type
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('og:type')).toBe('website');
   });
 
   it('uses provided og:type', () => {
@@ -67,7 +79,7 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('og:type')).toBe('article');
   });
 
   it('renders article author meta tag for article type', () => {
@@ -80,7 +92,7 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('article:author')).toBe('https://www.facebook.com/sebastian.messmer');
   });
 
   it('does not render article author meta tag for non-article types', () => {
@@ -93,7 +105,7 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('article:author')).toBeNull();
   });
 
   it('does not render article author meta tag when type is undefined', () => {
@@ -105,7 +117,7 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('article:author')).toBeNull();
   });
 
   it('renders og:image meta tag', () => {
@@ -117,7 +129,7 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('og:image')).toBeTruthy();
   });
 
   it('handles special characters in title and description', () => {
@@ -129,8 +141,8 @@ describe('MetaTags', () => {
       />
     );
 
-    // Component renders successfully with special characters
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('og:title')).toBe('CryFS & Security <Features>');
+    expect(getMetaContent('og:description')).toBe('Encrypt your files & folders safely');
   });
 
   it('handles URLs with query parameters', () => {
@@ -142,7 +154,7 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('og:url')).toBe('https://example.com/page?param=value');
   });
 
   it('handles URLs with hash fragments', () => {
@@ -154,6 +166,6 @@ describe('MetaTags', () => {
       />
     );
 
-    expect(screen.getByTestId('next-head')).toBeInTheDocument();
+    expect(getMetaContent('og:url')).toBe('https://example.com/page#section');
   });
 });
