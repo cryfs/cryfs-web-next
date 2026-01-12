@@ -132,7 +132,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   deploy-preview:
-    needs: [test, test-e2e, build]
+    needs: [build]
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
