@@ -136,7 +136,7 @@ So VeraCrypt is a good choice if you are only encrypting your files locally and 
 
 [Gocryptfs](https://nuetzlich.net/gocryptfs/), like VeraCrypt, offers you a virtual filesystem, so the encryption is happening
 in the background and doesn't interfere with your workflows.
-It doesn't natively support Windows, and [macOS support is in beta](https://github.com/rfjakob/gocryptfs#macos). For Windows users, there is a third party client
+It doesn't natively support Windows, and [macOS support is in beta](https://github.com/rfjakob/gocryptfs#platforms). For Windows users, there is a third party client
 ([cppcryptfs](https://github.com/bailey27/cppcryptfs)).
 As opposed to VeraCrypt, it doesn't store your files in one big container file, but encrypts your files individually.
 For each of your files, there is an encrypted version in your Dropbox.
@@ -199,7 +199,7 @@ So if you want to rely on this feature, make sure you store the config file loca
 A probably even larger issue with EncFS is a [security audit](https://defuse.ca/audits/encfs.htm) from 2014 that
 attests EncFS to deviate from established security standards and also found some vulnerabilities in the current EncFS implementation.
 The original C++ codebase is [no longer actively maintained](https://github.com/vgough/encfs).
-The maintainer is working on a Rust port focused on reading legacy encrypted data, but [recommends gocryptfs](https://github.com/vgough/encfs#status) for new encrypted filesystem setups.
+The maintainer is working on a Rust port focused on reading legacy encrypted data, but [recommends gocryptfs](https://github.com/vgough/encfs#status---dec-2025) for new encrypted filesystem setups.
 Among other vulnerabilities, the security audit found one that is especially a problem with cloud storage.
 EncFS is not secure when an attacker gets multiple versions of the same encrypted file at different times.
 So if you upload your files to your Dropbox and then modify them, they are not securely encrypted anymore.
