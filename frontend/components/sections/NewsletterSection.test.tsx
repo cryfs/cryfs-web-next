@@ -21,7 +21,7 @@ describe('NewsletterSection', () => {
   describe('rendering', () => {
     it('renders the heading', () => {
       render(<NewsletterSection />);
-      expect(screen.getByText(/get notified when there are updates/i)).toBeInTheDocument();
+      expect(screen.getByText(/stay updated on new releases and security news/i)).toBeInTheDocument();
     });
 
     it('renders email input field', () => {
