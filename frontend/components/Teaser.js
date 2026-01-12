@@ -1,10 +1,12 @@
 "use strict";
 
+import Image from 'next-export-optimize-images/image';
 import Button from 'react-bootstrap/Button';
 import Link from "next/link";
 import { logAnalyticsEvent } from './Analytics'
 import styles from './Teaser.module.css';
 import teaserImage from '../assets/images/teaser.jpg';
+import logoImage from '../assets/images/logo.png';
 
 {/*TODO Translate*/ }
 const teaser_header = "Keep your data safe in the cloud"
@@ -23,7 +25,16 @@ const Teaser = () => (
         <section className={`${styles.mdTeaser} d-none d-lg-block`}>
             <div className="clearfix">
                 <div className={styles.mdContent}>
-                    <div className={styles.mdImage} style={{ backgroundImage: `url(${teaserImage})` }} />
+                    <div className={styles.mdImage}>
+                        <Image
+                            src={teaserImage}
+                            alt=""
+                            fill
+                            sizes="2013px"
+                            style={{ objectFit: 'cover', objectPosition: 'left top' }}
+                            priority
+                        />
+                    </div>
                     <div className={`${styles.mdTitleText} lead text-center`}>
                         {/*TODO Translate*/}
                         <h1 className={styles.mdTitleTextH1}>{teaser_header}</h1>
@@ -44,7 +55,7 @@ const Teaser = () => (
             <div className="clearfix">
                 <div className={styles.smContent}>
                     <div className={`${styles.smImage} text-center`}>
-                        <img src={require('../assets/images/logo.png')} alt="Logo" width="200" height="150" />
+                        <Image src={logoImage} alt="Logo" width={200} height={150} />
                         <div className="lead text-center title-text">
                             <h1 className={styles.smTitleTextH1}>{teaser_header}</h1>
                             <p className={styles.smTitleTextP}>{teaser_paragraph1}</p>
