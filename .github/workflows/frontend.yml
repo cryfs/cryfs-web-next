@@ -134,6 +134,7 @@ jobs:
   deploy-preview:
     needs: [build]
     if: github.event_name == 'pull_request'
+    environment: cloudflare-preview
     runs-on: ubuntu-latest
     permissions:
       contents: read
