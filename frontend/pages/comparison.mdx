@@ -60,6 +60,17 @@ This happens transparently, so you get strong security without changing how you 
 In the following, we will explain the available tools and explain how they can be used with cloud storage.
 If you're just interested in the results, <a href="#summary">scroll down</a>.
 
+### Quick Overview
+
+| Tool | Verdict |
+|------|---------|
+| <a href="#cryfs">**CryFS**</a> | **Recommended** — Most secure option with full metadata encryption; ideal for cloud storage |
+| <a href="#cryptomator">**Cryptomator**</a> | Good choice — User-friendly with strong file encryption; exposes file sizes |
+| <a href="#gocryptfs">**gocryptfs**</a> | Decent option — Fast and audited; doesn't hide metadata or directory structure |
+| <a href="#veracrypt">**VeraCrypt**</a> | Local only — Excellent for local disk encryption; not designed for cloud sync |
+| <a href="#encfs">**EncFS**</a> | Not recommended — Known security vulnerabilities; no longer maintained |
+| <a href="#ecryptfs">**eCryptfs**</a> | Not recommended — Not designed for cloud storage; may cause sync issues |
+
 </Container>
 </section>
 <section id="proprietary">
