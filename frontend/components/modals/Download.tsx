@@ -1,17 +1,15 @@
 import React, { useState, useMemo } from 'react';
-import Picture from 'next-export-optimize-images/picture';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLinux, faApple, faWindows, faUbuntu } from '@fortawesome/free-brands-svg-icons';
 import { Console, ConsoleCommand } from '../../components/Console';
 import RouteHashBasedModal from './RouteHashBasedModal';
 import { VersionNumber } from '../../config/CryfsVersion';
-import UbuntuLogo from '../../assets/images/ubuntu.png';
-import DebianLogo from '../../assets/images/debian.png';
-import OtherLogo from '../../assets/images/other_os.png';
 import classnames from 'classnames';
 import { logAnalyticsEvent } from '../Analytics';
 import styles from './Download.module.css';
@@ -75,65 +73,34 @@ function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
 
 const tabs = (): TabDefinition[] => [
     {
-        analytics_name: 'ubuntu',
+        analytics_name: 'debian_ubuntu',
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <Picture src={UbuntuLogo} alt="Ubuntu" width={61} height={61} />
+                    <FontAwesomeIcon icon={faUbuntu} className={styles.osIcon} aria-label="Debian/Ubuntu" />
                 </Col>
                 <Col md="12" className={styles.osName}>
-                    Ubuntu
+                    Debian/Ubuntu
                 </Col>
             </Row>),
         body: (
             <>
                 <h3>Easy Install</h3>
-                <p>CryFS is available in the official Ubuntu repositories.</p>
+                <p>CryFS is available in the official Debian and Ubuntu repositories.</p>
                 <Console>
                     <ConsoleCommand className={styles.easyinstallCommand}>
                         sudo apt install cryfs
                     </ConsoleCommand>
                 </Console>
-                <h3>Build from Source</h3>
-                <p>
-                    For the latest version, you can <a href="https://github.com/cryfs/cryfs">build CryFS from source</a>.
-                </p>
             </>
         )
     },
     {
-        analytics_name: 'debian',
+        analytics_name: 'linux',
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <Picture src={DebianLogo} alt="Debian" width={50} height={61} />
-                </Col>
-                <Col md="12" className={styles.osName}>
-                    Debian
-                </Col>
-            </Row>),
-        body: (
-            <>
-                <h3>Easy Install</h3>
-                <p>CryFS is available in the official Debian repositories.</p>
-                <Console>
-                    <ConsoleCommand className={styles.easyinstallCommand}>
-                        sudo apt install cryfs
-                    </ConsoleCommand>
-                </Console>
-                <h3>Build from Source</h3>
-                <p>
-                    For the latest version, you can <a href="https://github.com/cryfs/cryfs">build CryFS from source</a>.
-                </p>
-            </>
-        )
-    },
-    {
-        analytics_name: 'other_linux',
-        header: (
-            <Row className={styles.osBox}>
-                <Col md="12">
-                    <Picture src={OtherLogo} alt="Other Linux" width={61} height={61} />
+                    <FontAwesomeIcon icon={faLinux} className={styles.osIcon} aria-label="Linux" />
                 </Col>
                 <Col md="12" className={styles.osName}>
                     Other Linux
@@ -141,7 +108,7 @@ const tabs = (): TabDefinition[] => [
             </Row>),
         body: (
             <>
-                <h3>Easy Install</h3>
+                <h3>Package Managers</h3>
                 <p>
                     Many Linux distributions include CryFS in their package repositories. Check your distribution&apos;s package manager.
                 </p>
@@ -157,7 +124,7 @@ const tabs = (): TabDefinition[] => [
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <Picture src={OtherLogo} alt="macOS" width={61} height={61} />
+                    <FontAwesomeIcon icon={faApple} className={styles.osIcon} aria-label="macOS" />
                 </Col>
                 <Col md="12" className={styles.osName}>
                     macOS
@@ -192,7 +159,7 @@ const tabs = (): TabDefinition[] => [
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <Picture src={OtherLogo} alt="Windows" width={61} height={61} />
+                    <FontAwesomeIcon icon={faWindows} className={styles.osIcon} aria-label="Windows" />
                 </Col>
                 <Col md="12" className={styles.osName}>
                     Windows

@@ -17,6 +17,11 @@
     cursor: pointer;
 }
 
+.osIcon {
+    font-size: 48px;
+    height: 61px;
+}
+
 .osName {
     vertical-align: middle;
     font-size: large;

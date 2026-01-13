@@ -45,14 +45,9 @@ describe('DownloadModal', () => {
       expect(screen.getByText('Select your operating system')).toBeInTheDocument();
     });
 
-    it('renders Ubuntu tab', () => {
+    it('renders Debian/Ubuntu tab', () => {
       render(<DownloadModal />);
-      expect(screen.getByText('Ubuntu')).toBeInTheDocument();
-    });
-
-    it('renders Debian tab', () => {
-      render(<DownloadModal />);
-      expect(screen.getByText('Debian')).toBeInTheDocument();
+      expect(screen.getByText('Debian/Ubuntu')).toBeInTheDocument();
     });
 
     it('renders Other Linux tab', () => {
@@ -70,13 +65,12 @@ describe('DownloadModal', () => {
       expect(screen.getByText('Windows')).toBeInTheDocument();
     });
 
-    it('renders OS logos', () => {
+    it('renders OS icons with aria-labels', () => {
       render(<DownloadModal />);
-      expect(screen.getByAltText('Ubuntu')).toBeInTheDocument();
-      expect(screen.getByAltText('Debian')).toBeInTheDocument();
-      expect(screen.getByAltText('Other Linux')).toBeInTheDocument();
-      expect(screen.getByAltText('macOS')).toBeInTheDocument();
-      expect(screen.getByAltText('Windows')).toBeInTheDocument();
+      expect(screen.getByLabelText('Debian/Ubuntu')).toBeInTheDocument();
+      expect(screen.getByLabelText('Linux')).toBeInTheDocument();
+      expect(screen.getByLabelText('macOS')).toBeInTheDocument();
+      expect(screen.getByLabelText('Windows')).toBeInTheDocument();
     });
 
     it('renders link to older releases', () => {
@@ -90,43 +84,42 @@ describe('DownloadModal', () => {
     });
   });
 
-  describe('Ubuntu tab content', () => {
-    it('shows Ubuntu installation command', () => {
+  describe('Debian/Ubuntu tab content', () => {
+    it('shows Debian/Ubuntu installation command', () => {
       render(<DownloadModal />);
 
-      // Ubuntu and Debian share the same command, so there may be multiple instances
-      const commands = screen.getAllByText('sudo apt install cryfs');
-      expect(commands.length).toBeGreaterThan(0);
+      expect(screen.getByText('sudo apt install cryfs')).toBeInTheDocument();
     });
 
-    it('shows Easy Install section for Ubuntu', () => {
+    it('shows Debian/Ubuntu repository info', () => {
       render(<DownloadModal />);
-      // There may be multiple "Easy Install" headings (Ubuntu and Debian)
-      const easyInstalls = screen.getAllByText('Easy Install');
-      expect(easyInstalls.length).toBeGreaterThan(0);
-      expect(screen.getByText(/CryFS is available in the official Ubuntu repositories/)).toBeInTheDocument();
+      expect(screen.getByText(/CryFS is available in the official Debian and Ubuntu repositories/)).toBeInTheDocument();
+    });
+  });
+
+  describe('Other Linux tab content', () => {
+    it('shows package manager info', async () => {
+      const user = userEvent.setup();
+      render(<DownloadModal />);
+
+      await user.click(screen.getByText('Other Linux'));
+
+      expect(screen.getByText(/Check your distribution/)).toBeInTheDocument();
     });
 
-    it('shows build from source option', () => {
+    it('shows build from source option', async () => {
+      const user = userEvent.setup();
       render(<DownloadModal />);
-      // There may be multiple "Build from Source" sections
-      const alternatives = screen.getAllByText('Build from Source');
-      expect(alternatives.length).toBeGreaterThan(0);
+
+      await user.click(screen.getByText('Other Linux'));
+
+      // Both Other Linux and macOS have "Build from Source", so check that at least one is visible
+      const buildFromSourceLinks = screen.getAllByText('Build from Source');
+      expect(buildFromSourceLinks.length).toBeGreaterThan(0);
     });
   });
 
   describe('tab switching', () => {
-    it('switches to Debian tab when clicked', async () => {
-      const user = userEvent.setup();
-      render(<DownloadModal />);
-
-      // Click on Debian tab
-      await user.click(screen.getByText('Debian'));
-
-      // Debian content should be visible
-      expect(screen.getByText(/CryFS is available in the official Debian repositories/)).toBeInTheDocument();
-    });
-
     it('switches to Other Linux tab when clicked', async () => {
       const user = userEvent.setup();
       render(<DownloadModal />);
@@ -154,14 +147,39 @@ describe('DownloadModal', () => {
       expect(screen.getByText(/Windows support is experimental/)).toBeInTheDocument();
     });
 
-    it('logs analytics event when switching tabs', async () => {
+    it('switches back to Debian/Ubuntu tab when clicked', async () => {
+      const user = userEvent.setup();
+      render(<DownloadModal />);
+
+      // Switch to Windows first
+      await user.click(screen.getByText('Windows'));
+      expect(screen.getByText(/Windows support is experimental/)).toBeInTheDocument();
+
+      // Switch back to Debian/Ubuntu
+      await user.click(screen.getByText('Debian/Ubuntu'));
+      expect(screen.getByText('sudo apt install cryfs')).toBeInTheDocument();
+    });
+
+    it('logs analytics event for Debian/Ubuntu tab', async () => {
       const user = userEvent.setup();
       const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       render(<DownloadModal />);
 
-      await user.click(screen.getByText('Debian'));
+      // Switch away first, then back to Debian/Ubuntu
+      await user.click(screen.getByText('macOS'));
+      await user.click(screen.getByText('Debian/Ubuntu'));
 
-      expect(logAnalyticsEvent).toHaveBeenCalledWith('download', 'click_debian_tab');
+      expect(logAnalyticsEvent).toHaveBeenCalledWith('download', 'click_debian_ubuntu_tab');
+    });
+
+    it('logs analytics event for Other Linux tab', async () => {
+      const user = userEvent.setup();
+      const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
+      render(<DownloadModal />);
+
+      await user.click(screen.getByText('Other Linux'));
+
+      expect(logAnalyticsEvent).toHaveBeenCalledWith('download', 'click_linux_tab');
     });
 
     it('logs analytics event for macOS tab', async () => {
@@ -182,19 +200,6 @@ describe('DownloadModal', () => {
       await user.click(screen.getByText('Windows'));
 
       expect(logAnalyticsEvent).toHaveBeenCalledWith('download', 'click_windows_tab');
-    });
-  });
-
-  describe('Debian tab content', () => {
-    it('shows Debian installation command', async () => {
-      const user = userEvent.setup();
-      render(<DownloadModal />);
-
-      await user.click(screen.getByText('Debian'));
-
-      // Ubuntu and Debian share the same command
-      const commands = screen.getAllByText('sudo apt install cryfs');
-      expect(commands.length).toBeGreaterThan(0);
     });
   });
 
@@ -263,20 +268,16 @@ describe('DownloadModal', () => {
   });
 
   describe('tab state management', () => {
-    it('Ubuntu tab is active by default', () => {
+    it('Debian/Ubuntu tab is active by default', () => {
       render(<DownloadModal />);
 
-      // Check that Ubuntu content is visible
-      expect(screen.getByText(/CryFS is available in the official Ubuntu repositories/)).toBeInTheDocument();
+      // Check that Debian/Ubuntu content is visible
+      expect(screen.getByText('sudo apt install cryfs')).toBeInTheDocument();
     });
 
     it('maintains tab state after multiple switches', async () => {
       const user = userEvent.setup();
       render(<DownloadModal />);
-
-      // Switch to Debian
-      await user.click(screen.getByText('Debian'));
-      expect(screen.getByText(/CryFS is available in the official Debian repositories/)).toBeInTheDocument();
 
       // Switch to macOS
       await user.click(screen.getByText('macOS'));
@@ -286,9 +287,9 @@ describe('DownloadModal', () => {
       await user.click(screen.getByText('Windows'));
       expect(screen.getByText(/Windows support is experimental/)).toBeInTheDocument();
 
-      // Switch back to Ubuntu
-      await user.click(screen.getByText('Ubuntu'));
-      expect(screen.getByText(/CryFS is available in the official Ubuntu repositories/)).toBeInTheDocument();
+      // Switch back to Debian/Ubuntu
+      await user.click(screen.getByText('Debian/Ubuntu'));
+      expect(screen.getByText('sudo apt install cryfs')).toBeInTheDocument();
     });
 
     it('does not re-trigger analytics when clicking active tab', async () => {
@@ -296,11 +297,11 @@ describe('DownloadModal', () => {
       const { logAnalyticsEvent } = await import('../Analytics') as { logAnalyticsEvent: jest.Mock };
       render(<DownloadModal />);
 
-      // Click on Ubuntu (already active) - should still log
-      await user.click(screen.getByText('Ubuntu'));
+      // Click on Debian/Ubuntu (already active) - should still log
+      await user.click(screen.getByText('Debian/Ubuntu'));
 
       // Click again
-      await user.click(screen.getByText('Ubuntu'));
+      await user.click(screen.getByText('Debian/Ubuntu'));
 
       // Both clicks should have logged
       expect(logAnalyticsEvent).toHaveBeenCalledTimes(2);
@@ -311,9 +312,8 @@ describe('DownloadModal', () => {
     it('renders console commands with proper formatting', () => {
       render(<DownloadModal />);
 
-      // Find console commands (may be multiple due to Ubuntu and Debian tabs)
-      const consoleCommands = screen.getAllByText('sudo apt install cryfs');
-      expect(consoleCommands.length).toBeGreaterThan(0);
+      const consoleCommand = screen.getByText('sudo apt install cryfs');
+      expect(consoleCommand).toBeInTheDocument();
     });
   });
 });
