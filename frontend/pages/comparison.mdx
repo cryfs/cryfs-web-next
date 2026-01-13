@@ -100,7 +100,7 @@ It is an unofficial successor to [TrueCrypt](http://truecrypt.sourceforge.net/),
 and [has known vulnerabilities](http://www.pcworld.com/article/2987439/encryption/newly-found-truecrypt-flaw-allows-full-system-compromise.html).
 
 VeraCrypt is believed to be a secure encryption tool to encrypt your files locally.
-It keeps your files confidential, but does not protect the integrity, i.e. a hacker can't read your files, but they could modify them without you noticing.
+It keeps your files confidential, but [does not protect the integrity](https://github.com/veracrypt/VeraCrypt/issues/681), i.e. a hacker can't read your files, but they could modify them without you noticing.
 Like all solutions presented here, it offers you a virtual filesystem and the unencrypted files are never actually stored on your hard disk.
 VeraCrypt then stores all filesystem data in one encrypted container file.
 If you want to use it to encrypt your Dropbox, you could put the encrypted container file in your Dropbox folder
@@ -167,7 +167,7 @@ This might not seem like a problem at first, but <a href="#metadata-encryption">
 
 Gocryptfs uses GCM cipher mode and has been [independently audited](https://defuse.ca/audits/gocryptfs.htm). This means it doesn't only protect confidentiality, i.e. against adversaries reading your files,
 but also integrity, i.e. against adversaries modifying your files without you noticing it.
-The same restriction mentioned for confidentiality also applies for integrity though. It only ensures that the file contents you're reading were at some point written by you.
+The same restriction mentioned for confidentiality also applies for integrity though. It [only ensures that the file contents you're reading were at some point written by you](https://github.com/rfjakob/gocryptfs-website/blob/master/docs/threat_model.md#dragon-permanent-read-write-access-to-the-ciphertext).
 Attackers can change directory structure, add or delete files or folders, re-add files deleted earlier by you, replace files with earlier versions of themselves
 or replace their content with the content of other files, or earlier versions of those other files, and you wouldn't necessarily notice any of that.
 Solutions with <a href="#metadata-encryption">full metadata encryption</a> like <Link href="#cryfs">CryFS</Link> protect against these kinds of attacks.
@@ -208,7 +208,7 @@ attests EncFS to deviate from established security standards and also found some
 The original C++ codebase is [no longer actively maintained](https://github.com/vgough/encfs).
 The maintainer is working on a Rust port focused on reading legacy encrypted data, but [recommends gocryptfs](https://github.com/vgough/encfs#status---dec-2025) for new encrypted filesystem setups.
 Among other vulnerabilities, the security audit found one that is especially a problem with cloud storage.
-EncFS is not secure when an attacker gets multiple versions of the same encrypted file at different times.
+EncFS is [not secure when an attacker gets multiple versions of the same encrypted file at different times](https://defuse.ca/audits/encfs.htm).
 So if you upload your files to your Dropbox and then modify them, they are not securely encrypted anymore.
 
 Due to the unpatched security vulnerabilities and unmaintained status, EncFS is not recommended for new encrypted filesystems.
