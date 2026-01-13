@@ -309,7 +309,7 @@ Like all other solutions described here, it offers a virtual filesystem and you 
 encryption that is happening in the background.
 While it can also be used for local encryption as an alternative to the other tools listed here,
 it was built specifically to be used together with cloud storage providers like Dropbox, Google Drive, OneDrive, and others.
-It supports Linux, Mac, and has experimental Windows support since version 0.10.
+It supports Linux, Mac, and has experimental Windows support.
 
 </Col>
 <Col md="6">
@@ -326,7 +326,7 @@ More information on how this is achieved can be found <Link href="/howitworks">h
 The security of CryFS has been proven in a [master's thesis](/cryfs_mathesis.pdf) in 2015.
 As far as we know, CryFS is the only solution in this list for which this has been done.
 
-CryFS offers confidentiality and, since version 0.10, also integrity of your data. This means, attackers cannot read your files, file sizes
+CryFS offers confidentiality and integrity of your data. This means, attackers cannot read your files, file sizes
 or directory structure, and also prevents attackers from modifying any of that.
 CryFS has been actively developed since 2015 and is now a mature, stable solution used by thousands of users.
 As with any encryption tool, regular backups are still recommended as a best practice.
@@ -390,7 +390,7 @@ eCryptfs might cause crashes or undefined behavior if there is more than one dev
 VeraCrypt works, as long as your container file is small, i.e. you don't mind synchronizing the whole container file on each change, and if you always let it finish synchronization before modifying the files on another computer.
 Cryptomator is an excellent choice if you want a polished GUI experience with good security for file contents, though it doesn't hide file sizes or directory structure.
 CryFS solves all of these issues, but the increased security comes with a slight performance trade-off.
-CryFS is available for Linux and Mac, with experimental Windows support since version 0.10.
+CryFS is available for Linux and Mac, with experimental Windows support.
 
 <ComparisonTable>
     <ComparisonTableHead>
@@ -521,10 +521,10 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
 <ol className={styles.footnotes}>
     <li className={styles.footnotesLi}>CryFS is fast enough to be used in practice, but some of the other file systems in the list are faster.</li>
     <li className={styles.footnotesLi}>VeraCrypt causes unresolvable conflicts when modifying the filesystem on two machines without full synchronization inbetween.</li>
-    <li className={styles.footnotesLi}>CryFS supports this starting with version 0.10.</li>
+    <li className={styles.footnotesLi}>CryFS supports this.</li>
     <li className={styles.footnotesLi}>Gocryptfs and Cryptomator only make sure that the data you're reading was at some point written by you. They do not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</li>
     <li className={styles.footnotesLi}>Like in (d), EncFS also only makes sure that the data you're reading was at some point written by you. Furthermore, the current implementation is flawed because a hacker can simply disable the integrity check.</li>
-    <li className={styles.footnotesLi}>There is experimental Windows support starting with CryFS version 0.10.</li>
+    <li className={styles.footnotesLi}>There is experimental Windows support for CryFS.</li>
     <li className={styles.footnotesLi}>There are third-party Windows clients: <a href="https://github.com/bailey27/cppcryptfs">cppcryptfs</a> for gocryptfs and <a href="https://github.com/jetwhiz/encfs4win">encfs4win</a> for EncFS.</li>
     <li className={styles.footnotesLi}>Cryptomator flattens the directory hierarchy so all encrypted directories are stored as siblings, hiding the nesting structure. However, attackers can still see the number of directories and which files belong to each directory.</li>
 </ol>
