@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinux, faApple, faWindows, faUbuntu } from '@fortawesome/free-brands-svg-icons';
+import { faLinux, faApple, faWindows } from '@fortawesome/free-brands-svg-icons';
 import { Console, ConsoleCommand } from '../../components/Console';
 import RouteHashBasedModal from './RouteHashBasedModal';
 import { VersionNumber } from '../../config/CryfsVersion';
@@ -73,29 +73,6 @@ function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
 
 const tabs = (): TabDefinition[] => [
     {
-        analytics_name: 'debian_ubuntu',
-        header: (
-            <Row className={styles.osBox}>
-                <Col md="12">
-                    <FontAwesomeIcon icon={faUbuntu} className={styles.osIcon} aria-label="Debian/Ubuntu" />
-                </Col>
-                <Col md="12" className={styles.osName}>
-                    Debian/Ubuntu
-                </Col>
-            </Row>),
-        body: (
-            <>
-                <h3>Easy Install</h3>
-                <p>CryFS is available in the official Debian and Ubuntu repositories.</p>
-                <Console>
-                    <ConsoleCommand className={styles.easyinstallCommand}>
-                        sudo apt install cryfs
-                    </ConsoleCommand>
-                </Console>
-            </>
-        )
-    },
-    {
         analytics_name: 'linux',
         header: (
             <Row className={styles.osBox}>
@@ -103,12 +80,19 @@ const tabs = (): TabDefinition[] => [
                     <FontAwesomeIcon icon={faLinux} className={styles.osIcon} aria-label="Linux" />
                 </Col>
                 <Col md="12" className={styles.osName}>
-                    Other Linux
+                    Linux
                 </Col>
             </Row>),
         body: (
             <>
-                <h3>Package Managers</h3>
+                <h3>Debian / Ubuntu</h3>
+                <p>CryFS is available in the official Debian and Ubuntu repositories.</p>
+                <Console>
+                    <ConsoleCommand className={styles.easyinstallCommand}>
+                        sudo apt install cryfs
+                    </ConsoleCommand>
+                </Console>
+                <h3>Other Distributions</h3>
                 <p>
                     Many Linux distributions include CryFS in their package repositories. Check your distribution&apos;s package manager.
                 </p>
