@@ -335,6 +335,9 @@ The increase in security when compared to other file systems comes at a performa
 CryFS is fast enough to be used in practice.
 I'm getting a read speed to 170MB/s and a write speed of 80MB/s on my SSD machine, but other file systems are even faster.
 
+CryFS currently does not support concurrent access from multiple devices.
+If you need to access your encrypted files from multiple computers simultaneously, you should ensure only one device has the filesystem mounted at a time.
+
 </Col>
 </Row>
 
