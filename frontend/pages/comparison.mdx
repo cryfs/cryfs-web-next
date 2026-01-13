@@ -273,9 +273,9 @@ An attacker with access to your encrypted files can still see how many files you
 and how they're organized into folders.
 
 Cryptomator uses a WebDAV or FUSE-based virtual filesystem to present decrypted files.
-It has been [independently audited](https://cryptomator.org/audits/2017-11-27%20crypto%20cure53.pdf) by Cure53 in 2017,
-which found a few minor issues that have since been fixed.
-The audit confirmed that Cryptomator provides strong confidentiality for file contents.
+It has been [independently audited](https://cryptomator.org/audits/2017-11-27%20crypto%20cure53.pdf) by Cure53 in 2017.
+The audit confirmed that Cryptomator provides strong confidentiality for file contents,
+noting that "the cryptographic implementation exhibited a quite exceptional level of robustness."
 
 For integrity protection, Cryptomator uses HMAC to detect tampering with file contents.
 However, similar to gocryptfs, it primarily protects individual file integrity—directory structure modifications,
