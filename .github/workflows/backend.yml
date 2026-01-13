@@ -41,6 +41,13 @@ jobs:
       - name: Run Tests
         working-directory: backend
         run: npm test
+      - name: Cache SAM Build
+        uses: actions/cache@v4
+        with:
+          path: backend/.aws-sam/cache
+          key: sam-cache-${{ runner.os }}-${{ hashFiles('backend/**') }}
+          restore-keys: |
+            sam-cache-${{ runner.os }}-
       - name: Build
         working-directory: backend
         run: npm run build
