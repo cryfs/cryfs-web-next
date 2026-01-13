@@ -124,19 +124,14 @@ test.describe('Image Display', () => {
       await basePage.waitForPageLoad();
     });
 
-    test('diagrams load correctly', async ({ page }) => {
-      // The howitworks page has explanatory diagrams
-      const images = page.locator('article img');
-      const count = await images.count();
+    test('storing data diagram loads', async ({ page }) => {
+      const image = page.locator('img[alt="Your files, metadata and directory structure are stored as a set of same-size blocks, encrypted, and stored in the cloud."]');
+      await expectImageLoaded(image, 'Storing data diagram');
+    });
 
-      expect(count, 'How It Works page should have images').toBeGreaterThan(0);
-
-      // Check each image loads
-      for (let i = 0; i < count; i++) {
-        const image = images.nth(i);
-        const altText = await image.getAttribute('alt') ?? `Image ${i + 1}`;
-        await expectImageLoaded(image, `How It Works: ${altText}`);
-      }
+    test('config file encryption diagram loads', async ({ page }) => {
+      const image = page.locator('img[alt="Configuration File Encryption Layers"]');
+      await expectImageLoaded(image, 'Config file encryption diagram');
     });
   });
 });
