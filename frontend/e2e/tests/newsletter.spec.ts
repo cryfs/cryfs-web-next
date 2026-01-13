@@ -11,7 +11,7 @@ test.describe('Newsletter Signup Flow', () => {
 
   test('displays newsletter signup form', async ({ page }) => {
     await homePage.goto();
-    await expect(page.getByText(/get notified when there are updates/i)).toBeVisible();
+    await expect(page.getByText(/stay updated on new releases/i)).toBeVisible();
     await expect(homePage.newsletterEmailInput).toBeVisible();
     await expect(homePage.newsletterSubmitButton).toBeVisible();
   });
