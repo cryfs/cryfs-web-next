@@ -38,11 +38,23 @@ test.describe('Download Modal Flow', () => {
     await expect(debianTab.locator('.nav-link')).toHaveClass(/active/);
     await expect(homePage.getDownloadTabContent()).toContainText('official Debian repositories');
 
-    // Click Other tab
-    const otherTab = homePage.getDownloadTab('Other');
-    await otherTab.click();
-    await expect(otherTab.locator('.nav-link')).toHaveClass(/active/);
-    await expect(homePage.getDownloadTabContent()).toContainText('macOS');
+    // Click Other Linux tab
+    const otherLinuxTab = homePage.getDownloadTab('Other Linux');
+    await otherLinuxTab.click();
+    await expect(otherLinuxTab.locator('.nav-link')).toHaveClass(/active/);
+    await expect(homePage.getDownloadTabContent()).toContainText('package repositories');
+
+    // Click macOS tab
+    const macosTab = homePage.getDownloadTab('macOS');
+    await macosTab.click();
+    await expect(macosTab.locator('.nav-link')).toHaveClass(/active/);
+    await expect(homePage.getDownloadTabContent()).toContainText('Homebrew');
+
+    // Click Windows tab
+    const windowsTab = homePage.getDownloadTab('Windows');
+    await windowsTab.click();
+    await expect(windowsTab.locator('.nav-link')).toHaveClass(/active/);
+    await expect(homePage.getDownloadTabContent()).toContainText('experimental');
   });
 
   test('displays Ubuntu installation instructions', async () => {
@@ -52,19 +64,19 @@ test.describe('Download Modal Flow', () => {
     await expect(content).toContainText('sudo apt install cryfs');
   });
 
-  test('displays Windows installation instructions in Other tab', async () => {
+  test('displays Windows installation instructions in Windows tab', async () => {
     await homePage.openDownloadModal();
-    await homePage.getDownloadTab('Other').click();
+    await homePage.getDownloadTab('Windows').click();
     const content = homePage.getDownloadTabContent();
-    await expect(content).toContainText('Windows');
+    await expect(content).toContainText('experimental');
     await expect(content).toContainText('DokanY');
   });
 
-  test('displays macOS installation instructions in Other tab', async () => {
+  test('displays macOS installation instructions in macOS tab', async () => {
     await homePage.openDownloadModal();
-    await homePage.getDownloadTab('Other').click();
+    await homePage.getDownloadTab('macOS').click();
     const content = homePage.getDownloadTabContent();
-    await expect(content).toContainText('macOS');
+    await expect(content).toContainText('Homebrew');
     await expect(content).toContainText('brew install');
   });
 

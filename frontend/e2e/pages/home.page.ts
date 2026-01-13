@@ -73,7 +73,7 @@ export class HomePage extends BasePage {
   }
 
   // Download modal helpers
-  getDownloadTab(tabName: 'Ubuntu' | 'Debian' | 'Other'): Locator {
+  getDownloadTab(tabName: 'Linux' | 'macOS' | 'Windows'): Locator {
     return this.downloadModal.locator('.nav-item').filter({ hasText: tabName });
   }
 

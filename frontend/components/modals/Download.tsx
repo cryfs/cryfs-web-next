@@ -1,17 +1,15 @@
 import React, { useState, useMemo } from 'react';
-import Picture from 'next-export-optimize-images/picture';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLinux, faApple, faWindows } from '@fortawesome/free-brands-svg-icons';
 import { Console, ConsoleCommand } from '../../components/Console';
 import RouteHashBasedModal from './RouteHashBasedModal';
 import { VersionNumber } from '../../config/CryfsVersion';
-import UbuntuLogo from '../../assets/images/ubuntu.png';
-import DebianLogo from '../../assets/images/debian.png';
-import OtherLogo from '../../assets/images/other_os.png';
 import classnames from 'classnames';
 import { logAnalyticsEvent } from '../Analytics';
 import styles from './Download.module.css';
@@ -42,7 +40,7 @@ function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
 
     const renderTabHeaders = () => {
         return tabs.map((tab, index) => (
-            <Col md="4" key={index}>
+            <Col key={index} className={styles.tabCol}>
                 <Nav.Item className={styles.tabHeader}>
                     <Nav.Link className={classnames({ active: activeTab === index })}
                         onClick={() => { toggle(index); }}>
@@ -75,25 +73,29 @@ function Tabs({ tabs: tabsFunc, initiallyActive }: TabsProps) {
 
 const tabs = (): TabDefinition[] => [
     {
-        analytics_name: 'ubuntu',
+        analytics_name: 'linux',
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <Picture src={UbuntuLogo} alt="Ubuntu" width={61} height={61} />
+                    <FontAwesomeIcon icon={faLinux} className={styles.osIcon} aria-label="Linux" />
                 </Col>
                 <Col md="12" className={styles.osName}>
-                    Ubuntu
+                    Linux
                 </Col>
             </Row>),
         body: (
             <>
-                <h3>Easy Install</h3>
-                <p>CryFS is available in the official Ubuntu repositories.</p>
+                <h3>Debian / Ubuntu</h3>
+                <p>CryFS is available in the official Debian and Ubuntu repositories.</p>
                 <Console>
                     <ConsoleCommand className={styles.easyinstallCommand}>
                         sudo apt install cryfs
                     </ConsoleCommand>
                 </Console>
+                <h3>Other Distributions</h3>
+                <p>
+                    Many Linux distributions include CryFS in their package repositories. Check your distribution&apos;s package manager.
+                </p>
                 <h3>Build from Source</h3>
                 <p>
                     For the latest version, you can <a href="https://github.com/cryfs/cryfs">build CryFS from source</a>.
@@ -102,50 +104,19 @@ const tabs = (): TabDefinition[] => [
         )
     },
     {
-        analytics_name: 'debian',
+        analytics_name: 'macos',
         header: (
             <Row className={styles.osBox}>
                 <Col md="12">
-                    <Picture src={DebianLogo} alt="Debian" width={50} height={61} />
+                    <FontAwesomeIcon icon={faApple} className={styles.osIcon} aria-label="macOS" />
                 </Col>
                 <Col md="12" className={styles.osName}>
-                    Debian
+                    macOS
                 </Col>
             </Row>),
         body: (
             <>
                 <h3>Easy Install</h3>
-                <p>CryFS is available in the official Debian repositories.</p>
-                <Console>
-                    <ConsoleCommand className={styles.easyinstallCommand}>
-                        sudo apt install cryfs
-                    </ConsoleCommand>
-                </Console>
-                <h3>Build from Source</h3>
-                <p>
-                    For the latest version, you can <a href="https://github.com/cryfs/cryfs">build CryFS from source</a>.
-                </p>
-            </>
-        )
-    },
-    {
-        analytics_name: 'other',
-        header: (
-            <Row className={styles.osBox}>
-                <Col md="12">
-                    <Picture src={OtherLogo} alt="Other" width={61} height={61} />
-                </Col>
-                <Col md="12" className={styles.osName}>
-                    Other
-                </Col>
-            </Row>),
-        body: (
-            <>
-                <h3>Other Linux</h3>
-                <p>
-                    Many Linux distributions include CryFS in their package repositories. Check your distribution&apos;s package manager, or <a href="https://github.com/cryfs/cryfs">build from source</a>.
-                </p>
-                <h3>macOS</h3>
                 <p>
                     Install CryFS using <a href="https://brew.sh/">Homebrew</a>:
                 </p>
@@ -160,21 +131,38 @@ const tabs = (): TabDefinition[] => [
                 <p>
                     Note: <a href="https://osxfuse.github.io/">macFUSE</a> is required for CryFS to work on macOS.
                 </p>
-                <h3>Windows</h3>
+                <h3>Build from Source</h3>
+                <p>
+                    For the latest version, you can <a href="https://github.com/cryfs/cryfs">build CryFS from source</a>.
+                </p>
+            </>
+        )
+    },
+    {
+        analytics_name: 'windows',
+        header: (
+            <Row className={styles.osBox}>
+                <Col md="12">
+                    <FontAwesomeIcon icon={faWindows} className={styles.osIcon} aria-label="Windows" />
+                </Col>
+                <Col md="12" className={styles.osName}>
+                    Windows
+                </Col>
+            </Row>),
+        body: (
+            <>
+                <h3>Download</h3>
                 <p>Windows support is experimental. Please make regular backups of important data.</p>
-                <p>Prerequisites:</p>
+                <p>
+                    <a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi">CryFS {VersionNumber} (64-bit)</a> (<a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi.asc">signature</a>)
+                </p>
+                <h3>Prerequisites</h3>
                 <ul>
                     <li>
                         <a href="https://github.com/dokan-dev/dokany/releases">DokanY</a> (version 2.2.0 or later)
                     </li>
                     <li>
                         <a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads">Microsoft Visual C++ Redistributable for Visual Studio 2022</a>
-                    </li>
-                </ul>
-                <p>Download CryFS:</p>
-                <ul>
-                    <li>
-                        <a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi">CryFS {VersionNumber} (64-bit)</a> (<a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi.asc">signature</a>)
                     </li>
                 </ul>
             </>
