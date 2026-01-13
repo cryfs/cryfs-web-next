@@ -23,26 +23,19 @@ test.describe('Download Modal Flow', () => {
     await expect(homePage.downloadModal).toBeVisible();
   });
 
-  test('shows Ubuntu tab by default', async () => {
+  test('shows Linux tab by default', async () => {
     await homePage.openDownloadModal();
-    const ubuntuTab = homePage.getDownloadTab('Ubuntu');
-    await expect(ubuntuTab.locator('.nav-link')).toHaveClass(/active/);
+    const linuxTab = homePage.getDownloadTab('Linux');
+    await expect(linuxTab.locator('.nav-link')).toHaveClass(/active/);
   });
 
   test('navigates between OS tabs', async () => {
     await homePage.openDownloadModal();
 
-    // Click Debian tab
-    const debianTab = homePage.getDownloadTab('Debian');
-    await debianTab.click();
-    await expect(debianTab.locator('.nav-link')).toHaveClass(/active/);
-    await expect(homePage.getDownloadTabContent()).toContainText('official Debian repositories');
-
-    // Click Other Linux tab
-    const otherLinuxTab = homePage.getDownloadTab('Other Linux');
-    await otherLinuxTab.click();
-    await expect(otherLinuxTab.locator('.nav-link')).toHaveClass(/active/);
-    await expect(homePage.getDownloadTabContent()).toContainText('package repositories');
+    // Linux tab is default, verify its content
+    const linuxTab = homePage.getDownloadTab('Linux');
+    await expect(linuxTab.locator('.nav-link')).toHaveClass(/active/);
+    await expect(homePage.getDownloadTabContent()).toContainText('Debian / Ubuntu');
 
     // Click macOS tab
     const macosTab = homePage.getDownloadTab('macOS');
@@ -55,12 +48,17 @@ test.describe('Download Modal Flow', () => {
     await windowsTab.click();
     await expect(windowsTab.locator('.nav-link')).toHaveClass(/active/);
     await expect(homePage.getDownloadTabContent()).toContainText('experimental');
+
+    // Click back to Linux tab
+    await linuxTab.click();
+    await expect(linuxTab.locator('.nav-link')).toHaveClass(/active/);
+    await expect(homePage.getDownloadTabContent()).toContainText('apt install cryfs');
   });
 
-  test('displays Ubuntu installation instructions', async () => {
+  test('displays Linux installation instructions', async () => {
     await homePage.openDownloadModal();
     const content = homePage.getDownloadTabContent();
-    await expect(content).toContainText('Easy Install');
+    await expect(content).toContainText('Debian / Ubuntu');
     await expect(content).toContainText('sudo apt install cryfs');
   });
 
