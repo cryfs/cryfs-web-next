@@ -269,10 +269,12 @@ making it well-suited for cloud synchronization—but at the cost of [exposing m
 Cryptomator provides a polished graphical user interface, making it very accessible for non-technical users.
 It uses AES-256 encryption with [GCM mode for content encryption](https://docs.cryptomator.org/en/latest/security/architecture/)
 and encrypts both file contents and file names.
-However, like gocryptfs and EncFS, **Cryptomator does not hide file sizes or directory structure**
+Unlike gocryptfs and EncFS, Cryptomator does [flatten the directory hierarchy](https://docs.cryptomator.org/en/latest/security/vault/)
+so that all encrypted directories are stored as siblings rather than preserving the original nested structure.
+This provides better protection than gocryptfs, where the directory tree is visible 1:1.
+However, **Cryptomator still exposes file sizes and the number of files per directory**
 (see <a href="#metadata-encryption">why this matters</a>).
-An attacker with access to your encrypted files can still see how many files you have, how large each file is,
-and how they're organized into folders.
+An attacker can still see how many files and folders you have and how large each file is—they just can't see the nesting depth.
 
 Cryptomator uses a WebDAV or FUSE-based virtual filesystem to present decrypted files.
 It has been [independently audited](https://cryptomator.org/audits/2017-11-27%20crypto%20cure53.pdf) by Cure53 in 2017.
@@ -379,7 +381,7 @@ This is also relevant for [watermarking attacks](https://en.wikipedia.org/wiki/W
 ## Summary
 There are many tools available, but most have not been designed to be used in the cloud.
 
-Gocryptfs, Cryptomator, EncFS, and eCryptfs don't encrypt directory structure. EncFS has [unpatched security vulnerabilities](https://defuse.ca/audits/encfs.htm) and is no longer actively maintained.
+Gocryptfs, EncFS, and eCryptfs don't encrypt directory structure. Cryptomator flattens directory hierarchy but still exposes file counts and sizes. EncFS has [unpatched security vulnerabilities](https://defuse.ca/audits/encfs.htm) and is no longer actively maintained.
 eCryptfs might cause crashes or undefined behavior if there is more than one device connected to your Dropbox.
 VeraCrypt works, as long as your container file is small, i.e. you don't mind synchronizing the whole container file on each change, and if you always let it finish synchronization before modifying the files on another computer.
 Cryptomator is an excellent choice if you want a polished GUI experience with good security for file contents, though it doesn't hide file sizes or directory structure.
@@ -455,7 +457,7 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
         <ComparisonTableRow title="Encrypts directory structure">
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="no" />
-            <ComparisonTableCell type="no" />
+            <ComparisonTableCell type="half" footnote="h)" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="yes" />
@@ -520,6 +522,7 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
     <li className={styles.footnotesLi}>Like in (d), EncFS also only makes sure that the data you're reading was at some point written by you. Furthermore, the current implementation is flawed because a hacker can simply disable the integrity check.</li>
     <li className={styles.footnotesLi}>There is experimental Windows support starting with CryFS version 0.10.</li>
     <li className={styles.footnotesLi}>There are third-party Windows clients: <a href="https://github.com/bailey27/cppcryptfs">cppcryptfs</a> for gocryptfs and <a href="https://github.com/jetwhiz/encfs4win">encfs4win</a> for EncFS.</li>
+    <li className={styles.footnotesLi}>Cryptomator flattens the directory hierarchy so all encrypted directories are stored as siblings, hiding the nesting structure. However, attackers can still see the number of directories and which files belong to each directory.</li>
 </ol>
 
 </Container>
