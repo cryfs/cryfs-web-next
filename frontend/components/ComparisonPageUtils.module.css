@@ -67,16 +67,22 @@
 
 .comparisonIconYes {
     background-color: #dff0d8;
+    --bs-table-color: green;
+    --bs-table-color-state: green;
     color: green;
 }
 
 .comparisonIconNo {
     background-color: #f2dede;
+    --bs-table-color: red;
+    --bs-table-color-state: red;
     color: red;
 }
 
 .comparisonIconHalf {
     background-color: #fcf8e3;
+    --bs-table-color: orange;
+    --bs-table-color-state: orange;
     color: orange;
 }
 
