@@ -14,6 +14,7 @@ import VeraCryptImg from '../assets/images/veracrypt.png'
 import GocryptfsImg from '../assets/images/gocryptfs.png'
 import EncfsImg from '../assets/images/encfs.jpg'
 import ECryptFsImg from '../assets/images/ecryptfs.png'
+import CryptomatorImg from '../assets/images/cryptomator.png'
 import CryFsImg from '../assets/images/teaser_small.jpg'
 import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, ComparisonTableBody, ComparisonTableRow, ComparisonTableCell } from '../components/ComparisonPageUtils'
 
@@ -244,15 +245,62 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 
 </Container>
 </section>
+<section id="cryptomator">
+<Container>
+
+## Cryptomator
+
+<Row>
+<Col md="6">
+<Picture src={CryptomatorImg} alt="Cryptomator" className={styles.image} />
+</Col>
+<Col md="6">
+
+[Cryptomator](https://cryptomator.org/) is one of the most popular open-source encryption tools for cloud storage.
+It is developed by Skymatic GmbH, a company that also offers commercial products like [Cryptomator Hub](https://cryptomator.org/hub/) for teams,
+but the core desktop application remains open source under the GPLv3 license.
+Cryptomator offers excellent cross-platform support with native apps for Windows, Mac, Linux, iOS, and Android.
+Like gocryptfs and EncFS, Cryptomator [encrypts files individually](https://github.com/cryptomator/cryptomator/issues/2196) rather than in a single container,
+making it well-suited for cloud synchronization—but at the cost of [exposing metadata like file sizes and directory structure](#metadata-encryption).
+
+</Col>
+<Col md="12">
+
+Cryptomator provides a polished graphical user interface, making it very accessible for non-technical users.
+It uses AES-256 encryption with [GCM mode for content encryption](https://docs.cryptomator.org/en/latest/security/architecture/)
+and encrypts both file contents and file names.
+Unlike gocryptfs and EncFS, Cryptomator does [flatten the directory hierarchy](https://docs.cryptomator.org/en/latest/security/vault/)
+so that all encrypted directories are stored as siblings rather than preserving the original nested structure.
+This provides better protection than gocryptfs, where the directory tree is visible 1:1.
+However, **Cryptomator still exposes file sizes and the number of files per directory**
+(see <a href="#metadata-encryption">why this matters</a>).
+An attacker can still see how many files and folders you have and how large each file is—they just can't see the nesting depth.
+
+Cryptomator uses a WebDAV or FUSE-based virtual filesystem to present decrypted files.
+It has been [independently audited](https://cryptomator.org/audits/2017-11-27%20crypto%20cure53.pdf) by Cure53 in 2017.
+The audit confirmed that Cryptomator provides strong confidentiality for file contents,
+noting that "the cryptographic implementation exhibited a quite exceptional level of robustness."
+
+For integrity protection, Cryptomator uses HMAC to detect tampering with file contents.
+However, similar to gocryptfs, it primarily protects individual file integrity—directory structure modifications,
+file deletions, or replacing files with earlier versions may not be detected.
+
+Cryptomator is a great choice if you want a polished, user-friendly experience with good security for file contents.
+However, if hiding your file sizes and directory structure is important for your threat model,
+consider <Link href="#cryfs">CryFS</Link> instead—in fact, [Cryptomator's developers recommend CryFS](https://github.com/cryptomator/cryptomator/issues/2196#issuecomment-1106446459)
+for users who need this level of metadata protection.
+
+</Col>
+</Row>
+
+</Container>
+</section>
 <section id="cryfs">
 <Container>
 
 ## CryFS
 
 <Row>
-<Col md="6">
-<Picture src={CryFsImg} alt="CryFS" className={styles.image} />
-</Col>
 <Col md="5">
 
 Since all of the solutions above have significant disadvantages when used with cloud storage,
@@ -264,12 +312,15 @@ it was built specifically to be used together with cloud storage providers like 
 It supports Linux, Mac, and has experimental Windows support since version 0.10.
 
 </Col>
+<Col md="6">
+<Picture src={CryFsImg} alt="CryFS" className={styles.image} />
+</Col>
 <Col md="12">
 
 CryFS follows established security standards and is the only tool in this list that works well together with cloud storage
 while providing comprehensive security. As opposed to VeraCrypt, it keeps its data in small encrypted blocks and changing a small file
 results in only a small amount of data to be re-uploaded.
-As opposed to gocryptfs, EncFS and eCryptfs, it doesn't only encrypt your file contents, but also file sizes, file metadata and
+As opposed to gocryptfs, Cryptomator, EncFS, and eCryptfs, it doesn't only encrypt your file contents, but also file sizes, file metadata and
 directory structure. See <a href="#metadata-encryption">why metadata encryption matters</a> to understand how much information can leak through unencrypted metadata.
 More information on how this is achieved can be found <Link href="/howitworks">here</Link>.
 The security of CryFS has been proven in a [master's thesis](/cryfs_mathesis.pdf) in 2015.
@@ -283,6 +334,9 @@ As with any encryption tool, regular backups are still recommended as a best pra
 The increase in security when compared to other file systems comes at a performance cost.
 CryFS is fast enough to be used in practice.
 I'm getting a read speed to 170MB/s and a write speed of 80MB/s on my SSD machine, but other file systems are even faster.
+
+CryFS currently does not support concurrent access from multiple devices.
+If you need to access your encrypted files from multiple computers simultaneously, you should ensure only one device has the filesystem mounted at a time.
 
 </Col>
 </Row>
@@ -331,9 +385,10 @@ This is also relevant for [watermarking attacks](https://en.wikipedia.org/wiki/W
 ## Summary
 There are many tools available, but most have not been designed to be used in the cloud.
 
-Gocrypfs, EncFS and eCryptfs don't encrypt directory structure. EncFS has [unpatched security vulnerabilities](https://defuse.ca/audits/encfs.htm) and is no longer actively maintained.
+Gocryptfs, EncFS, and eCryptfs don't encrypt directory structure. Cryptomator flattens directory hierarchy but still exposes file counts and sizes. EncFS has [unpatched security vulnerabilities](https://defuse.ca/audits/encfs.htm) and is no longer actively maintained.
 eCryptfs might cause crashes or undefined behavior if there is more than one device connected to your Dropbox.
 VeraCrypt works, as long as your container file is small, i.e. you don't mind synchronizing the whole container file on each change, and if you always let it finish synchronization before modifying the files on another computer.
+Cryptomator is an excellent choice if you want a polished GUI experience with good security for file contents, though it doesn't hide file sizes or directory structure.
 CryFS solves all of these issues, but the increased security comes with a slight performance trade-off.
 CryFS is available for Linux and Mac, with experimental Windows support since version 0.10.
 
@@ -341,12 +396,14 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
     <ComparisonTableHead>
         <ComparisonTableHeader>CryFS</ComparisonTableHeader>
         <ComparisonTableHeader>gocryptfs</ComparisonTableHeader>
+        <ComparisonTableHeader>Cryptomator</ComparisonTableHeader>
         <ComparisonTableHeader>EncFS</ComparisonTableHeader>
         <ComparisonTableHeader>eCryptfs</ComparisonTableHeader>
         <ComparisonTableHeader>VeraCrypt</ComparisonTableHeader>
     </ComparisonTableHead>
     <ComparisonTableBody>
         <ComparisonTableRow title="Easy to use">
+            <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
@@ -359,8 +416,10 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
+            <ComparisonTableCell type="yes" />
         </ComparisonTableRow>
         <ComparisonTableRow title="Works well with cloud storage">
+            <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
@@ -372,9 +431,11 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
+            <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="no" />
         </ComparisonTableRow>
         <ComparisonTableRow title="No known security flaws">
+            <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="no" />
@@ -387,9 +448,11 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
+            <ComparisonTableCell type="yes" />
         </ComparisonTableRow>
         <ComparisonTableRow title="Encrypts file metadata and file sizes">
             <ComparisonTableCell type="yes" />
+            <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
@@ -398,12 +461,14 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
         <ComparisonTableRow title="Encrypts directory structure">
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="no" />
+            <ComparisonTableCell type="half" footnote="h)" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="yes" />
         </ComparisonTableRow>
         <ComparisonTableRow title="Protects file contents from malicious modifications">
             <ComparisonTableCell type="yes" footnote="c)" />
+            <ComparisonTableCell type="half" footnote="d)" />
             <ComparisonTableCell type="half" footnote="d)" />
             <ComparisonTableCell type="half" footnote="e)" />
             <ComparisonTableCell type="no" />
@@ -415,9 +480,11 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
+            <ComparisonTableCell type="no" />
         </ComparisonTableRow>
         <ComparisonTableRow title="Protects directory structure from malicious modifications">
             <ComparisonTableCell type="yes" />
+            <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
@@ -429,8 +496,10 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
+            <ComparisonTableCell type="yes" />
         </ComparisonTableRow>
         <ComparisonTableRow title="Available for Mac OS X">
+            <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="yes" />
@@ -440,6 +509,7 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
         <ComparisonTableRow title="Available for Windows">
             <ComparisonTableCell type="half" footnote="f)" />
             <ComparisonTableCell type="half" footnote="g)" />
+            <ComparisonTableCell type="yes" />
             <ComparisonTableCell type="half" footnote="g)" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="yes" />
@@ -452,10 +522,11 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
     <li className={styles.footnotesLi}>CryFS is fast enough to be used in practice, but some of the other file systems in the list are faster.</li>
     <li className={styles.footnotesLi}>VeraCrypt causes unresolvable conflicts when modifying the filesystem on two machines without full synchronization inbetween.</li>
     <li className={styles.footnotesLi}>CryFS supports this starting with version 0.10.</li>
-    <li className={styles.footnotesLi}>Gocryptfs only makes sure that the data you're reading was at some point written by you. It does not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</li>
+    <li className={styles.footnotesLi}>Gocryptfs and Cryptomator only make sure that the data you're reading was at some point written by you. They do not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</li>
     <li className={styles.footnotesLi}>Like in (d), EncFS also only makes sure that the data you're reading was at some point written by you. Furthermore, the current implementation is flawed because a hacker can simply disable the integrity check.</li>
     <li className={styles.footnotesLi}>There is experimental Windows support starting with CryFS version 0.10.</li>
     <li className={styles.footnotesLi}>There are third-party Windows clients: <a href="https://github.com/bailey27/cppcryptfs">cppcryptfs</a> for gocryptfs and <a href="https://github.com/jetwhiz/encfs4win">encfs4win</a> for EncFS.</li>
+    <li className={styles.footnotesLi}>Cryptomator flattens the directory hierarchy so all encrypted directories are stored as siblings, hiding the nesting structure. However, attackers can still see the number of directories and which files belong to each directory.</li>
 </ol>
 
 </Container>
