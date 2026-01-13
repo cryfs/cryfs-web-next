@@ -257,7 +257,9 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 <Col md="6">
 
 [Cryptomator](https://cryptomator.org/) is one of the most popular open-source encryption tools for cloud storage.
-It offers excellent cross-platform support with native apps for Windows, Mac, Linux, iOS, and Android.
+It is developed by Skymatic GmbH, a company that also offers commercial products like [Cryptomator Hub](https://cryptomator.org/hub/) for teams,
+but the core desktop application remains open source under the GPLv3 license.
+Cryptomator offers excellent cross-platform support with native apps for Windows, Mac, Linux, iOS, and Android.
 Like gocryptfs and EncFS, Cryptomator [encrypts files individually](https://github.com/cryptomator/cryptomator/issues/2196) rather than in a single container,
 making it well-suited for cloud synchronization—but at the cost of [exposing metadata like file sizes and directory structure](#metadata-encryption).
 
