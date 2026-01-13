@@ -228,7 +228,7 @@ However, Ubuntu [removed the home directory encryption option](https://help.ubun
 in version 18.04, recommending full-disk encryption (LUKS) instead. eCryptfs can still be set up manually after installation.
 Like EncFS, it doesn't encrypt file sizes or directory structure (see <a href="#metadata-encryption">why this matters</a>).
   
-Furthermore, eCryptfs is [not designed for cloud storage](https://bugs.launchpad.net/ecryptfs/+bug/689030).
+Furthermore, eCryptfs is not designed for cloud storage.
 It uses heavy caching and assumes that it is the only software accessing the encrypted files.
 When it is used for home directory encryption, this assumption is correct and eCryptfs can gain a little bit of performance
 with that.
