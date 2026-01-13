@@ -75,7 +75,7 @@ jobs:
         run: npx playwright install --with-deps ${{ matrix.browser }}
       - name: Run E2E Tests
         working-directory: frontend
-        run: npx playwright test --project=${{ matrix.project }}
+        run: npm run test:e2e -- --project=${{ matrix.project }}
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
         if: always()
