@@ -3,13 +3,29 @@ import { BasePage } from '../pages/base.page';
 
 /**
  * Helper function to verify an image is visible and has loaded correctly.
- * An image is considered "loaded" when its naturalWidth > 0.
+ * Scrolls to the image to trigger lazy loading, waits for it to load,
+ * then verifies naturalWidth > 0.
  */
 async function expectImageLoaded(image: Locator, description: string): Promise<void> {
+  // Scroll image into view to trigger lazy loading
+  await image.scrollIntoViewIfNeeded();
+
+  // Wait for the image to be visible
   await expect(image, `${description} should be visible`).toBeVisible();
 
-  const naturalWidth = await image.evaluate((img: HTMLImageElement) => img.naturalWidth);
-  expect(naturalWidth, `${description} should have loaded (naturalWidth > 0)`).toBeGreaterThan(0);
+  // Wait for the image to actually load (naturalWidth > 0)
+  // This polls until the condition is met or times out
+  await expect
+    .poll(
+      async () => {
+        return await image.evaluate((img: HTMLImageElement) => img.naturalWidth);
+      },
+      {
+        message: `${description} should have loaded (naturalWidth > 0)`,
+        timeout: 10000,
+      }
+    )
+    .toBeGreaterThan(0);
 }
 
 test.describe('Image Display', () => {
