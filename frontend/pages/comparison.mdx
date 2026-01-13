@@ -167,7 +167,7 @@ This might not seem like a problem at first, but <a href="#metadata-encryption">
 
 Gocryptfs uses GCM cipher mode and has been [independently audited](https://defuse.ca/audits/gocryptfs.htm). This means it doesn't only protect confidentiality, i.e. against adversaries reading your files,
 but also integrity, i.e. against adversaries modifying your files without you noticing it.
-The same restriction mentioned for confidentiality also applies for integrity though. It [only ensures that the file contents you're reading were at some point written by you](https://github.com/rfjakob/gocryptfs-website/blob/master/docs/threat_model.md#dragon-read-write-access-to-full-ciphertext).
+The same restriction mentioned for confidentiality also applies for integrity though. It [only ensures that the file contents you're reading were at some point written by you](https://github.com/rfjakob/gocryptfs-website/blob/master/docs/threat_model.md#dragon-permanent-read-write-access-to-the-ciphertext).
 Attackers can change directory structure, add or delete files or folders, re-add files deleted earlier by you, replace files with earlier versions of themselves
 or replace their content with the content of other files, or earlier versions of those other files, and you wouldn't necessarily notice any of that.
 Solutions with <a href="#metadata-encryption">full metadata encryption</a> like <Link href="#cryfs">CryFS</Link> protect against these kinds of attacks.
