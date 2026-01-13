@@ -257,7 +257,7 @@ eCryptfs doesn't support that and could either crash or just overwrite your chan
 <Col md="6">
 
 [Cryptomator](https://cryptomator.org/) is one of the most popular open-source encryption tools for cloud storage.
-It's developed by a German company and offers excellent cross-platform support with native apps for Windows, Mac, Linux, iOS, and Android.
+It offers excellent cross-platform support with native apps for Windows, Mac, Linux, iOS, and Android.
 Like gocryptfs and EncFS, Cryptomator encrypts files individually rather than in a single container,
 making it well-suited for cloud synchronization.
 
@@ -273,7 +273,7 @@ An attacker with access to your encrypted files can still see how many files you
 and how they're organized into folders.
 
 Cryptomator uses a WebDAV or FUSE-based virtual filesystem to present decrypted files.
-It has been [independently audited](https://cryptomator.org/audits/) by Cure53 in 2017,
+It has been [independently audited](https://cryptomator.org/audits/2017-11-27%20crypto%20cure53.pdf) by Cure53 in 2017,
 which found a few minor issues that have since been fixed.
 The audit confirmed that Cryptomator provides strong confidentiality for file contents.
 
@@ -315,7 +315,7 @@ It supports Linux, Mac, and has experimental Windows support since version 0.10.
 CryFS follows established security standards and is the only tool in this list that works well together with cloud storage
 while providing comprehensive security. As opposed to VeraCrypt, it keeps its data in small encrypted blocks and changing a small file
 results in only a small amount of data to be re-uploaded.
-As opposed to gocryptfs, EncFS and eCryptfs, it doesn't only encrypt your file contents, but also file sizes, file metadata and
+As opposed to gocryptfs, Cryptomator, EncFS, and eCryptfs, it doesn't only encrypt your file contents, but also file sizes, file metadata and
 directory structure. See <a href="#metadata-encryption">why metadata encryption matters</a> to understand how much information can leak through unencrypted metadata.
 More information on how this is achieved can be found <Link href="/howitworks">here</Link>.
 The security of CryFS has been proven in a [master's thesis](/cryfs_mathesis.pdf) in 2015.
@@ -461,7 +461,7 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
         <ComparisonTableRow title="Protects file contents from malicious modifications">
             <ComparisonTableCell type="yes" footnote="c)" />
             <ComparisonTableCell type="half" footnote="d)" />
-            <ComparisonTableCell type="half" footnote="h)" />
+            <ComparisonTableCell type="half" footnote="d)" />
             <ComparisonTableCell type="half" footnote="e)" />
             <ComparisonTableCell type="no" />
             <ComparisonTableCell type="no" />
@@ -514,11 +514,10 @@ CryFS is available for Linux and Mac, with experimental Windows support since ve
     <li className={styles.footnotesLi}>CryFS is fast enough to be used in practice, but some of the other file systems in the list are faster.</li>
     <li className={styles.footnotesLi}>VeraCrypt causes unresolvable conflicts when modifying the filesystem on two machines without full synchronization inbetween.</li>
     <li className={styles.footnotesLi}>CryFS supports this starting with version 0.10.</li>
-    <li className={styles.footnotesLi}>Gocryptfs only makes sure that the data you're reading was at some point written by you. It does not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</li>
+    <li className={styles.footnotesLi}>Gocryptfs and Cryptomator only make sure that the data you're reading was at some point written by you. They do not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</li>
     <li className={styles.footnotesLi}>Like in (d), EncFS also only makes sure that the data you're reading was at some point written by you. Furthermore, the current implementation is flawed because a hacker can simply disable the integrity check.</li>
     <li className={styles.footnotesLi}>There is experimental Windows support starting with CryFS version 0.10.</li>
     <li className={styles.footnotesLi}>There are third-party Windows clients: <a href="https://github.com/bailey27/cppcryptfs">cppcryptfs</a> for gocryptfs and <a href="https://github.com/jetwhiz/encfs4win">encfs4win</a> for EncFS.</li>
-    <li className={styles.footnotesLi}>Like gocryptfs, Cryptomator uses HMAC to verify that file contents haven't been tampered with. However, it does not protect against attackers replacing files with earlier versions or with other files from the same vault.</li>
 </ol>
 
 </Container>
