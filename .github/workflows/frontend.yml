@@ -48,15 +48,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Chromium engine: desktop Chrome + mobile Chrome (Pixel 5)
-          - browser: chromium
-            projects: --project=chromium --project=mobile-chrome
-          # Firefox engine: desktop Firefox only
-          - browser: firefox
-            projects: --project=firefox
-          # WebKit engine: desktop Safari + mobile Safari (iPhone 12)
-          - browser: webkit
-            projects: --project=webkit --project=mobile-safari
+          - project: chromium
+            browser: chromium
+          - project: firefox
+            browser: firefox
+          - project: webkit
+            browser: webkit
+          - project: mobile-chrome
+            browser: chromium
+          - project: mobile-safari
+            browser: webkit
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -74,19 +75,19 @@ jobs:
         run: npx playwright install --with-deps ${{ matrix.browser }}
       - name: Run E2E Tests
         working-directory: frontend
-        run: npx playwright test ${{ matrix.projects }}
+        run: npx playwright test --project=${{ matrix.project }}
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-${{ matrix.browser }}
+          name: playwright-report-${{ matrix.project }}
           path: frontend/playwright-report/
           retention-days: 30
       - name: Upload Playwright Test Results
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: playwright-test-results-${{ matrix.browser }}
+          name: playwright-test-results-${{ matrix.project }}
           path: frontend/test-results/
           retention-days: 7
 
