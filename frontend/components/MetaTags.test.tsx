@@ -132,6 +132,19 @@ describe('MetaTags', () => {
     expect(getMetaContent('og:image')).toBeTruthy();
   });
 
+  it('renders og:image dimensions', () => {
+    render(
+      <MetaTags
+        title="Test"
+        url="https://example.com"
+        description="Description"
+      />
+    );
+
+    expect(getMetaContent('og:image:width')).toBeTruthy();
+    expect(getMetaContent('og:image:height')).toBeTruthy();
+  });
+
   it('renders Twitter Card meta tags', () => {
     render(
       <MetaTags
