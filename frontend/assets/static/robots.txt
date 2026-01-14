@@ -6,3 +6,5 @@
 
 User-agent: *
 Disallow: /version_info
+
+Sitemap: https://www.cryfs.org/sitemap.xml

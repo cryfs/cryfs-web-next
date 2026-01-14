@@ -4,6 +4,7 @@ import mdx from '@next/mdx';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import { VersionNumber } from './config/CryfsVersion';
+import { generateSitemap } from './utils/sitemap';
 
 const config: NextConfig = {
   output: 'export',
@@ -31,6 +32,12 @@ const config: NextConfig = {
     });
     await fs.writeFile(join(outDir, 'version_info.json'), version_info);
     console.log("Written version_info.json");
+
+    // Generate sitemap.xml from discovered pages
+    const pagePaths = Object.keys(defaultPathMap);
+    const sitemap = generateSitemap(pagePaths, 'https://www.cryfs.org');
+    await fs.writeFile(join(outDir, 'sitemap.xml'), sitemap);
+    console.log("Written sitemap.xml");
 
     // Copy all files from assets/static
     await fs.cp(join(dir, 'assets/static'), outDir, { recursive: true });
