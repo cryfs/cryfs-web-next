@@ -414,5 +414,5 @@
 .comparisonTable table:has(td:nth-child(5):hover) thead th:nth-child(5),
 .comparisonTable table:has(td:nth-child(6):hover) thead th:nth-child(6),
 .comparisonTable table:has(td:nth-child(7):hover) thead th:nth-child(7) {
-    background: linear-gradient(135deg, #3498db 0%, #5dade2 100%) !important;
+    background: linear-gradient(135deg, #3d566e 0%, #4a6785 100%) !important;
 }
