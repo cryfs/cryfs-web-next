@@ -1,8 +1,54 @@
+.bulletCol {
+    margin-bottom: 30px;
+}
+
+.card {
+    text-align: center;
+    padding: 40px 30px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.iconWrapper {
+    margin-bottom: 20px;
+}
+
 .icon {
-    font-size: 150px;
+    font-size: 80px;
+    color: #0d6efd;
 }
 
 .title {
-    margin-top: 20px;
+    margin-top: 0;
     margin-bottom: 20px;
+    font-size: 1.75rem;
+    color: #212529;
+}
+
+.description {
+    flex: 1;
+    margin-bottom: 20px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.description p {
+    margin-bottom: 0;
+}
+
+.buttonWrapper {
+    margin-top: auto;
+}
+
+.detailsButton {
+    border-width: 2px;
 }

@@ -58,60 +58,60 @@ function ContactSection() {
 
     return (
         <Container className="text-center">
-            <h2>Contact Us</h2>
+            <div className={styles.header}>
+                <h2 className={styles.title}>Contact Us</h2>
+                <p className={styles.subtitle}>We&apos;d love to hear from you. Questions, feedback, or ideas are all welcome.</p>
+            </div>
             <div className={styles.content}>
-                <Col md={{ span: 6, offset: 3 }}>
-                    <Form>
-                        {/*TODO Translate*/}
-                        <Row>
-                            <Col md="12">
-                                <Form.Group>
-                                    <Form.Label htmlFor="contact_form_message" className="visually-hidden">Message:</Form.Label>
-                                    <textarea id="contact_form_message" name="message" className="form-control"
-                                        style={{ height: '140px' }} required={true}
-                                        placeholder="Your message to us. We're looking forward to your feedback, ideas and criticism. Please be blunt."
-                                        value={message} onChange={handleMessageChange} />
-                                </Form.Group>
-                            </Col>
-                            <Col md="8">
-                                <Form.Group>
-                                    <Form.Label htmlFor="contact_form_email" className="visually-hidden">Your Email:</Form.Label>
-                                    <Form.Control type="email" name="email" id="contact_form_email"
-                                        placeholder="Your email address (optional)" autoComplete="off"
-                                        value={email} onChange={handleEmailChange} />
-                                </Form.Group>
-                            </Col>
-                            <Col md={{ span: 4, offset: 0 }}>
-                                <Form.Group>
-                                    <AsyncButton type="submit" onClick={send} variant="primary" block={true}>
-                                        Send &nbsp;
-                                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                                    </AsyncButton>
-                                </Form.Group>
-                            </Col>
-                            <div className="clearfix" />
-                            <Col md="12">
-                                <Collapse in={notification !== ''}
-                                    className={styles.notificationArea ?? ''}>
-                                    <div>
-                                        <Collapse in={notification === 'success'}
-                                            className={`lead ${styles.notificationSuccess ?? ''}`}>
-                                            <div>Thank you.</div>
-                                        </Collapse>
-                                        <Collapse in={notification === 'error:empty'}
-                                            className={`lead ${styles.notificationError ?? ''}`}>
-                                            <div>Please enter a message to send.</div>
-                                        </Collapse>
-                                        <Collapse in={notification === 'error'}
-                                            className={`lead ${styles.notificationError ?? ''}`}>
-                                            <div>Sorry, there was an error sending your message.</div>
-                                        </Collapse>
-                                    </div>
-                                </Collapse>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Col>
+                <Row className="justify-content-center">
+                    <Col md={8} lg={6}>
+                        <Form>
+                            {/*TODO Translate*/}
+                            <Form.Group className={styles.formGroup}>
+                                <Form.Label htmlFor="contact_form_message" className="visually-hidden">Message:</Form.Label>
+                                <textarea id="contact_form_message" name="message" className={`form-control ${styles.textarea ?? ''}`}
+                                    required={true}
+                                    placeholder="Your message to us. We're looking forward to your feedback, ideas and criticism. Please be blunt."
+                                    value={message} onChange={handleMessageChange} />
+                            </Form.Group>
+                            <Row>
+                                <Col md={8}>
+                                    <Form.Group className={styles.formGroup}>
+                                        <Form.Label htmlFor="contact_form_email" className="visually-hidden">Your Email:</Form.Label>
+                                        <Form.Control type="email" name="email" id="contact_form_email"
+                                            placeholder="Your email address (optional)" autoComplete="off"
+                                            value={email} onChange={handleEmailChange} className={styles.emailInput ?? ''} />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={4}>
+                                    <Form.Group className={styles.formGroup}>
+                                        <AsyncButton type="submit" onClick={send} variant="primary" block={true} className={styles.submitButton ?? ''}>
+                                            Send &nbsp;
+                                            <FontAwesomeIcon icon={faAngleDoubleRight} />
+                                        </AsyncButton>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Collapse in={notification !== ''}
+                                className={styles.notificationArea ?? ''}>
+                                <div>
+                                    <Collapse in={notification === 'success'}
+                                        className={`lead ${styles.notificationSuccess ?? ''}`}>
+                                        <div>Thank you for your message!</div>
+                                    </Collapse>
+                                    <Collapse in={notification === 'error:empty'}
+                                        className={`lead ${styles.notificationError ?? ''}`}>
+                                        <div>Please enter a message to send.</div>
+                                    </Collapse>
+                                    <Collapse in={notification === 'error'}
+                                        className={`lead ${styles.notificationError ?? ''}`}>
+                                        <div>Sorry, there was an error sending your message.</div>
+                                    </Collapse>
+                                </div>
+                            </Collapse>
+                        </Form>
+                    </Col>
+                </Row>
             </div>
         </Container>
     );

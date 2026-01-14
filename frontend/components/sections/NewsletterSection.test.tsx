@@ -21,28 +21,29 @@ describe('NewsletterSection', () => {
   describe('rendering', () => {
     it('renders the heading', () => {
       render(<NewsletterSection />);
-      expect(screen.getByText(/stay updated on new releases and security news/i)).toBeInTheDocument();
+      expect(screen.getByText(/stay updated/i)).toBeInTheDocument();
+      expect(screen.getByText(/get notified about new releases and security news/i)).toBeInTheDocument();
     });
 
     it('renders email input field', () => {
       render(<NewsletterSection />);
-      expect(screen.getByPlaceholderText(/enter email/i)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(/enter your email address/i)).toBeInTheDocument();
     });
 
     it('renders submit button', () => {
       render(<NewsletterSection />);
-      expect(screen.getByRole('button', { name: /get notified/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /subscribe/i })).toBeInTheDocument();
     });
 
     it('email input has correct type', () => {
       render(<NewsletterSection />);
-      const emailInput = screen.getByPlaceholderText(/enter email/i);
+      const emailInput = screen.getByPlaceholderText(/enter your email address/i);
       expect(emailInput).toHaveAttribute('type', 'email');
     });
 
     it('email input is required', () => {
       render(<NewsletterSection />);
-      const emailInput = screen.getByPlaceholderText(/enter email/i);
+      const emailInput = screen.getByPlaceholderText(/enter your email address/i);
       expect(emailInput).toHaveAttribute('required');
     });
   });
@@ -52,7 +53,7 @@ describe('NewsletterSection', () => {
       const user = userEvent.setup();
       render(<NewsletterSection />);
 
-      const emailInput = screen.getByPlaceholderText(/enter email/i);
+      const emailInput = screen.getByPlaceholderText(/enter your email address/i);
       await user.type(emailInput, 'test@example.com');
 
       expect(emailInput).toHaveValue('test@example.com');
@@ -60,7 +61,7 @@ describe('NewsletterSection', () => {
 
     it('handles empty input', () => {
       render(<NewsletterSection />);
-      const emailInput = screen.getByPlaceholderText(/enter email/i);
+      const emailInput = screen.getByPlaceholderText(/enter your email address/i);
       expect(emailInput).toHaveValue('');
     });
   });
@@ -72,8 +73,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'test@example.com');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(screen.getByText(/confirmation email/i)).toBeInTheDocument();
@@ -86,8 +87,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'user@test.com');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'user@test.com');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(mockFetch).toHaveBeenCalledWith(
@@ -112,8 +113,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'invalid');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'invalid');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(screen.getByText(/invalid email/i)).toBeInTheDocument();
@@ -129,8 +130,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'test@example.com');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(screen.getByText(/unsubscribed before/i)).toBeInTheDocument();
@@ -146,8 +147,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'test@example.com');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(screen.getByText(/an error occurred/i)).toBeInTheDocument();
@@ -160,8 +161,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'test@example.com');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(screen.getByText(/an error occurred/i)).toBeInTheDocument();
@@ -181,8 +182,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'bad');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'bad');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(screen.getByText(/invalid email/i)).toBeInTheDocument();
@@ -191,9 +192,9 @@ describe('NewsletterSection', () => {
       // Second submission succeeds
       mockFetch.mockResolvedValueOnce({ ok: true });
 
-      await user.clear(screen.getByPlaceholderText(/enter email/i));
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'good@example.com');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.clear(screen.getByPlaceholderText(/enter your email address/i));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'good@example.com');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       // The success message should now be visible
       await waitFor(() => {
@@ -210,8 +211,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'test@example.com');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(logAnalyticsEvent).toHaveBeenCalledWith('interested_user_form', 'click');
@@ -225,8 +226,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'test@example.com');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'test@example.com');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(logAnalyticsEvent).toHaveBeenCalledWith('interested_user_form', 'success');
@@ -243,8 +244,8 @@ describe('NewsletterSection', () => {
 
       render(<NewsletterSection />);
 
-      await user.type(screen.getByPlaceholderText(/enter email/i), 'bad');
-      await user.click(screen.getByRole('button', { name: /get notified/i }));
+      await user.type(screen.getByPlaceholderText(/enter your email address/i), 'bad');
+      await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
       await waitFor(() => {
         expect(logAnalyticsEvent).toHaveBeenCalledWith('interested_user_form', 'error');

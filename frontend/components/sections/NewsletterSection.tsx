@@ -57,21 +57,24 @@ function NewsletterSection() {
     return (
         <Container className="text-center">
             {/*TODO Translate*/}
-            <h2>Stay updated on new releases and security news</h2>
+            <div className={styles.header}>
+                <h2 className={styles.title}>Stay Updated</h2>
+                <p className={styles.subtitle}>Get notified about new releases and security news</p>
+            </div>
             <div className={styles.registrationBox}>
                 <Form className="justify-content-center">
-                    <Row>
-                        <Col md={{ span: 4, offset: 3 }}>
+                    <Row className="justify-content-center">
+                        <Col md={5} lg={4}>
                             <Form.Group>
                                 <Form.Label htmlFor="inputEmail" className="visually-hidden">Email Address:</Form.Label>
-                                <Form.Control type="email" name="email" id="inputEmail" placeholder="Enter email" required={true}
-                                    autoComplete="off" value={email} onChange={onEmailChange} />
+                                <Form.Control type="email" name="email" id="inputEmail" placeholder="Enter your email address" required={true}
+                                    autoComplete="off" value={email} onChange={onEmailChange} className={styles.emailInput ?? ''} />
                             </Form.Group>
                         </Col>
-                        <Col md={{ span: 2, offset: 0 }}>
+                        <Col md={3} lg={2}>
                             <Form.Group>
-                                <AsyncButton type="submit" onClick={onSubmit} variant="primary" block={true}>
-                                    Get Notified &nbsp;
+                                <AsyncButton type="submit" onClick={onSubmit} variant="primary" block={true} className={styles.submitButton ?? ''}>
+                                    Subscribe &nbsp;
                                     <FontAwesomeIcon icon={faAngleDoubleRight} />
                                 </AsyncButton>
                             </Form.Group>

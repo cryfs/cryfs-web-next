@@ -111,7 +111,7 @@ describe('ContactSection', () => {
       await user.click(screen.getByRole('button', { name: /send/i }));
 
       await waitFor(() => {
-        expect(screen.getByText('Thank you.')).toBeInTheDocument();
+        expect(screen.getByText(/thank you for your message/i)).toBeInTheDocument();
       });
     });
 
@@ -152,7 +152,7 @@ describe('ContactSection', () => {
       await user.click(screen.getByRole('button', { name: /send/i }));
 
       await waitFor(() => {
-        expect(screen.getByText('Thank you.')).toBeInTheDocument();
+        expect(screen.getByText(/thank you for your message/i)).toBeInTheDocument();
       });
 
       const calls = mockFetch.mock.calls as [string, { body: string }][];
@@ -216,7 +216,7 @@ describe('ContactSection', () => {
       await user.click(screen.getByRole('button', { name: /send/i }));
 
       await waitFor(() => {
-        expect(screen.getByText('Thank you.')).toBeInTheDocument();
+        expect(screen.getByText(/thank you for your message/i)).toBeInTheDocument();
       });
     });
   });
