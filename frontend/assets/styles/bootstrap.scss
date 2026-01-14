@@ -5,3 +5,21 @@ $font-size-base: 1.1rem;
 html {
     scroll-padding-top: 80px;
 }
+
+// Make h2 and h3 headings more distinctive from each other
+h2 {
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #495057;
+}
