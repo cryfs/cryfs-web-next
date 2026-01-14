@@ -35,7 +35,7 @@ function MyNavBar() {
                         <Nav.Item>
                             <Nav.Link as={Link} href="/comparison" className={styles.link}>Compare</Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="d-none d-md-block">
+                        <Nav.Item>
                             <Nav.Link as={Link} href="/#download" className={styles.link}>Download</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
