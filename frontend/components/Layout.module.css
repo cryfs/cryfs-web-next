@@ -29,6 +29,17 @@
     border: 0;
 }
 
+/* Page layout styles */
+.pageWrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.mainContent {
+    flex: 1;
+}
+
 /* Footer styles */
 .footer {
     height: 50px;

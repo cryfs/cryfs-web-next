@@ -90,10 +90,14 @@ const Layout = ({ children }: LayoutProps) => (
             <link rel="apple-touch-icon" type="image/png" href={favicon.src} />
         </Head>
         <AnalyticsSetup /> { /* AnalyticsSetup must be in Layout and not in _document because otherwise componentDidMount isn't executed */}
-        <MyNavBar />
-        <GithubRibbon />
-        {children}
-        <Footer />
+        <div className={styles.pageWrapper}>
+            <MyNavBar />
+            <GithubRibbon />
+            <main className={styles.mainContent}>
+                {children}
+            </main>
+            <Footer />
+        </div>
     </>
 );
 
