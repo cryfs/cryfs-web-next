@@ -212,7 +212,7 @@ The security of CryFS has been formally analyzed and proven using game-based sec
 The security analysis proves that CryFS achieves:
 
 **Confidentiality:**
-- **IND-aCCFA security**: Indistinguishability under adaptive chosen ciphertext file system attacks, proving that encrypted data reveals nothing about the plaintext (except the total size of the whole file system)
+- **IND-aCCFA security**: An adaptation of IND-CCA (indistinguishability under adaptive chosen ciphertext attacks) to file systems, proving that encrypted data reveals nothing about the plaintext (except the total size of the whole file system)
 - **File content**: Cannot be read without the key
 - **File sizes**: Hidden by fixed-size blocks
 - **Directory structure**: Indistinguishable from random data
