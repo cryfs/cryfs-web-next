@@ -1,0 +1,165 @@
+.section {
+    padding: 5rem 0;
+    background: white;
+}
+
+.header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 4rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.subtitle {
+    font-size: 1.15rem;
+    color: #64748b;
+    line-height: 1.7;
+}
+
+.stepsContainer {
+    margin-bottom: 3rem;
+}
+
+.stepsRow {
+    display: flex;
+    justify-content: center;
+}
+
+.stepCol {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+}
+
+.step {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: #f8fafc;
+    border-radius: 16px;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+.step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.stepNumber {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.stepIcon {
+    font-size: 2.5rem;
+    color: #2563eb;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+.stepTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    margin-top: 0;
+}
+
+.stepDescription {
+    font-size: 0.95rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.connector {
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #cbd5e1;
+    font-size: 1.25rem;
+    z-index: 1;
+}
+
+.cta {
+    text-align: center;
+}
+
+.learnMoreButton {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border-width: 2px;
+    transition: all 0.2s ease;
+}
+
+.learnMoreButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+}
+
+.buttonIcon {
+    margin-left: 0.5rem;
+}
+
+@media (max-width: 991px) {
+    .connector {
+        display: none;
+    }
+
+    .stepCol {
+        margin-bottom: 2rem;
+    }
+
+    .stepCol:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 4rem 0;
+    }
+
+    .header {
+        margin-bottom: 3rem;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .step {
+        padding: 1.5rem 1rem;
+    }
+
+    .stepIcon {
+        font-size: 2rem;
+    }
+}
