@@ -11,6 +11,8 @@ import MetaTags from '../components/MetaTags'
 import Link from 'next/link'
 import StoringDataImg from '../assets/images/storingdata.png'
 import ConfigfileEncryptionImg from '../assets/images/configfileencryption.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCubes, faShieldAlt, faCloud, faLock, faFileAlt } from '@fortawesome/free-solid-svg-icons'
 
 <MetaTags
     title="CryFS: How it works"
@@ -25,28 +27,85 @@ import ConfigfileEncryptionImg from '../assets/images/configfileencryption.png'
   This page explains the technical details of CryFS. If you're looking to get started quickly, check out the <Link href="/tutorial">CryFS Tutorial</Link> instead.
 </ContentHeaderSection>
 
-<section>
+<section id="overview">
 <Container>
 
 ## At a Glance
 
-CryFS is designed to encrypt your files for cloud storage while hiding not just the content, but also the structure and metadata of your data. Here's what makes it different:
+CryFS is designed to encrypt your files for cloud storage while hiding not just the content, but also the structure and metadata of your data.
 
-- **Block-based encryption**: Files are split into fixed-size blocks, making it impossible to determine file sizes
-- **Full metadata encryption**: File names, directory structure, and timestamps are all encrypted
-- **Cloud-optimized**: Small changes to files only require re-uploading a small amount of data
-- **Authenticated encryption**: Protects against both unauthorized reading and tampering
-- **Proven security**: Formally verified in academic research with published security proofs
+<Row className="g-4 mt-3 mb-4">
+    <Col md="6" lg="4">
+        <Card className="h-100 border-0 shadow-sm">
+            <Card.Body className="text-center">
+                <FontAwesomeIcon icon={faCubes} size="2x" className="text-primary mb-3" />
+                <Card.Title as="h5">Block-Based Encryption</Card.Title>
+                <Card.Text className="text-muted">Files are split into fixed-size blocks, making it impossible to determine file sizes</Card.Text>
+            </Card.Body>
+        </Card>
+    </Col>
+    <Col md="6" lg="4">
+        <Card className="h-100 border-0 shadow-sm">
+            <Card.Body className="text-center">
+                <FontAwesomeIcon icon={faShieldAlt} size="2x" className="text-primary mb-3" />
+                <Card.Title as="h5">Full Metadata Encryption</Card.Title>
+                <Card.Text className="text-muted">File names, directory structure, and timestamps are all encrypted</Card.Text>
+            </Card.Body>
+        </Card>
+    </Col>
+    <Col md="6" lg="4">
+        <Card className="h-100 border-0 shadow-sm">
+            <Card.Body className="text-center">
+                <FontAwesomeIcon icon={faCloud} size="2x" className="text-primary mb-3" />
+                <Card.Title as="h5">Cloud-Optimized</Card.Title>
+                <Card.Text className="text-muted">Small changes to files only require re-uploading a small amount of data</Card.Text>
+            </Card.Body>
+        </Card>
+    </Col>
+    <Col md="6" lg="4">
+        <Card className="h-100 border-0 shadow-sm">
+            <Card.Body className="text-center">
+                <FontAwesomeIcon icon={faLock} size="2x" className="text-primary mb-3" />
+                <Card.Title as="h5">Authenticated Encryption</Card.Title>
+                <Card.Text className="text-muted">Protects against both unauthorized reading and tampering</Card.Text>
+            </Card.Body>
+        </Card>
+    </Col>
+    <Col md="6" lg="4">
+        <Card className="h-100 border-0 shadow-sm">
+            <Card.Body className="text-center">
+                <FontAwesomeIcon icon={faFileAlt} size="2x" className="text-primary mb-3" />
+                <Card.Title as="h5">Proven Security</Card.Title>
+                <Card.Text className="text-muted">Formally verified in academic research with published security proofs</Card.Text>
+            </Card.Body>
+        </Card>
+    </Col>
+</Row>
+
+### On This Page
+
+<table className="table table-striped" style={{marginTop: '20px'}}>
+<tbody>
+<tr><td><a href="#threat-model"><strong>Threat Model</strong></a></td><td>What CryFS protects against and its security boundaries</td></tr>
+<tr><td><a href="#block-storage"><strong>Block-Based Storage</strong></a></td><td>How files are split into encrypted blocks to hide metadata</td></tr>
+<tr><td><a href="#config-file"><strong>Configuration File</strong></a></td><td>Two-layer encryption and key derivation</td></tr>
+<tr><td><a href="#integrity"><strong>Integrity Protection</strong></a></td><td>Version tree and rollback protection</td></tr>
+<tr><td><a href="#security-analysis"><strong>Security Analysis</strong></a></td><td>Academic publications and proven security properties</td></tr>
+</tbody>
+</table>
 
 </Container>
 </section>
 
-<section>
+<section id="threat-model">
 <Container>
 
 ## Threat Model
 
 Before diving into the technical details, it's important to understand what CryFS protects against and its security boundaries.
+
+<Row className="mt-4">
+<Col lg="6" className="mb-4">
 
 ### What CryFS Protects Against
 
@@ -58,6 +117,9 @@ CryFS is designed to protect your data when stored on untrusted storage, such as
 - **Tampering**: Modifications to encrypted blocks are detected and rejected
 - **Rollback attacks**: Attackers cannot replace files with older versions without detection
 
+</Col>
+<Col lg="6" className="mb-4">
+
 ### Security Boundaries
 
 CryFS assumes your local machine is secure. It does not protect against:
@@ -66,10 +128,13 @@ CryFS assumes your local machine is secure. It does not protect against:
 - **Weak passwords**: Security depends on using a strong password for the configuration file (alternatively, you can store the configuration file locally using `--config` to remain secure even with a weak password)
 - **Denial of service**: An attacker with access to your cloud storage could delete your encrypted blocks
 
+</Col>
+</Row>
+
 </Container>
 </section>
 
-<section>
+<section id="block-storage">
 <Container>
 
 ## Block-Based Storage
@@ -116,7 +181,7 @@ A unique encryption key is generated when you create a CryFS filesystem. This ke
 </Container>
 </section>
 
-<section>
+<section id="config-file">
 <Container>
 
 ## Configuration File
@@ -167,7 +232,7 @@ For maximum security, consider these options:
 </Container>
 </section>
 
-<section>
+<section id="integrity">
 <Container>
 
 ## Integrity Protection
@@ -195,7 +260,7 @@ Integrity protection requires state to be maintained about what versions are exp
 </Container>
 </section>
 
-<section>
+<section id="security-analysis">
 <Container>
 
 ## Security Analysis
@@ -211,6 +276,9 @@ The security of CryFS has been formally analyzed and proven using game-based sec
 
 The security analysis proves that CryFS achieves:
 
+<Row className="mt-4">
+<Col lg="6" className="mb-4">
+
 **Confidentiality:**
 - **IND-aCCFA security**: An adaptation of IND-CCA (indistinguishability under adaptive chosen ciphertext attacks) to file systems, proving that encrypted data reveals nothing about the plaintext (except the total size of the whole file system)
 - **File content**: Cannot be read without the key
@@ -218,10 +286,16 @@ The security analysis proves that CryFS achieves:
 - **Directory structure**: Indistinguishable from random data
 - **Metadata**: File names, timestamps, and counts are encrypted
 
+</Col>
+<Col lg="6" className="mb-4">
+
 **Integrity:**
 - **Block integrity**: Modified blocks are detected and rejected
 - **Rollback protection**: Old versions of blocks cannot be substituted
 - **Structural integrity**: The filesystem structure cannot be tampered with
+
+</Col>
+</Row>
 
 ### Comparison with Other Tools
 
