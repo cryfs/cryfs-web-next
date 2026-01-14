@@ -30,14 +30,14 @@ export class HomePage extends BasePage {
 
     // Newsletter
     this.newsletterEmailInput = page.locator('#inputEmail');
-    this.newsletterSubmitButton = page.getByRole('button', { name: /get notified/i });
+    this.newsletterSubmitButton = page.getByRole('button', { name: /subscribe/i });
     this.newsletterSuccessMessage = page.getByText("Thank you. You'll get a confirmation email shortly.");
 
     // Contact
     this.contactMessageInput = page.locator('#contact_form_message');
     this.contactEmailInput = page.locator('#contact_form_email');
     this.contactSubmitButton = page.getByRole('button', { name: /^send$/i });
-    this.contactSuccessMessage = page.getByText('Thank you.', { exact: true });
+    this.contactSuccessMessage = page.getByText('Thank you for your message!');
 
     // Modals
     this.downloadModal = page.locator('.modal').filter({ hasText: /Download CryFS/i });
