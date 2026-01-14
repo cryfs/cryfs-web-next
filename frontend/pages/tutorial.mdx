@@ -96,7 +96,7 @@ You can name these directories anything you like. If they don't exist, CryFS wil
 
 CryFS will ask you a few questions:
 
-1. **Encryption settings**: Press Enter to accept the default settings, which use secure, recommended values (256-bit AES encryption).
+1. **Encryption settings**: Press Enter to accept the default settings, which use secure, recommended values (XChaCha20-Poly1305 encryption).
 2. **Password**: Choose a strong, unique password. This password is the only way to access your data—if you forget it, your files cannot be recovered.
 
 <Alert variant="info">
@@ -149,10 +149,6 @@ When you're done working with your files, unmount the vault:
     <ConsoleCommand>cd ..</ConsoleCommand>
     <ConsoleCommand>cryfs-unmount mountdir</ConsoleCommand>
 </Console>
-
-<Alert variant="info">
-**Note**: On CryFS versions 0.9.x and earlier, use <kbd>fusermount -u mountdir</kbd> instead.
-</Alert>
 
 After unmounting, <var>mountdir</var> will be empty—your data is safely locked away:
 
@@ -245,21 +241,6 @@ Follow these guidelines to keep your data secure:
 
 ### Backup your configuration
 The <var>cryfs.config</var> file in your <var>vaultdir</var> contains encryption parameters. While your password is the primary key, this file is needed to decrypt your data. If you use cloud storage, it's automatically backed up. Otherwise, consider keeping a separate backup.
-
-### Safe unmounting
-Always unmount CryFS properly before:
-- Shutting down your computer
-- Putting your computer to sleep
-- Disconnecting external drives containing your vaultdir
-
-<Console>
-    <ConsoleCommand>cryfs-unmount mountdir</ConsoleCommand>
-</Console>
-
-### Cloud sync considerations
-- Wait for sync to complete before mounting on another device
-- Avoid making changes while your cloud client is paused
-- Check your cloud service's sync status before switching devices
 
 </Container>
 </section>
