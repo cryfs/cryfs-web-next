@@ -196,4 +196,46 @@ describe('MetaTags', () => {
 
     expect(getMetaContent('og:url')).toBe('https://example.com/page#section');
   });
+
+  it('renders canonical link tag with correct URL', () => {
+    render(
+      <MetaTags
+        title="Test"
+        url="https://www.cryfs.org/tutorial"
+        description="Description"
+      />
+    );
+
+    const canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    expect(canonical).not.toBeNull();
+    expect(canonical?.href).toBe('https://www.cryfs.org/tutorial');
+  });
+
+  it('renders all required meta tags together', () => {
+    render(
+      <MetaTags
+        title="CryFS - Encrypt Your Cloud"
+        url="https://www.cryfs.org"
+        description="Secure encryption for cloud storage"
+        type="website"
+      />
+    );
+
+    // Verify all Open Graph meta tags are present
+    expect(getMetaContent('og:title')).toBe('CryFS - Encrypt Your Cloud');
+    expect(getMetaContent('og:url')).toBe('https://www.cryfs.org');
+    expect(getMetaContent('og:type')).toBe('website');
+    expect(getMetaContent('og:description')).toBe('Secure encryption for cloud storage');
+    expect(getMetaContent('og:image')).toBeTruthy();
+
+    // Verify standard meta description
+    expect(getMetaName('description')).toBe('Secure encryption for cloud storage');
+
+    // Verify title element
+    expect(document.head.querySelector('title')?.textContent).toBe('CryFS - Encrypt Your Cloud');
+
+    // Verify canonical link
+    const canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    expect(canonical?.href).toBe('https://www.cryfs.org/');
+  });
 });
