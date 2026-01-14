@@ -97,14 +97,14 @@ describe('Console', () => {
     it('renders a complete console session', () => {
       render(
         <Console>
-          <ConsoleCommand>cryfs basedir mountdir</ConsoleCommand>
+          <ConsoleCommand>cryfs vaultdir mountdir</ConsoleCommand>
           <ConsoleOutput>CryFS Version 1.0.0</ConsoleOutput>
           <ConsoleCommand>ls mountdir</ConsoleCommand>
           <ConsoleOutput>file1.txt file2.txt</ConsoleOutput>
         </Console>
       );
 
-      expect(screen.getByText('cryfs basedir mountdir')).toBeInTheDocument();
+      expect(screen.getByText('cryfs vaultdir mountdir')).toBeInTheDocument();
       expect(screen.getByText('CryFS Version 1.0.0')).toBeInTheDocument();
       expect(screen.getByText('ls mountdir')).toBeInTheDocument();
       expect(screen.getByText('file1.txt file2.txt')).toBeInTheDocument();
