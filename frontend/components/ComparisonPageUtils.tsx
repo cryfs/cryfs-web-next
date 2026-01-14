@@ -140,12 +140,26 @@ export const ComparisonTableCell = ({ type, footnote }: ComparisonTableCellProps
         className = `${styles.cell} ${styles.comparisonIcon} ${styles.comparisonIconHalf}`;
         icon = faCircle;
     }
+    // Extract letter from footnote (e.g., "a)" -> "a")
+    const footnoteId = footnote?.toString().replace(/[^a-z]/gi, '').toLowerCase();
     return (
         <td className={className}>
             <FontAwesomeIcon icon={icon} />
             {footnote !== undefined &&
-                <span className={styles.footnoteMark}>{footnote}</span>
+                <a href={`#footnote-${footnoteId}`} className={styles.footnoteMark}>{footnote}</a>
             }
         </td>
     );
 };
+
+// Footnote list item component with ID for linking
+interface FootnoteItemProps {
+    id: string;
+    children: React.ReactNode;
+}
+
+export const FootnoteItem = ({ id, children }: FootnoteItemProps) => (
+    <li id={`footnote-${id}`} className={styles.footnotesLi}>
+        {children}
+    </li>
+);

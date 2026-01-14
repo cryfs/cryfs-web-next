@@ -397,6 +397,12 @@
     font-weight: 600;
     color: inherit;
     opacity: 0.8;
+    text-decoration: none;
+}
+
+.footnoteMark:hover {
+    opacity: 1;
+    text-decoration: underline;
 }
 
 @media (max-width: 767px) {

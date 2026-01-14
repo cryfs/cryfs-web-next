@@ -16,7 +16,7 @@ import EncfsImg from '../assets/images/encfs.jpg'
 import ECryptFsImg from '../assets/images/ecryptfs.png'
 import CryptomatorImg from '../assets/images/cryptomator.png'
 import CryFsImg from '../assets/images/teaser_small.jpg'
-import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, ComparisonTableBody, ComparisonTableRow, ComparisonTableCell, QuickOverviewTable, QuickOverviewRow, ToolCard } from '../components/ComparisonPageUtils'
+import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, ComparisonTableBody, ComparisonTableRow, ComparisonTableCell, QuickOverviewTable, QuickOverviewRow, ToolCard, FootnoteItem } from '../components/ComparisonPageUtils'
 
 <MetaTags
     title="CryFS: Comparison of encrypted cloud storage solutions"
@@ -542,15 +542,15 @@ CryFS is available for Linux and Mac, with experimental Windows support.
 
 <strong>Footnotes:</strong>
 <ol className={styles.footnotes}>
-    <li className={styles.footnotesLi}>CryFS is fast enough to be used in practice, but some of the other file systems in the list are faster.</li>
-    <li className={styles.footnotesLi}>VeraCrypt causes unresolvable conflicts when modifying the filesystem on two machines without full synchronization inbetween.</li>
-    <li className={styles.footnotesLi}>CryFS supports this.</li>
-    <li className={styles.footnotesLi}>Gocryptfs and Cryptomator only make sure that the data you're reading was at some point written by you. They do not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</li>
-    <li className={styles.footnotesLi}>Like in (d), EncFS also only makes sure that the data you're reading was at some point written by you. Furthermore, the current implementation is flawed because a hacker can simply disable the integrity check.</li>
-    <li className={styles.footnotesLi}>There is experimental Windows support for CryFS.</li>
-    <li className={styles.footnotesLi}>There are third-party Windows clients: <a href="https://github.com/bailey27/cppcryptfs">cppcryptfs</a> for gocryptfs and <a href="https://github.com/jetwhiz/encfs4win">encfs4win</a> for EncFS.</li>
-    <li className={styles.footnotesLi}>Cryptomator flattens the directory hierarchy so all encrypted directories are stored as siblings, hiding the nesting structure. However, attackers can still see the number of directories and which files belong to each directory.</li>
-    <li className={styles.footnotesLi}>Third-party GUIs available: <a href="https://mhogomchungu.github.io/sirikali/">SiriKali</a> (CryFS, gocryptfs, EncFS, eCryptfs), <a href="https://github.com/KDE/plasma-vault">Plasma Vault</a> (CryFS, gocryptfs, EncFS), <a href="https://github.com/bulletmark/gocryptfs-ui">gocryptfs-ui</a>/<a href="https://github.com/moson-mo/cryptor">Cryptor</a>/<a href="https://github.com/Cloaklet/Cloak">Cloak</a> (gocryptfs), and <a href="https://moritzmolch.com/apps/gencfsm.html">Gnome Encfs Manager</a> (EncFS).</li>
+    <FootnoteItem id="a">CryFS is fast enough to be used in practice, but some of the other file systems in the list are faster.</FootnoteItem>
+    <FootnoteItem id="b">VeraCrypt causes unresolvable conflicts when modifying the filesystem on two machines without full synchronization inbetween.</FootnoteItem>
+    <FootnoteItem id="c">CryFS supports this.</FootnoteItem>
+    <FootnoteItem id="d">Gocryptfs and Cryptomator only make sure that the data you're reading was at some point written by you. They do not protect against attackers who replace the content of a file with the content of a different file, or with an earlier version of the same or a different file.</FootnoteItem>
+    <FootnoteItem id="e">Like in (d), EncFS also only makes sure that the data you're reading was at some point written by you. Furthermore, the current implementation is flawed because a hacker can simply disable the integrity check.</FootnoteItem>
+    <FootnoteItem id="f">There is experimental Windows support for CryFS.</FootnoteItem>
+    <FootnoteItem id="g">There are third-party Windows clients: <a href="https://github.com/bailey27/cppcryptfs">cppcryptfs</a> for gocryptfs and <a href="https://github.com/jetwhiz/encfs4win">encfs4win</a> for EncFS.</FootnoteItem>
+    <FootnoteItem id="h">Cryptomator flattens the directory hierarchy so all encrypted directories are stored as siblings, hiding the nesting structure. However, attackers can still see the number of directories and which files belong to each directory.</FootnoteItem>
+    <FootnoteItem id="i">Third-party GUIs available: <a href="https://mhogomchungu.github.io/sirikali/">SiriKali</a> (CryFS, gocryptfs, EncFS, eCryptfs), <a href="https://github.com/KDE/plasma-vault">Plasma Vault</a> (CryFS, gocryptfs, EncFS), <a href="https://github.com/bulletmark/gocryptfs-ui">gocryptfs-ui</a>/<a href="https://github.com/moson-mo/cryptor">Cryptor</a>/<a href="https://github.com/Cloaklet/Cloak">Cloak</a> (gocryptfs), and <a href="https://moritzmolch.com/apps/gencfsm.html">Gnome Encfs Manager</a> (EncFS).</FootnoteItem>
 </ol>
 
 </Container>
