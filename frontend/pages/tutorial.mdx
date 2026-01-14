@@ -8,8 +8,17 @@ import Card from 'react-bootstrap/Card'
 import ContentHeaderSection from '../components/ContentHeaderSection'
 import Layout from '../components/Layout'
 import MetaTags from '../components/MetaTags'
+import JsonLd from '../components/JsonLdSchema'
 import Link from 'next/link'
 import {Console, ConsoleCommand, ConsoleOutput} from '../components/Console'
+
+export const articleSchema = {
+    '@type': 'Article',
+    headline: 'CryFS: Tutorial',
+    description: 'A quick and easy introduction into the basic usage of CryFS. CryFS encrypts your Dropbox and protects you against hackers and data leaks. It also works well together with other cloud providers.',
+    author: { '@type': 'Person', name: 'Sebastian Messmer' },
+    publisher: { '@type': 'Organization', name: 'CryFS', url: 'https://www.cryfs.org' },
+}
 
 <MetaTags
     title="CryFS: Tutorial"
@@ -17,6 +26,7 @@ import {Console, ConsoleCommand, ConsoleOutput} from '../components/Console'
     type="article"
     description="A quick and easy introduction into the basic usage of CryFS. CryFS encrypts your Dropbox and protects you against hackers and data leaks. It also works well together with other cloud providers."
 />
+<JsonLd schema={articleSchema} />
 
 <Layout>
 <AlternatingSections start_index={1}>

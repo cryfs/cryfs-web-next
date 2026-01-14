@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card'
 import ContentHeaderSection from '../components/ContentHeaderSection'
 import Layout from '../components/Layout'
 import MetaTags from '../components/MetaTags'
+import JsonLd from '../components/JsonLdSchema'
 import Link from 'next/link'
 import ComparisonImg from '../assets/images/comparison.png'
 import VeraCryptImg from '../assets/images/veracrypt.png'
@@ -18,12 +19,21 @@ import CryptomatorImg from '../assets/images/cryptomator.png'
 import CryFsImg from '../assets/images/teaser_small.jpg'
 import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, ComparisonTableBody, ComparisonTableRow, ComparisonTableCell, QuickOverviewTable, QuickOverviewRow, ToolCard, FootnoteItem } from '../components/ComparisonPageUtils'
 
+export const articleSchema = {
+    '@type': 'Article',
+    headline: 'CryFS: Comparison of encrypted cloud storage solutions',
+    description: 'Encrypt your Dropbox, Google Drive, OneDrive, or other cloud storage. Compare encryption tools and find the right solution for your needs.',
+    author: { '@type': 'Person', name: 'Sebastian Messmer' },
+    publisher: { '@type': 'Organization', name: 'CryFS', url: 'https://www.cryfs.org' },
+}
+
 <MetaTags
     title="CryFS: Comparison of encrypted cloud storage solutions"
     url="https://www.cryfs.org/comparison"
     type="article"
     description="Encrypt your Dropbox, Google Drive, OneDrive, or other cloud storage. Compare encryption tools and find the right solution for your needs."
 />
+<JsonLd schema={articleSchema} />
 
 <Layout>
 <AlternatingSections start_index={1}>

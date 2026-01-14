@@ -7,6 +7,34 @@ import NewsletterSection from '../components/sections/NewsletterSection';
 import BulletsSection from '../components/sections/BulletsSection';
 import ContactSection from '../components/sections/ContactSection';
 import MetaTags from "../components/MetaTags";
+import JsonLd from '../components/JsonLdSchema';
+import type { SoftwareApplication, WebSite } from '../types/jsonld';
+import { VersionNumber } from '../config/CryfsVersion';
+
+const websiteSchema: WebSite = {
+    '@type': 'WebSite',
+    name: 'CryFS',
+    url: 'https://www.cryfs.org',
+};
+
+const softwareSchema: SoftwareApplication = {
+    '@type': 'SoftwareApplication',
+    name: 'CryFS',
+    description: 'CryFS encrypts your files locally before syncing to the cloud. Protect your data from hackers, breaches, and unauthorized access on Dropbox, Google Drive, iCloud, and more.',
+    applicationCategory: 'SecurityApplication',
+    operatingSystem: 'Linux, macOS, Windows',
+    softwareVersion: VersionNumber,
+    downloadUrl: 'https://www.cryfs.org/#download',
+    offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+    },
+    author: {
+        '@type': 'Person',
+        name: 'Sebastian Messmer',
+    },
+};
 
 const Index = () => (
     <Layout>
@@ -16,6 +44,7 @@ const Index = () => (
             url="https://www.cryfs.org"
             description="CryFS encrypts your files locally before syncing to the cloud. Protect your data from hackers, breaches, and unauthorized access on Dropbox, Google Drive, iCloud, and more."
         />
+        <JsonLd schema={[websiteSchema, softwareSchema]} />
 
         <Teaser />
 
