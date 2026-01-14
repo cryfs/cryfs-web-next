@@ -191,6 +191,19 @@
     margin-bottom: 0;
 }
 
+.footnotesLi:target {
+    animation: highlightFootnote 2s ease-out;
+}
+
+@keyframes highlightFootnote {
+    0% {
+        background-color: rgba(52, 152, 219, 0.4);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
 .footnotesLi::before {
     counter-increment: list;
     content: counter(list, lower-alpha) ")";
