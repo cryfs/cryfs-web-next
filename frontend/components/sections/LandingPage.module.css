@@ -1,0 +1,16 @@
+.newsletterSection {
+    padding: 5rem 0;
+    background: #f8fafc;
+}
+
+.contactSection {
+    padding: 5rem 0;
+    background: white;
+}
+
+@media (max-width: 768px) {
+    .newsletterSection,
+    .contactSection {
+        padding: 4rem 0;
+    }
+}
