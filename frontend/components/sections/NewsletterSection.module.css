@@ -1,26 +1,62 @@
+.header {
+    margin-bottom: 30px;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #212529;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0;
+}
+
+.registrationBox {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.emailInput {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.emailInput:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+.submitButton {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
 .notificationArea {
     margin-top: 30px;
 }
 
 .notificationSuccess {
-    color: green;
+    color: #198754;
     margin-top: 10px;
     margin-bottom: 10px;
+    font-weight: 500;
 }
 
 .notificationError {
-    color: red;
+    color: #dc3545;
     margin-top: 10px;
     margin-bottom: 10px;
+    font-weight: 500;
 }
 
 .notificationSpinner {
     color: #909090;
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-.registrationBox {
-    text-align: center;
-    margin-top: 20px;
 }

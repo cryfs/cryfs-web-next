@@ -61,6 +61,14 @@ const Teaser = () => (
                         <div className="lead text-center title-text">
                             <h1 className={styles.smTitleTextH1}>{teaser_header}</h1>
                             <p className={styles.smTitleTextP}>{teaser_paragraph1}</p>
+                            <p className={styles.smButtonGroup}>
+                                <Link href="/#download" passHref legacyBehavior>
+                                    <Button as="a" variant="primary" size="lg" onClick={onDownloadButtonClick}>Download</Button>
+                                </Link>
+                                <Link href="/tutorial" passHref legacyBehavior>
+                                    <Button as="a" variant="info" size="lg" className={styles.tutorialButton} onClick={onTutorialButtonClick}>Tutorial</Button>
+                                </Link>
+                            </p>
                         </div>
                     </div>
                 </div>

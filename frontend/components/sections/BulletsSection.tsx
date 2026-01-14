@@ -17,27 +17,31 @@ interface BulletPointProps {
 }
 
 const BulletPoint = ({ icon, title, details_link_target, external_link, children }: BulletPointProps) => (
-    <Col lg="4">
-        <div className="text-center">
-            <FontAwesomeIcon icon={icon} className={styles.icon} />
+    <Col lg="4" className={styles.bulletCol}>
+        <div className={styles.card}>
+            <div className={styles.iconWrapper}>
+                <FontAwesomeIcon icon={icon} className={styles.icon} />
+            </div>
             <h2 className={styles.title}>{title}</h2>
-            {children}
-            <p>
+            <div className={styles.description}>
+                {children}
+            </div>
+            <div className={styles.buttonWrapper}>
                 {!external_link ?
                     <Link href={details_link_target} passHref legacyBehavior>
-                        <Button as="a" variant="outline-secondary">
+                        <Button as="a" variant="outline-primary" className={styles.detailsButton}>
                             {/*TODO Translate*/}
                             Details &nbsp;
                             <FontAwesomeIcon icon={faAngleDoubleRight} />
                         </Button>
                     </Link> :
-                    <Button variant="outline-secondary" href={details_link_target}>
+                    <Button variant="outline-primary" href={details_link_target} className={styles.detailsButton}>
                         {/*TODO Translate*/}
                         Details &nbsp;
                         <FontAwesomeIcon icon={faAngleDoubleRight} />
                     </Button>
                 }
-            </p>
+            </div>
         </div>
     </Col>
 );

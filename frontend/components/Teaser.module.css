@@ -67,8 +67,13 @@
 .smTitleTextP {
     font-size: 21px;
     margin-top: 30px;
-    margin-bottom: -20px;
+    margin-bottom: 0;
     color: #111;
+}
+
+.smButtonGroup {
+    margin-top: 30px;
+    margin-bottom: 0;
 }
 
 .tutorialButton {
