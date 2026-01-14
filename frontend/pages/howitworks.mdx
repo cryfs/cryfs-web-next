@@ -147,7 +147,7 @@ CryFS assumes your local machine is secure. It does not protect against:
 <Container>
 
 ## Block-Based Storage
-<Row>
+<Row className="align-items-center">
 <Col md="4">
 <Picture src={StoringDataImg} alt="Your files, metadata and directory structure are stored as a set of same-size blocks, encrypted, and stored in the cloud." style={{maxWidth: "100%", height: "auto"}} />
 </Col>
@@ -205,7 +205,7 @@ The configuration file includes:
 - **Root block ID**: The entry point to your encrypted filesystem
 - **Filesystem ID**: A unique identifier for integrity verification
 
-<Row>
+<Row className="align-items-center">
 <Col md="8">
 
 ### Two-Layer Encryption
@@ -220,15 +220,15 @@ This dual encryption means:
 - An attacker cannot even see which cipher you selected
 - The cipher name cannot be tampered with to force a weaker algorithm
 
-### Key Derivation
-
-Both encryption keys are derived from your password using [scrypt](https://en.wikipedia.org/wiki/Scrypt), a memory-hard key derivation function designed to be resistant to brute-force attacks. The scrypt parameters are stored (unencrypted) at the beginning of the configuration file so CryFS knows how to regenerate the keys.
-
 </Col>
-<Col md="4" style={{marginTop: '20px'}}>
+<Col md="4">
 <Picture src={ConfigfileEncryptionImg} alt="Configuration File Encryption Layers" style={{maxWidth: "100%", height: "auto"}} />
 </Col>
 </Row>
+
+### Key Derivation
+
+Both encryption keys are derived from your password using [scrypt](https://en.wikipedia.org/wiki/Scrypt), a memory-hard key derivation function designed to be resistant to brute-force attacks. The scrypt parameters are stored (unencrypted) at the beginning of the configuration file so CryFS knows how to regenerate the keys.
 
 ### Security Recommendations
 
