@@ -25,6 +25,7 @@ const softwareSchema: SoftwareApplication = {
     operatingSystem: 'Linux, macOS, Windows',
     softwareVersion: VersionNumber,
     downloadUrl: 'https://www.cryfs.org/#download',
+    isAccessibleForFree: true,
     offers: {
         '@type': 'Offer',
         price: '0',

@@ -49,6 +49,7 @@ export interface SoftwareApplication extends Thing {
   downloadUrl?: string;
   softwareVersion?: string;
   author?: Person | Organization;
+  isAccessibleForFree?: boolean;
 }
 
 export interface Offer {
