@@ -1,12 +1,19 @@
 .console {
-    background-color: black;
-    color: #eee;
-    padding: 15px;
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin-bottom: 16px;
 }
 
 .linestart {
-    color: #008800;
-    margin-right: 0.5em;
+    color: #4ec9b0;
+    margin-right: 0.75em;
+    font-weight: 600;
     /* disallow selecting it */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -18,8 +25,9 @@
 
 .line {
     width: 100%;
+    padding: 2px 0;
 }
 
 .output {
-    color: #888;
+    color: #9cdcfe;
 }
