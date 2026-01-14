@@ -243,11 +243,6 @@
 .comparisonIcon {
     position: relative;
     text-align: center;
-    transition: transform 0.15s ease;
-}
-
-.comparisonIcon:hover {
-    transform: scale(1.1);
 }
 
 @media (min-width: 992px) {
@@ -410,4 +405,35 @@
         right: 2px;
         font-size: 8px;
     }
+}
+
+/* Column highlighting on hover - highlight entire column when any cell is hovered */
+.comparisonTable :global(table):has(td:nth-child(2):hover) :global(td:nth-child(2)),
+.comparisonTable :global(table):has(td:nth-child(2):hover) :global(thead th:nth-child(2)) {
+    background-color: rgba(52, 152, 219, 0.15) !important;
+}
+
+.comparisonTable :global(table):has(td:nth-child(3):hover) :global(td:nth-child(3)),
+.comparisonTable :global(table):has(td:nth-child(3):hover) :global(thead th:nth-child(3)) {
+    background-color: rgba(52, 152, 219, 0.15) !important;
+}
+
+.comparisonTable :global(table):has(td:nth-child(4):hover) :global(td:nth-child(4)),
+.comparisonTable :global(table):has(td:nth-child(4):hover) :global(thead th:nth-child(4)) {
+    background-color: rgba(52, 152, 219, 0.15) !important;
+}
+
+.comparisonTable :global(table):has(td:nth-child(5):hover) :global(td:nth-child(5)),
+.comparisonTable :global(table):has(td:nth-child(5):hover) :global(thead th:nth-child(5)) {
+    background-color: rgba(52, 152, 219, 0.15) !important;
+}
+
+.comparisonTable :global(table):has(td:nth-child(6):hover) :global(td:nth-child(6)),
+.comparisonTable :global(table):has(td:nth-child(6):hover) :global(thead th:nth-child(6)) {
+    background-color: rgba(52, 152, 219, 0.15) !important;
+}
+
+.comparisonTable :global(table):has(td:nth-child(7):hover) :global(td:nth-child(7)),
+.comparisonTable :global(table):has(td:nth-child(7):hover) :global(thead th:nth-child(7)) {
+    background-color: rgba(52, 152, 219, 0.15) !important;
 }
