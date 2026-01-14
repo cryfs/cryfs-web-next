@@ -20,7 +20,7 @@ function MyNavBar() {
     };
 
     return (
-        <Navbar expand="md" bg="dark" data-bs-theme="dark">
+        <Navbar expand="md" bg="dark" data-bs-theme="dark" sticky="top">
             <div className={styles.navbar}>
                 <Navbar.Toggle onClick={toggle} aria-controls="main-navbar" />
                 <Navbar.Brand href="/"><div className={styles.brand}>CryFS</div></Navbar.Brand>
