@@ -36,58 +36,70 @@ CryFS is designed to encrypt your files for cloud storage while hiding not just 
 
 <Row className="g-4 mt-3 mb-4">
     <Col md="6" lg="4">
-        <Card className="h-100 border-0 shadow-sm">
-            <Card.Body className="text-center">
-                <FontAwesomeIcon icon={faCubes} size="2x" className="text-primary mb-3" />
-                <Card.Title as="h5">Block-Based Encryption</Card.Title>
-                <Card.Text className="text-muted">Files are split into fixed-size blocks, making it impossible to determine file sizes</Card.Text>
-            </Card.Body>
-        </Card>
+        <Link href="#block-storage" className="text-decoration-none">
+            <Card className="h-100 border-0 shadow-sm" style={{cursor: 'pointer'}}>
+                <Card.Body className="text-center">
+                    <FontAwesomeIcon icon={faCubes} size="2x" className="text-primary mb-3" />
+                    <Card.Title as="h5">Block-Based Encryption</Card.Title>
+                    <Card.Text className="text-muted">Files are split into fixed-size blocks, making it impossible to determine file sizes</Card.Text>
+                </Card.Body>
+            </Card>
+        </Link>
     </Col>
     <Col md="6" lg="4">
-        <Card className="h-100 border-0 shadow-sm">
-            <Card.Body className="text-center">
-                <FontAwesomeIcon icon={faShieldAlt} size="2x" className="text-primary mb-3" />
-                <Card.Title as="h5">Full Metadata Encryption</Card.Title>
-                <Card.Text className="text-muted">File names, directory structure, and timestamps are all encrypted</Card.Text>
-            </Card.Body>
-        </Card>
+        <Link href="#block-storage" className="text-decoration-none">
+            <Card className="h-100 border-0 shadow-sm" style={{cursor: 'pointer'}}>
+                <Card.Body className="text-center">
+                    <FontAwesomeIcon icon={faShieldAlt} size="2x" className="text-primary mb-3" />
+                    <Card.Title as="h5">Full Metadata Encryption</Card.Title>
+                    <Card.Text className="text-muted">File names, directory structure, and timestamps are all encrypted</Card.Text>
+                </Card.Body>
+            </Card>
+        </Link>
     </Col>
     <Col md="6" lg="4">
-        <Card className="h-100 border-0 shadow-sm">
-            <Card.Body className="text-center">
-                <FontAwesomeIcon icon={faCloud} size="2x" className="text-primary mb-3" />
-                <Card.Title as="h5">Cloud-Optimized</Card.Title>
-                <Card.Text className="text-muted">Small changes to files only require re-uploading a small amount of data</Card.Text>
-            </Card.Body>
-        </Card>
+        <Link href="#block-storage" className="text-decoration-none">
+            <Card className="h-100 border-0 shadow-sm" style={{cursor: 'pointer'}}>
+                <Card.Body className="text-center">
+                    <FontAwesomeIcon icon={faCloud} size="2x" className="text-primary mb-3" />
+                    <Card.Title as="h5">Cloud-Optimized</Card.Title>
+                    <Card.Text className="text-muted">Small changes to files only require re-uploading a small amount of data</Card.Text>
+                </Card.Body>
+            </Card>
+        </Link>
     </Col>
     <Col md="6" lg="4">
-        <Card className="h-100 border-0 shadow-sm">
-            <Card.Body className="text-center">
-                <FontAwesomeIcon icon={faLock} size="2x" className="text-primary mb-3" />
-                <Card.Title as="h5">Authenticated Encryption</Card.Title>
-                <Card.Text className="text-muted">Protects against both unauthorized reading and tampering</Card.Text>
-            </Card.Body>
-        </Card>
+        <Link href="#block-storage" className="text-decoration-none">
+            <Card className="h-100 border-0 shadow-sm" style={{cursor: 'pointer'}}>
+                <Card.Body className="text-center">
+                    <FontAwesomeIcon icon={faLock} size="2x" className="text-primary mb-3" />
+                    <Card.Title as="h5">Authenticated Encryption</Card.Title>
+                    <Card.Text className="text-muted">Protects against both unauthorized reading and tampering</Card.Text>
+                </Card.Body>
+            </Card>
+        </Link>
     </Col>
     <Col md="6" lg="4">
-        <Card className="h-100 border-0 shadow-sm">
-            <Card.Body className="text-center">
-                <FontAwesomeIcon icon={faFileAlt} size="2x" className="text-primary mb-3" />
-                <Card.Title as="h5">Proven Security</Card.Title>
-                <Card.Text className="text-muted">Formally verified in academic research with published security proofs</Card.Text>
-            </Card.Body>
-        </Card>
+        <Link href="#security-analysis" className="text-decoration-none">
+            <Card className="h-100 border-0 shadow-sm" style={{cursor: 'pointer'}}>
+                <Card.Body className="text-center">
+                    <FontAwesomeIcon icon={faFileAlt} size="2x" className="text-primary mb-3" />
+                    <Card.Title as="h5">Proven Security</Card.Title>
+                    <Card.Text className="text-muted">Formally verified in academic research with published security proofs</Card.Text>
+                </Card.Body>
+            </Card>
+        </Link>
     </Col>
     <Col md="6" lg="4">
-        <Card className="h-100 border-0 shadow-sm">
-            <Card.Body className="text-center">
-                <FontAwesomeIcon icon={faHistory} size="2x" className="text-primary mb-3" />
-                <Card.Title as="h5">Integrity Protection</Card.Title>
-                <Card.Text className="text-muted">Detects tampering and rollback attacks on files, metadata, and directory structure</Card.Text>
-            </Card.Body>
-        </Card>
+        <Link href="#integrity" className="text-decoration-none">
+            <Card className="h-100 border-0 shadow-sm" style={{cursor: 'pointer'}}>
+                <Card.Body className="text-center">
+                    <FontAwesomeIcon icon={faHistory} size="2x" className="text-primary mb-3" />
+                    <Card.Title as="h5">Integrity Protection</Card.Title>
+                    <Card.Text className="text-muted">Detects tampering and rollback attacks on files, metadata, and directory structure</Card.Text>
+                </Card.Body>
+            </Card>
+        </Link>
     </Col>
 </Row>
 
