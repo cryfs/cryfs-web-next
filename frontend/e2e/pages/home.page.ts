@@ -37,7 +37,7 @@ export class HomePage extends BasePage {
     this.contactMessageInput = page.locator('#contact_form_message');
     this.contactEmailInput = page.locator('#contact_form_email');
     this.contactSubmitButton = page.getByRole('button', { name: /^send$/i });
-    this.contactSuccessMessage = page.getByText('Thank you.', { exact: true });
+    this.contactSuccessMessage = page.getByText('Thank you for your message!');
 
     // Modals
     this.downloadModal = page.locator('.modal').filter({ hasText: /Download CryFS/i });
