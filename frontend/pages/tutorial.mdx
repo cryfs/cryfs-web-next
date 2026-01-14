@@ -8,8 +8,46 @@ import Card from 'react-bootstrap/Card'
 import ContentHeaderSection from '../components/ContentHeaderSection'
 import Layout from '../components/Layout'
 import MetaTags from '../components/MetaTags'
+import JsonLd from '../components/JsonLdSchema'
 import Link from 'next/link'
 import {Console, ConsoleCommand, ConsoleOutput} from '../components/Console'
+
+export const howToSchema = {
+    '@type': 'HowTo',
+    name: 'How to encrypt your cloud storage with CryFS',
+    description: 'A quick and easy introduction into the basic usage of CryFS. CryFS encrypts your Dropbox and protects you against hackers and data leaks. It also works well together with other cloud providers.',
+    tool: 'CryFS',
+    step: [
+        {
+            '@type': 'HowToStep',
+            name: 'Install CryFS',
+            text: 'Download and install CryFS on your system. CryFS is available for Linux, macOS, and Windows.',
+            url: 'https://www.cryfs.org/tutorial#install-cryfs',
+            position: 1,
+        },
+        {
+            '@type': 'HowToStep',
+            name: 'Setup an encrypted directory',
+            text: 'Run "cryfs basedir mountdir" to create an encrypted directory. CryFS will ask for a password and create the necessary directories.',
+            url: 'https://www.cryfs.org/tutorial#setup-an-encrypted-directory',
+            position: 2,
+        },
+        {
+            '@type': 'HowToStep',
+            name: 'Use the encrypted directory',
+            text: 'Work with files in the mountdir directory normally. CryFS encrypts everything automatically and stores it in basedir.',
+            url: 'https://www.cryfs.org/tutorial#using-the-encrypted-directory',
+            position: 3,
+        },
+        {
+            '@type': 'HowToStep',
+            name: 'Connect to cloud storage',
+            text: 'Place the basedir inside your Dropbox, Google Drive, or other cloud sync folder. The encrypted files will sync automatically.',
+            url: 'https://www.cryfs.org/tutorial#using-cryfs-together-with-dropbox',
+            position: 4,
+        },
+    ],
+}
 
 <MetaTags
     title="CryFS: Tutorial"
@@ -17,6 +55,7 @@ import {Console, ConsoleCommand, ConsoleOutput} from '../components/Console'
     type="article"
     description="A quick and easy introduction into the basic usage of CryFS. CryFS encrypts your Dropbox and protects you against hackers and data leaks. It also works well together with other cloud providers."
 />
+<JsonLd schema={howToSchema} />
 
 <Layout>
 <AlternatingSections start_index={1}>

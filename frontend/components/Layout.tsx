@@ -8,9 +8,12 @@ import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { AnalyticsSetup } from '../components/Analytics';
+import JsonLd from '../components/JsonLdSchema';
+import type { Organization } from '../types/jsonld';
 import styles from './Layout.module.css';
 import githubRibbon from '../assets/images/github_ribbon.png';
 import favicon from '../assets/images/favicon.png';
+import logo from '../assets/images/logo.png';
 
 function MyNavBar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -82,6 +85,19 @@ interface LayoutProps {
     children?: React.ReactNode;
 }
 
+const organizationSchema: Organization = {
+    '@type': 'Organization',
+    name: 'CryFS',
+    url: 'https://www.cryfs.org',
+    logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.cryfs.org' + logo.src,
+        width: logo.width,
+        height: logo.height,
+    },
+    description: 'Free open-source cloud encryption software that encrypts your files locally before syncing to Dropbox, Google Drive, or other cloud providers.',
+};
+
 const Layout = ({ children }: LayoutProps) => (
     <>
         <Head>
@@ -89,6 +105,7 @@ const Layout = ({ children }: LayoutProps) => (
             <link rel="shortcut icon" type="image/png" href={favicon.src} />
             <link rel="apple-touch-icon" type="image/png" href={favicon.src} />
         </Head>
+        <JsonLd schema={organizationSchema} />
         <AnalyticsSetup /> { /* AnalyticsSetup must be in Layout and not in _document because otherwise componentDidMount isn't executed */}
         <MyNavBar />
         <GithubRibbon />
