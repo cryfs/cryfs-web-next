@@ -26,6 +26,14 @@ const softwareSchema: SoftwareApplication = {
     softwareVersion: VersionNumber,
     downloadUrl: 'https://www.cryfs.org/#download',
     isAccessibleForFree: true,
+    license: 'https://www.gnu.org/licenses/lgpl-3.0.html',
+    releaseNotes: 'https://github.com/cryfs/cryfs/blob/main/ChangeLog.txt',
+    featureList: [
+        'Encrypts file contents, file sizes, and directory structure',
+        'Works with Dropbox, Google Drive, iCloud, OneDrive, and other cloud providers',
+        'Protects against unauthorized modifications',
+        'Open source and free to use',
+    ],
     offers: {
         '@type': 'Offer',
         price: '0',

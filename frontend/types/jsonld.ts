@@ -50,6 +50,9 @@ export interface SoftwareApplication extends Thing {
   softwareVersion?: string;
   author?: Person | Organization;
   isAccessibleForFree?: boolean;
+  license?: string;
+  featureList?: string | string[];
+  releaseNotes?: string;
 }
 
 export interface Offer {
@@ -81,13 +84,32 @@ export interface BreadcrumbItem {
   item?: string;
 }
 
+// HowTo schema
+export interface HowTo extends Thing {
+  '@type': 'HowTo';
+  name: string;
+  step: HowToStep[];
+  totalTime?: string;
+  tool?: string | string[];
+  supply?: string | string[];
+}
+
+export interface HowToStep {
+  '@type': 'HowToStep';
+  name: string;
+  text: string;
+  url?: string;
+  position?: number;
+}
+
 // Union type for all supported schemas
 export type JsonLdSchema =
   | Organization
   | WebSite
   | SoftwareApplication
   | Article
-  | BreadcrumbList;
+  | BreadcrumbList
+  | HowTo;
 
 // Wrapper with @context
 export interface JsonLdWithContext {
