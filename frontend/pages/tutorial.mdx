@@ -10,6 +10,7 @@ import Layout from '../components/Layout'
 import MetaTags from '../components/MetaTags'
 import Link from 'next/link'
 import {Console, ConsoleCommand, ConsoleOutput} from '../components/Console'
+import {VersionNumber} from '../config/CryfsVersion'
 
 <MetaTags
     title="CryFS: Tutorial"
@@ -73,7 +74,7 @@ After installation, verify CryFS is working by checking its version:
 
 <Console>
     <ConsoleCommand>cryfs --version</ConsoleCommand>
-    <ConsoleOutput>CryFS Version 1.0.3</ConsoleOutput>
+    <ConsoleOutput>CryFS Version {VersionNumber}</ConsoleOutput>
 </Console>
 
 </Container>
