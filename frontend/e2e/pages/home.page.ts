@@ -30,7 +30,7 @@ export class HomePage extends BasePage {
 
     // Newsletter
     this.newsletterEmailInput = page.locator('#inputEmail');
-    this.newsletterSubmitButton = page.getByRole('button', { name: /get notified/i });
+    this.newsletterSubmitButton = page.getByRole('button', { name: /subscribe/i });
     this.newsletterSuccessMessage = page.getByText("Thank you. You'll get a confirmation email shortly.");
 
     // Contact
