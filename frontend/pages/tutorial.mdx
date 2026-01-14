@@ -261,7 +261,7 @@ CryFS requires an empty mount directory. Remove any files from <var>mountdir</va
 Password verification is case-sensitive. Check that Caps Lock isn't enabled and that your keyboard layout is correct.
 
 ### Slow performance with large files
-CryFS encrypts data in blocks, which can slow down operations on very large files. This is normal and ensures security. For best performance, avoid storing extremely large files (multiple gigabytes) that need frequent random access.
+CryFS encrypts data in blocks, which can slow down operations on very large files. This is normal and ensures security. If your vault stores mostly large files, you can improve performance by increasing the block size when creating the vault (choose "No" when asked about default settings). However, larger block sizes waste more space when storing small files, so only increase it if you primarily work with large files.
 
 ### Unmount fails with "device is busy"
 Close all applications and terminals that might be accessing files in <var>mountdir</var>, then try again:
