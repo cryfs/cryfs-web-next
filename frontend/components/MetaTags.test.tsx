@@ -132,6 +132,21 @@ describe('MetaTags', () => {
     expect(getMetaContent('og:image')).toBeTruthy();
   });
 
+  it('renders Twitter Card meta tags', () => {
+    render(
+      <MetaTags
+        title="CryFS - Secure Cloud Storage"
+        url="https://cryfs.org"
+        description="Encrypt your Dropbox with CryFS"
+      />
+    );
+
+    expect(getMetaName('twitter:card')).toBe('summary_large_image');
+    expect(getMetaName('twitter:title')).toBe('CryFS - Secure Cloud Storage');
+    expect(getMetaName('twitter:description')).toBe('Encrypt your Dropbox with CryFS');
+    expect(getMetaName('twitter:image')).toBeTruthy();
+  });
+
   it('handles special characters in title and description', () => {
     render(
       <MetaTags

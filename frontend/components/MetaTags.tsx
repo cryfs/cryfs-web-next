@@ -19,6 +19,10 @@ const MetaTags = (props: MetaTagsProps) => (
         {(props.type == 'article') &&
             <meta property="article:author" content="https://www.facebook.com/sebastian.messmer" />
         }
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={props.title} />
+        <meta name="twitter:description" content={props.description} />
+        <meta name="twitter:image" content={Logo.src} />
         <meta name="description" content={props.description} />
         <title>{props.title}</title>
         <link rel="canonical" href={props.url} />
