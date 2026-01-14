@@ -21,6 +21,7 @@ const MetaTags = (props: MetaTagsProps) => (
         }
         <meta name="description" content={props.description} />
         <title>{props.title}</title>
+        <link rel="canonical" href={props.url} />
     </Head>
 )
 
