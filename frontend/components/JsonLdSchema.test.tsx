@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import JsonLd from './JsonLdSchema';
-import type { Organization, SoftwareApplication, Article, WebSite } from '../types/jsonld';
+import type { Organization, SoftwareApplication, Article, WebSite, BreadcrumbList, HowTo } from '../types/jsonld';
 
 // Helper to get JSON-LD script content from document.head
 const getJsonLdContent = (): unknown => {
@@ -174,5 +174,162 @@ describe('JsonLdSchema', () => {
 
     const script = document.head.querySelector('script[type="application/ld+json"]');
     expect(script).not.toBeNull();
+  });
+
+  it('renders BreadcrumbList schema correctly', () => {
+    const schema: BreadcrumbList = {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://www.cryfs.org',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Tutorial',
+          item: 'https://www.cryfs.org/tutorial',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: 'Installation',
+        },
+      ],
+    };
+
+    render(<JsonLd schema={schema} />);
+
+    const content = getJsonLdContent() as { '@context': string } & BreadcrumbList;
+    expect(content['@context']).toBe('https://schema.org');
+    expect(content['@type']).toBe('BreadcrumbList');
+    expect(content.itemListElement).toHaveLength(3);
+    expect(content.itemListElement[0]).toEqual({
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://www.cryfs.org',
+    });
+    expect(content.itemListElement[1].position).toBe(2);
+    expect(content.itemListElement[2].name).toBe('Installation');
+    expect(content.itemListElement[2].item).toBeUndefined();
+  });
+
+  it('renders HowTo schema correctly', () => {
+    const schema: HowTo = {
+      '@type': 'HowTo',
+      name: 'How to Install CryFS',
+      description: 'Step-by-step guide to install and configure CryFS',
+      step: [
+        {
+          '@type': 'HowToStep',
+          name: 'Install CryFS',
+          text: 'Install CryFS using your package manager',
+          position: 1,
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Create encrypted directory',
+          text: 'Run cryfs command to create an encrypted directory',
+          url: 'https://www.cryfs.org/tutorial#create',
+          position: 2,
+        },
+      ],
+      totalTime: 'PT10M',
+      tool: ['Terminal', 'Package manager'],
+    };
+
+    render(<JsonLd schema={schema} />);
+
+    const content = getJsonLdContent() as { '@context': string } & HowTo;
+    expect(content['@context']).toBe('https://schema.org');
+    expect(content['@type']).toBe('HowTo');
+    expect(content.name).toBe('How to Install CryFS');
+    expect(content.description).toBe('Step-by-step guide to install and configure CryFS');
+    expect(content.step).toHaveLength(2);
+    expect(content.step[0]).toEqual({
+      '@type': 'HowToStep',
+      name: 'Install CryFS',
+      text: 'Install CryFS using your package manager',
+      position: 1,
+    });
+    expect(content.step[1].url).toBe('https://www.cryfs.org/tutorial#create');
+    expect(content.totalTime).toBe('PT10M');
+    expect(content.tool).toEqual(['Terminal', 'Package manager']);
+  });
+
+  it('renders HowTo schema with supply property', () => {
+    const schema: HowTo = {
+      '@type': 'HowTo',
+      name: 'Encrypt Cloud Storage',
+      step: [
+        {
+          '@type': 'HowToStep',
+          name: 'Prepare',
+          text: 'Prepare your environment',
+        },
+      ],
+      supply: 'Cloud storage account',
+    };
+
+    render(<JsonLd schema={schema} />);
+
+    const content = getJsonLdContent() as { '@context': string } & HowTo;
+    expect(content.supply).toBe('Cloud storage account');
+  });
+
+  it('renders WebSite schema correctly', () => {
+    const schema: WebSite = {
+      '@type': 'WebSite',
+      name: 'CryFS',
+      url: 'https://www.cryfs.org',
+      description: 'Cryptographic filesystem for cloud storage',
+    };
+
+    render(<JsonLd schema={schema} />);
+
+    const content = getJsonLdContent() as { '@context': string } & WebSite;
+    expect(content['@context']).toBe('https://schema.org');
+    expect(content['@type']).toBe('WebSite');
+    expect(content.name).toBe('CryFS');
+    expect(content.url).toBe('https://www.cryfs.org');
+    expect(content.description).toBe('Cryptographic filesystem for cloud storage');
+  });
+
+  it('renders combined schemas for a typical page', () => {
+    const websiteSchema: WebSite = {
+      '@type': 'WebSite',
+      name: 'CryFS',
+      url: 'https://www.cryfs.org',
+    };
+
+    const breadcrumbSchema: BreadcrumbList = {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://www.cryfs.org',
+        },
+      ],
+    };
+
+    const articleSchema: Article = {
+      '@type': 'Article',
+      headline: 'Getting Started with CryFS',
+      description: 'Learn how to encrypt your cloud storage',
+    };
+
+    render(<JsonLd schema={[websiteSchema, breadcrumbSchema, articleSchema]} />);
+
+    const content = getJsonLdContent() as { '@context': string; '@graph': unknown[] };
+    expect(content['@context']).toBe('https://schema.org');
+    expect(content['@graph']).toHaveLength(3);
+    expect((content['@graph'][0] as WebSite)['@type']).toBe('WebSite');
+    expect((content['@graph'][1] as BreadcrumbList)['@type']).toBe('BreadcrumbList');
+    expect((content['@graph'][2] as Article)['@type']).toBe('Article');
   });
 });
