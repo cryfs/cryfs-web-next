@@ -37,6 +37,7 @@ test.describe('Mobile Navigation Flow', () => {
     await expect(navPage.howItWorksLink).toBeVisible();
     await expect(navPage.tutorialLink).toBeVisible();
     await expect(navPage.compareLink).toBeVisible();
+    await expect(navPage.downloadLink).toBeVisible();
     await expect(navPage.donateLink).toBeVisible();
   });
 
