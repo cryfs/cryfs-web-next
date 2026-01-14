@@ -33,8 +33,8 @@ Unlike some other encryption tools, CryFS doesn't just encrypt the contents of y
 
 **What you'll learn in this tutorial:**
 - How to install CryFS
-- How to create and use an encrypted directory
-- How to sync encrypted files with cloud storage
+- How to create and use a vault
+- How to sync your vault with cloud storage
 - Best practices for keeping your data secure
 
 </Container>
@@ -54,7 +54,9 @@ Before starting, make sure you have:
 CryFS runs on all major operating systems. On Linux and macOS, it uses FUSE (Filesystem in Userspace). On Windows, it uses Dokany or WinFsp.
 
 <Alert variant="info">
-**Prefer a graphical interface?** If you're not comfortable with the command line, you can use <a href="https://mhogomchungu.github.io/sirikali/" target="_blank" rel="noopener noreferrer">SiriKali</a>—a GUI application that supports CryFS along with other encryption tools. SiriKali is available for Linux and macOS, and provides a user-friendly way to create, mount, and manage encrypted volumes.
+**Prefer a graphical interface?** If you're not comfortable with the command line, there are GUI applications available:
+- <a href="https://mhogomchungu.github.io/sirikali/" target="_blank" rel="noopener noreferrer">SiriKali</a> (Linux, macOS) — A GUI application that supports CryFS along with other encryption tools. Provides a user-friendly way to create, mount, and manage encrypted vaults.
+- <a href="https://kde.org/applications/utilities/org.kde.plasmavault" target="_blank" rel="noopener noreferrer">Plasma Vault</a> (KDE Plasma) — Built into the KDE Plasma desktop, Plasma Vault integrates CryFS directly into your system tray for easy access to encrypted vaults.
 </Alert>
 
 </Container>
@@ -71,7 +73,7 @@ After installation, verify CryFS is working by checking its version:
 
 <Console>
     <ConsoleCommand>cryfs --version</ConsoleCommand>
-    <ConsoleOutput>CryFS Version 0.11.4</ConsoleOutput>
+    <ConsoleOutput>CryFS Version 1.0.3</ConsoleOutput>
 </Console>
 
 </Container>
@@ -80,16 +82,16 @@ After installation, verify CryFS is working by checking its version:
 <section>
 <Container>
 
-## Create an encrypted directory
+## Create a vault
 
-To create an encrypted directory, run <kbd>cryfs basedir mountdir</kbd> where:
-- **basedir** is where your encrypted data will be stored (the "vault")
+To create a vault, run <kbd>cryfs vaultdir mountdir</kbd> where:
+- **vaultdir** is where your encrypted data will be stored
 - **mountdir** is where you'll access your unencrypted files
 
 You can name these directories anything you like. If they don't exist, CryFS will offer to create them.
 
 <Console>
-    <ConsoleCommand>cryfs basedir mountdir</ConsoleCommand>
+    <ConsoleCommand>cryfs vaultdir mountdir</ConsoleCommand>
 </Console>
 
 CryFS will ask you a few questions:
@@ -101,7 +103,7 @@ CryFS will ask you a few questions:
 **Tip**: Use a password manager to generate and store a strong password. A good password should be at least 16 characters and include a mix of letters, numbers, and symbols.
 </Alert>
 
-Once configured, your encrypted directory is ready to use. The <var>mountdir</var> directory is a virtual directory provided by CryFS—files you place here are automatically encrypted and stored in <var>basedir</var>.
+Once configured, your vault is ready to use. The <var>mountdir</var> directory is a virtual directory provided by CryFS—files you place here are automatically encrypted and stored in <var>vaultdir</var>.
 
 </Container>
 </section>
@@ -109,9 +111,9 @@ Once configured, your encrypted directory is ready to use. The <var>mountdir</va
 <section>
 <Container>
 
-## Using the encrypted directory
+## Using the vault
 
-You can work with <var>mountdir</var> just like any normal folder. Add files, create subdirectories, edit documents—everything is automatically encrypted and stored in <var>basedir</var>.
+You can work with <var>mountdir</var> just like any normal folder. Add files, create subdirectories, edit documents—everything is automatically encrypted and stored in <var>vaultdir</var>.
 
 Let's try it out. First, create a file and a directory:
 
@@ -130,18 +132,18 @@ Verify the file was created:
     <ConsoleOutput>My secret notes</ConsoleOutput>
 </Console>
 
-Now look at what's stored in <var>basedir</var>—you'll see encrypted blocks instead of your actual files:
+Now look at what's stored in <var>vaultdir</var>—you'll see encrypted blocks instead of your actual files:
 
 <Console>
-    <ConsoleCommand>ls ../basedir</ConsoleCommand>
+    <ConsoleCommand>ls ../vaultdir</ConsoleCommand>
     <ConsoleOutput>3A2 7F9 B4E cryfs.config [more encrypted blocks]</ConsoleOutput>
 </Console>
 
-The file names, sizes, and directory structure are all hidden. An attacker looking at <var>basedir</var> would have no idea what's inside.
+The file names, sizes, and directory structure are all hidden. An attacker looking at <var>vaultdir</var> would have no idea what's inside.
 
 ### Unmounting and remounting
 
-When you're done working with your files, unmount the encrypted directory:
+When you're done working with your files, unmount the vault:
 
 <Console>
     <ConsoleCommand>cd ..</ConsoleCommand>
@@ -159,10 +161,10 @@ After unmounting, <var>mountdir</var> will be empty—your data is safely locked
     <ConsoleOutput>[empty]</ConsoleOutput>
 </Console>
 
-Your encrypted data remains in <var>basedir</var>. To access your files again, simply remount:
+Your encrypted data remains in <var>vaultdir</var>. To access your files again, simply remount:
 
 <Console>
-    <ConsoleCommand>cryfs basedir mountdir</ConsoleCommand>
+    <ConsoleCommand>cryfs vaultdir mountdir</ConsoleCommand>
     <ConsoleCommand>ls mountdir</ConsoleCommand>
     <ConsoleOutput>documents notes.txt</ConsoleOutput>
     <ConsoleCommand>cat mountdir/notes.txt</ConsoleCommand>
@@ -177,7 +179,7 @@ Your encrypted data remains in <var>basedir</var>. To access your files again, s
 
 ## Using CryFS with cloud storage
 
-CryFS was designed to work seamlessly with cloud storage services. By placing your <var>basedir</var> inside your cloud sync folder, your encrypted files are automatically uploaded and synced across devices.
+CryFS was designed to work seamlessly with cloud storage services. By placing your <var>vaultdir</var> inside your cloud sync folder, your encrypted files are automatically uploaded and synced across devices.
 
 This works with any cloud service that syncs a local folder, including:
 - Dropbox
@@ -196,34 +198,34 @@ First, identify your cloud service's local sync folder. Common locations include
 - **OneDrive**: `~/OneDrive`
 - **iCloud Drive** (macOS): `~/Library/Mobile Documents/com~apple~CloudDocs`
 
-Then create your encrypted directory with <var>basedir</var> inside the sync folder:
+Then create your vault with <var>vaultdir</var> inside the sync folder:
 
 <Console>
-    <ConsoleCommand>cryfs ~/Dropbox/encrypted mountdir</ConsoleCommand>
+    <ConsoleCommand>cryfs ~/Dropbox/myvault mountdir</ConsoleCommand>
 </Console>
 
 <Alert variant="danger">
-**Important**: Place only the <var>basedir</var> (encrypted data) in your cloud folder. Never place <var>mountdir</var> (unencrypted data) in a synced location, or your unencrypted files will be uploaded to the cloud.
+**Important**: Place only the <var>vaultdir</var> (encrypted data) in your cloud folder. Never place <var>mountdir</var> (unencrypted data) in a synced location, or your unencrypted files will be uploaded to the cloud.
 </Alert>
 
 Now everything you save to <var>mountdir</var> is encrypted and synced to your cloud storage automatically.
 
 ### Accessing from multiple devices
 
-To access your encrypted files from another computer:
+To access your vault from another computer:
 
 1. Install CryFS and your cloud client on the second device
-2. Wait for your cloud service to sync the encrypted folder
+2. Wait for your cloud service to sync the vault folder
 3. Run CryFS with the same paths:
 
 <Console>
-    <ConsoleCommand>cryfs ~/Dropbox/encrypted mountdir</ConsoleCommand>
+    <ConsoleCommand>cryfs ~/Dropbox/myvault mountdir</ConsoleCommand>
 </Console>
 
 Enter your password, and you'll have access to all your files.
 
 <Alert variant="warning">
-**Warning**: Never mount the same encrypted directory on two devices simultaneously. Always unmount CryFS on one device and wait for cloud sync to complete before mounting on another device. Concurrent access from multiple devices can corrupt your filesystem.
+**Warning**: Never mount the same vault on two devices simultaneously. Always unmount CryFS on one device and wait for cloud sync to complete before mounting on another device. Concurrent access from multiple devices can corrupt your filesystem.
 </Alert>
 
 </Container>
@@ -242,13 +244,13 @@ Follow these guidelines to keep your data secure:
 - Never share your password or store it in plain text
 
 ### Backup your configuration
-The <var>cryfs.config</var> file in your <var>basedir</var> contains encryption parameters. While your password is the primary key, this file is needed to decrypt your data. If you use cloud storage, it's automatically backed up. Otherwise, consider keeping a separate backup.
+The <var>cryfs.config</var> file in your <var>vaultdir</var> contains encryption parameters. While your password is the primary key, this file is needed to decrypt your data. If you use cloud storage, it's automatically backed up. Otherwise, consider keeping a separate backup.
 
 ### Safe unmounting
 Always unmount CryFS properly before:
 - Shutting down your computer
 - Putting your computer to sleep
-- Disconnecting external drives containing your basedir
+- Disconnecting external drives containing your vaultdir
 
 <Console>
     <ConsoleCommand>cryfs-unmount mountdir</ConsoleCommand>
@@ -271,7 +273,7 @@ Always unmount CryFS properly before:
 CryFS requires an empty mount directory. Remove any files from <var>mountdir</var> before mounting:
 <Console>
     <ConsoleCommand>rm -rf mountdir/*</ConsoleCommand>
-    <ConsoleCommand>cryfs basedir mountdir</ConsoleCommand>
+    <ConsoleCommand>cryfs vaultdir mountdir</ConsoleCommand>
 </Console>
 
 ### "Wrong password" but you're sure it's correct
@@ -306,8 +308,8 @@ If unmount still fails, you can force it (use with caution):
 
 Now that you've set up CryFS, here are some ways to make the most of it:
 
-- **Automate mounting**: Set up scripts to automatically mount your encrypted directories at login
-- **Multiple vaults**: Create separate encrypted directories for different purposes (work, personal, etc.)
+- **Automate mounting**: Set up scripts to automatically mount your vaults at login
+- **Multiple vaults**: Create separate vaults for different purposes (work, personal, etc.)
 - **Explore configuration options**: Run <kbd>cryfs --help</kbd> to see advanced options for customizing encryption settings
 
 <Console>
