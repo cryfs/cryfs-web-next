@@ -16,7 +16,7 @@ import EncfsImg from '../assets/images/encfs.jpg'
 import ECryptFsImg from '../assets/images/ecryptfs.png'
 import CryptomatorImg from '../assets/images/cryptomator.png'
 import CryFsImg from '../assets/images/teaser_small.jpg'
-import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, ComparisonTableBody, ComparisonTableRow, ComparisonTableCell } from '../components/ComparisonPageUtils'
+import { styles, ComparisonTable, ComparisonTableHead, ComparisonTableHeader, ComparisonTableBody, ComparisonTableRow, ComparisonTableCell, QuickOverviewTable, QuickOverviewRow, ToolCard } from '../components/ComparisonPageUtils'
 
 <MetaTags
     title="CryFS: Comparison of encrypted cloud storage solutions"
@@ -62,21 +62,18 @@ If you're just interested in the results, <a href="#summary">scroll down</a>.
 
 ### Quick Overview
 
-<table className="table table-striped" style={{marginTop: '20px'}}>
-<thead>
-<tr><th>Tool</th><th>Verdict</th></tr>
-</thead>
-<tbody>
-<tr><td><a href="#cryfs"><strong>CryFS</strong></a></td><td><strong>Recommended</strong> — Most secure option with full metadata encryption; ideal for single-user cloud storage</td></tr>
-<tr><td><a href="#cryptomator"><strong>Cryptomator</strong></a></td><td>Good choice — User-friendly with strong file encryption; exposes file sizes</td></tr>
-<tr><td><a href="#gocryptfs"><strong>gocryptfs</strong></a></td><td>Decent option — Fast and audited; doesn't hide metadata or directory structure</td></tr>
-<tr><td><a href="#veracrypt"><strong>VeraCrypt</strong></a></td><td>Local only — Excellent for local disk encryption; not designed for cloud sync</td></tr>
-<tr><td><a href="#encfs"><strong>EncFS</strong></a></td><td>Not recommended — Known security vulnerabilities; no longer maintained</td></tr>
-<tr><td><a href="#ecryptfs"><strong>eCryptfs</strong></a></td><td>Not recommended — Not designed for cloud storage; may cause sync issues</td></tr>
-</tbody>
-</table>
+<QuickOverviewTable>
+    <QuickOverviewRow tool="CryFS" toolId="cryfs" verdict="recommended" description="Most secure option with full metadata encryption; ideal for single-user cloud storage" />
+    <QuickOverviewRow tool="Cryptomator" toolId="cryptomator" verdict="good" description="User-friendly with strong file encryption; exposes file sizes" />
+    <QuickOverviewRow tool="gocryptfs" toolId="gocryptfs" verdict="decent" description="Fast and audited; doesn't hide metadata or directory structure" />
+    <QuickOverviewRow tool="VeraCrypt" toolId="veracrypt" verdict="local-only" description="Excellent for local disk encryption; not designed for cloud sync" />
+    <QuickOverviewRow tool="EncFS" toolId="encfs" verdict="not-recommended" description="Known security vulnerabilities; no longer maintained" />
+    <QuickOverviewRow tool="eCryptfs" toolId="ecryptfs" verdict="not-recommended" description="Not designed for cloud storage; may cause sync issues" />
+</QuickOverviewTable>
 
-<a href="#summary">Jump to detailed comparison table →</a>
+<div style={{textAlign: 'center', marginTop: '20px'}}>
+    <a href="#summary" className="btn btn-outline-primary">Jump to detailed comparison table →</a>
+</div>
 
 </Container>
 </section>
