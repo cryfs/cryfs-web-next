@@ -12,6 +12,18 @@ import JsonLd from '../components/JsonLdSchema'
 import Link from 'next/link'
 import {Console, ConsoleCommand, ConsoleOutput} from '../components/Console'
 import {VersionNumber} from '../config/CryfsVersion'
+import TableOfContents from '../components/TableOfContents'
+import TutorialStep from '../components/TutorialStep'
+
+export const tocItems = [
+    { id: 'prerequisites', title: 'Prerequisites', number: 1 },
+    { id: 'install-cryfs', title: 'Install CryFS', number: 2 },
+    { id: 'create-a-vault', title: 'Create a vault', number: 3 },
+    { id: 'using-the-vault', title: 'Using the vault', number: 4 },
+    { id: 'cloud-storage', title: 'Cloud storage sync', number: 5 },
+    { id: 'best-practices', title: 'Best practices', number: 6 },
+    { id: 'troubleshooting', title: 'Troubleshooting', number: 7 },
+];
 
 export const howToSchema = {
     '@type': 'HowTo',
@@ -60,22 +72,23 @@ export const howToSchema = {
 
 <Layout>
 <AlternatingSections start_index={1}>
-<ContentHeaderSection title="Tutorial" subtitle="CryFS is very easy to use. Let us show you how." />
+<ContentHeaderSection title="Tutorial" subtitle="Learn how to encrypt your files with CryFS in minutes." />
 
 <section>
 <Container>
 
-## Overview
+<Row>
+<Col lg={8}>
 
 CryFS encrypts your files so you can safely store them anywhere. It works well with popular cloud services like Dropbox, Google Drive, OneDrive, or any other service that syncs a local folder.
 
 Unlike some other encryption tools, CryFS doesn't just encrypt the contents of your files—it also encrypts file names, file sizes, and the directory structure. This means that even if someone gains access to your cloud storage, they cannot see what files you have, how big they are, or how they're organized.
 
-**What you'll learn in this tutorial:**
-- How to install CryFS
-- How to create and use a vault
-- How to sync your vault with cloud storage
-- Best practices for keeping your data secure
+</Col>
+<Col lg={4}>
+<TableOfContents items={tocItems} />
+</Col>
+</Row>
 
 </Container>
 </section>
@@ -83,7 +96,7 @@ Unlike some other encryption tools, CryFS doesn't just encrypt the contents of y
 <section>
 <Container>
 
-## Prerequisites
+<TutorialStep number={1} title="Prerequisites" id="prerequisites">
 
 Before starting, make sure you have:
 
@@ -94,10 +107,12 @@ Before starting, make sure you have:
 CryFS runs on all major operating systems. On Linux and macOS, it uses FUSE (Filesystem in Userspace). On Windows, it uses Dokany or WinFsp.
 
 <Alert variant="info">
-**Prefer a graphical interface?** If you're not comfortable with the command line, there are GUI applications available:
-- <a href="https://mhogomchungu.github.io/sirikali/" target="_blank" rel="noopener noreferrer">SiriKali</a> (Linux, macOS) — A GUI application that supports CryFS along with other encryption tools. Provides a user-friendly way to create, mount, and manage encrypted vaults.
-- <a href="https://invent.kde.org/plasma/plasma-vault" target="_blank" rel="noopener noreferrer">Plasma Vault</a> (KDE Plasma) — Built into the KDE Plasma desktop, Plasma Vault integrates CryFS directly into your system tray for easy access to encrypted vaults.
+**Prefer a graphical interface?** GUI applications are available:
+- <a href="https://mhogomchungu.github.io/sirikali/" target="_blank" rel="noopener noreferrer">SiriKali</a> (Linux, macOS) — Supports CryFS along with other encryption tools
+- <a href="https://invent.kde.org/plasma/plasma-vault" target="_blank" rel="noopener noreferrer">Plasma Vault</a> (KDE Plasma) — Built into the KDE Plasma desktop
 </Alert>
+
+</TutorialStep>
 
 </Container>
 </section>
@@ -105,7 +120,7 @@ CryFS runs on all major operating systems. On Linux and macOS, it uses FUSE (Fil
 <section>
 <Container>
 
-## Install CryFS
+<TutorialStep number={2} title="Install CryFS" id="install-cryfs">
 
 See <Link href="/#download">Download Instructions</Link> for installation packages and instructions for your operating system.
 
@@ -116,13 +131,15 @@ After installation, verify CryFS is working by checking its version:
     <ConsoleOutput>CryFS Version {VersionNumber}</ConsoleOutput>
 </Console>
 
+</TutorialStep>
+
 </Container>
 </section>
 
 <section>
 <Container>
 
-## Create a vault
+<TutorialStep number={3} title="Create a vault" id="create-a-vault">
 
 To create a vault, run <kbd>cryfs vaultdir mountdir</kbd> where:
 - **vaultdir** is where your encrypted data will be stored
@@ -145,13 +162,15 @@ CryFS will ask you a few questions:
 
 Once configured, your vault is ready to use. The <var>mountdir</var> directory is a virtual directory provided by CryFS—files you place here are automatically encrypted and stored in <var>vaultdir</var>.
 
+</TutorialStep>
+
 </Container>
 </section>
 
 <section>
 <Container>
 
-## Using the vault
+<TutorialStep number={4} title="Using the vault" id="using-the-vault">
 
 You can work with <var>mountdir</var> just like any normal folder. Add files, create subdirectories, edit documents—everything is automatically encrypted and stored in <var>vaultdir</var>.
 
@@ -207,24 +226,32 @@ Your encrypted data remains in <var>vaultdir</var>. To access your files again, 
     <ConsoleOutput>My secret notes</ConsoleOutput>
 </Console>
 
+</TutorialStep>
+
 </Container>
 </section>
 
 <section>
 <Container>
 
-## Using CryFS with cloud storage
+<TutorialStep number={5} title="Using CryFS with cloud storage" id="cloud-storage">
 
 CryFS was designed to work seamlessly with cloud storage services. By placing your <var>vaultdir</var> inside your cloud sync folder, your encrypted files are automatically uploaded and synced across devices.
 
-This works with any cloud service that syncs a local folder, including:
+This works with any cloud service that syncs a local folder:
+
+<Row className="mb-4">
+<Col sm={6} md={4}>
 - Dropbox
 - Google Drive
 - Microsoft OneDrive
+</Col>
+<Col sm={6} md={4}>
 - iCloud Drive
 - Nextcloud
 - Syncthing
-- And many others
+</Col>
+</Row>
 
 ### Setting up cloud sync
 
@@ -264,13 +291,15 @@ Enter your password, and you'll have access to all your files.
 **Warning**: Never mount the same vault on two devices simultaneously. Always unmount CryFS on one device and wait for cloud sync to complete before mounting on another device. Concurrent access from multiple devices can corrupt your filesystem.
 </Alert>
 
+</TutorialStep>
+
 </Container>
 </section>
 
 <section>
 <Container>
 
-## Best practices
+<TutorialStep number={6} title="Best practices" id="best-practices">
 
 Follow these guidelines to keep your data secure:
 
@@ -282,13 +311,24 @@ Follow these guidelines to keep your data secure:
 ### Backup your configuration
 The <var>cryfs.config</var> file in your <var>vaultdir</var> contains encryption parameters. While your password is the primary key, this file is needed to decrypt your data. If you use cloud storage, it's automatically backed up. Otherwise, consider keeping a separate backup.
 
+### Next steps
+- **Automate mounting**: Set up scripts to automatically mount your vaults at login
+- **Multiple vaults**: Create separate vaults for different purposes (work, personal, etc.)
+- **Explore configuration options**: Run <kbd>cryfs --help</kbd> to see advanced options
+
+<Console>
+    <ConsoleCommand>cryfs --help</ConsoleCommand>
+</Console>
+
+</TutorialStep>
+
 </Container>
 </section>
 
 <section>
 <Container>
 
-## Troubleshooting
+<TutorialStep number={7} title="Troubleshooting" id="troubleshooting">
 
 ### "mountdir is not empty"
 CryFS requires an empty mount directory. Remove any files from <var>mountdir</var> before mounting:
@@ -301,7 +341,7 @@ CryFS requires an empty mount directory. Remove any files from <var>mountdir</va
 Password verification is case-sensitive. Check that Caps Lock isn't enabled and that your keyboard layout is correct.
 
 ### Slow performance with large files
-CryFS encrypts data in blocks, which can slow down operations on very large files. This is normal and ensures security. If your vault stores mostly large files, you can improve performance by increasing the block size when creating the vault (choose "No" when asked about default settings). However, larger block sizes waste more space when storing small files, so only increase it if you primarily work with large files.
+CryFS encrypts data in blocks, which can slow down operations on very large files. This is normal and ensures security. For vaults storing mostly large files, you can improve performance by increasing the block size when creating the vault (choose "No" when asked about default settings).
 
 ### Unmount fails with "device is busy"
 Close all applications and terminals that might be accessing files in <var>mountdir</var>, then try again:
@@ -319,38 +359,27 @@ If unmount still fails, you can force it (use with caution):
 - Check the <Link href="/comparison">comparison page</Link> for details on CryFS features
 - Visit our <a href="https://github.com/cryfs/cryfs" target="_blank" rel="noopener noreferrer">GitHub repository</a> to report issues or ask questions
 
-</Container>
-</section>
-
-<section>
-<Container>
-
-## Next steps
-
-Now that you've set up CryFS, here are some ways to make the most of it:
-
-- **Automate mounting**: Set up scripts to automatically mount your vaults at login
-- **Multiple vaults**: Create separate vaults for different purposes (work, personal, etc.)
-- **Explore configuration options**: Run <kbd>cryfs --help</kbd> to see advanced options for customizing encryption settings
-
-<Console>
-    <ConsoleCommand>cryfs --help</ConsoleCommand>
-</Console>
+</TutorialStep>
 
 </Container>
 </section>
 
 <section>
 <Container>
-    <Row>
-        <Col style={{marginTop: '20px'}} md={{span: 8, offset: 2}}>
-            <Card body style={{ backgroundColor: '#f5f5f5', borderColor: '#e3e3e3' }}>
-                <div className="text-center">
-                    <div className="lead">
+    <Row className="justify-content-center">
+        <Col md={8} lg={6}>
+            <Card className="text-center shadow-sm" style={{ backgroundColor: '#f8f9fa', border: '1px solid #e9ecef' }}>
+                <Card.Body className="py-4">
+                    <Card.Title as="h3" className="mb-3" style={{ border: 'none', paddingBottom: 0, marginTop: 0 }}>
                         Ready to get started?
-                    </div>
-                    <Button as={Link} href="/#download" variant="primary" size="lg">Download CryFS</Button>
-                </div>
+                    </Card.Title>
+                    <Card.Text className="text-muted mb-4">
+                        Download CryFS and start encrypting your files today.
+                    </Card.Text>
+                    <Button as={Link} href="/#download" variant="primary" size="lg" className="px-4">
+                        Download CryFS
+                    </Button>
+                </Card.Body>
             </Card>
         </Col>
     </Row>
