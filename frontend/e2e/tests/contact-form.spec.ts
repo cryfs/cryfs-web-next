@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/home.page';
 import { mockContactAPI } from '../fixtures/api-mocks';
+import { API_AUTH_TOKEN } from '../../config/api';
 
 test.describe('Contact Form Flow', () => {
   let homePage: HomePage;
@@ -66,7 +67,7 @@ test.describe('Contact Form Flow', () => {
     expect(capturedRequest).toEqual({
       email: 'feedback@test.com',
       message: 'My feedback message',
-      token: '6BK2tEU6Cv',
+      token: API_AUTH_TOKEN,
     });
   });
 });

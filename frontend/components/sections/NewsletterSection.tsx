@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
 import AsyncButton from "../AsyncButton";
 import { logAnalyticsEvent } from '../Analytics';
+import { API_AUTH_TOKEN } from '../../config/api';
 import styles from './NewsletterSection.module.css';
 
 function NewsletterSection() {
@@ -29,7 +30,7 @@ function NewsletterSection() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: email,
-                    token: '6BK2tEU6Cv',
+                    token: API_AUTH_TOKEN,
                 }),
             });
 
