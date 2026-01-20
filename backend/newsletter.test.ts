@@ -15,8 +15,16 @@ jest.mock('./secret', () =>
 import type { APIGatewayProxyEvent, Context } from 'aws-lambda';
 import { register } from './newsletter';
 import { email_myself } from './email';
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
-const MockMailchimp = require('@mailchimp/mailchimp_marketing').default;
+
+interface MockMailchimpType {
+  __mockAddListMember: jest.Mock;
+  __mockGetListMember: jest.Mock;
+  __mockUpdateListMember: jest.Mock;
+  __mockSetConfig: jest.Mock;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const MockMailchimp = require('@mailchimp/mailchimp_marketing').default as MockMailchimpType;
 const mockedEmailMyself = email_myself as jest.Mock;
 
 describe('newsletter register', () => {
@@ -24,18 +32,13 @@ describe('newsletter register', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockAddListMember.mockReset();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockGetListMember.mockReset();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockUpdateListMember.mockReset();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockSetConfig.mockReset();
   });
 
   test('registers new email successfully', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockAddListMember.mockResolvedValue({ id: 'new-member' });
 
     const event = {
@@ -49,7 +52,6 @@ describe('newsletter register', () => {
 
     expect(result.statusCode).toBe(200);
     expect(JSON.parse(result.body)).toEqual({ success: true });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(MockMailchimp.__mockAddListMember).toHaveBeenCalledWith('test-list-id', {
       email_address: 'newuser@example.com',
       status: 'pending',
@@ -62,9 +64,7 @@ describe('newsletter register', () => {
   });
 
   test('returns success for already subscribed email (enumeration protection)', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockAddListMember.mockRejectedValue({ title: 'Member Exists' });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockGetListMember.mockResolvedValue({ status: 'subscribed' });
 
     const event = {
@@ -86,11 +86,8 @@ describe('newsletter register', () => {
   });
 
   test('resubscribes previously unsubscribed email', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockAddListMember.mockRejectedValue({ title: 'Member Exists' });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockGetListMember.mockResolvedValue({ status: 'unsubscribed' });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockUpdateListMember.mockResolvedValue({ status: 'pending' });
 
     const event = {
@@ -104,7 +101,6 @@ describe('newsletter register', () => {
 
     expect(result.statusCode).toBe(200);
     expect(JSON.parse(result.body)).toEqual({ success: true });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(MockMailchimp.__mockUpdateListMember).toHaveBeenCalled();
     expect(mockedEmailMyself).toHaveBeenCalledWith(
       'CryFS Newsletter Registration',
@@ -114,7 +110,6 @@ describe('newsletter register', () => {
   });
 
   test('returns unsubscribed error for forgotten email', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockAddListMember.mockRejectedValue({ title: 'Forgotten Email Not Subscribed' });
 
     const event = {
@@ -139,7 +134,6 @@ describe('newsletter register', () => {
   });
 
   test('returns invalid-email error for invalid email', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockAddListMember.mockRejectedValue({ title: 'Invalid Resource' });
 
     const event = {
@@ -164,7 +158,6 @@ describe('newsletter register', () => {
   });
 
   test('returns 500 for unknown Mailchimp error', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockAddListMember.mockRejectedValue({ title: 'Unknown Error', detail: 'Something went wrong' });
 
     const event = {
@@ -186,7 +179,6 @@ describe('newsletter register', () => {
   });
 
   test('includes CORS headers in response', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockAddListMember.mockResolvedValue({ id: 'new-member' });
 
     const event = {
@@ -220,14 +212,11 @@ describe('newsletter register', () => {
       success: false,
       error: 'Wrong token',
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(MockMailchimp.__mockAddListMember).not.toHaveBeenCalled();
   });
 
   test('uses MD5 hash for subscriber lookup', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockAddListMember.mockRejectedValue({ title: 'Member Exists' });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MockMailchimp.__mockGetListMember.mockResolvedValue({ status: 'subscribed' });
 
     const event = {
@@ -239,7 +228,6 @@ describe('newsletter register', () => {
 
     await register(event, {} as Context);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(MockMailchimp.__mockGetListMember).toHaveBeenCalledWith(
       'test-list-id',
       '55502f40dc8b7c769880b10874abc9d0',
