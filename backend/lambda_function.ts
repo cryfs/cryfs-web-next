@@ -1,7 +1,7 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { email_myself } from './email';
 
-const token = 'fd0kAn1zns';
+const token = '6BK2tEU6Cv';
 
 const cors_headers = {
   'Access-Control-Allow-Origin': 'https://www.cryfs.org',

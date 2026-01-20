@@ -66,7 +66,7 @@ test.describe('Contact Form Flow', () => {
     expect(capturedRequest).toEqual({
       email: 'feedback@test.com',
       message: 'My feedback message',
-      token: 'fd0kAn1zns',
+      token: '6BK2tEU6Cv',
     });
   });
 });

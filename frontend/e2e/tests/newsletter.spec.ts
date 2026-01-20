@@ -65,7 +65,7 @@ test.describe('Newsletter Signup Flow', () => {
 
     expect(capturedRequest).toEqual({
       email: 'user@test.com',
-      token: 'fd0kAn1zns',
+      token: '6BK2tEU6Cv',
     });
   });
 });

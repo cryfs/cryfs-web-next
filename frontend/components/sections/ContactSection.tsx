@@ -31,7 +31,7 @@ function ContactSection() {
                     body: JSON.stringify({
                         email: email,
                         message: message,
-                        token: 'fd0kAn1zns',
+                        token: '6BK2tEU6Cv',
                     }),
                 });
 

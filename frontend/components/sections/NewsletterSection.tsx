@@ -29,7 +29,7 @@ function NewsletterSection() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: email,
-                    token: 'fd0kAn1zns',
+                    token: '6BK2tEU6Cv',
                 }),
             });
 
