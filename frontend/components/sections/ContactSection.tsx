@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
 import AsyncButton from '../AsyncButton';
 import { logAnalyticsEvent } from '../Analytics';
+import { API_AUTH_TOKEN } from '../../config/api';
 import styles from './ContactSection.module.css';
 
 function ContactSection() {
@@ -31,7 +32,7 @@ function ContactSection() {
                     body: JSON.stringify({
                         email: email,
                         message: message,
-                        token: 'fd0kAn1zns',
+                        token: API_AUTH_TOKEN,
                     }),
                 });
 

@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/home.page';
 import { mockNewsletterAPI } from '../fixtures/api-mocks';
+import { API_AUTH_TOKEN } from '../../config/api';
 
 test.describe('Newsletter Signup Flow', () => {
   let homePage: HomePage;
@@ -65,7 +66,7 @@ test.describe('Newsletter Signup Flow', () => {
 
     expect(capturedRequest).toEqual({
       email: 'user@test.com',
-      token: 'fd0kAn1zns',
+      token: API_AUTH_TOKEN,
     });
   });
 });

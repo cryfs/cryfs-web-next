@@ -1,7 +1,15 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { email_myself } from './email';
 
-const token = 'fd0kAn1zns';
+/**
+ * Authentication token to validate requests from the frontend.
+ * Must match API_AUTH_TOKEN in frontend/config/api.ts
+ *
+ * NOTE: This does NOT provide actual security (it's visible in the client-side code).
+ * It's only meant to block naive bots and scrapers who don't know about it.
+ * Do not rely on this for authentication or authorization.
+ */
+const token = '6BK2tEU6Cv';
 
 const cors_headers = {
   'Access-Control-Allow-Origin': 'https://www.cryfs.org',

@@ -9,7 +9,7 @@ import { email_myself } from './email';
 const mockedEmailMyself = email_myself as jest.Mock;
 
 describe('contact send', () => {
-  const validToken = 'fd0kAn1zns';
+  const validToken = '6BK2tEU6Cv';
 
   beforeEach(() => {
     mockedEmailMyself.mockClear();
