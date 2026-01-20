@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import Mailchimp from 'mailchimp-api-v3';
+import mailchimp from '@mailchimp/mailchimp_marketing';
 import { email_myself } from './email';
 import secret from './secret';
 import CachedValue from './cached_value';
@@ -7,20 +7,28 @@ import { LambdaFunction, LambdaResponse } from './lambda_function';
 
 interface MailchimpClient {
   list_id: string;
-  api: Mailchimp;
 }
 
 interface MailchimpError {
   title?: string;
+  status?: number;
   [key: string]: unknown;
 }
 
-const mailchimp = new CachedValue<MailchimpClient>(async () => {
+const mailchimp_client = new CachedValue<MailchimpClient>(async () => {
   const list_id = await secret('MAILCHIMP_LIST_ID');
   const api_token = await secret('MAILCHIMP_API_TOKEN');
+
+  // Extract server from API token (format: key-us1, key-us2, etc.)
+  const server = api_token.split('-').pop() || 'us1';
+
+  mailchimp.setConfig({
+    apiKey: api_token,
+    server: server,
+  });
+
   return {
     list_id: list_id,
-    api: new Mailchimp(api_token),
   };
 });
 
@@ -57,33 +65,27 @@ const response_error_unknown: LambdaResponse = {
 const subscriber_hash = (email: string): string => createHash('md5').update(email.toLowerCase()).digest('hex');
 
 const email_is_subscribed = async (email: string): Promise<boolean> => {
-  const mc = await mailchimp.get();
-  const response = await mc.api.get({
-    path: `/lists/${mc.list_id}/members/${subscriber_hash(email)}?fields=status`,
+  const mc = await mailchimp_client.get();
+  const response = await mailchimp.lists.getListMember(mc.list_id, subscriber_hash(email), {
+    fields: ['status'],
   });
-  return response['status'] === 'subscribed';
+  return response.status === 'subscribed';
 };
 
 const resubscribe = async (email: string): Promise<void> => {
-  const mc = await mailchimp.get();
-  await mc.api.put({
-    path: `/lists/${mc.list_id}/members/${subscriber_hash(email)}`,
-    body: {
-      email_address: email,
-      status: 'pending',
-    },
+  const mc = await mailchimp_client.get();
+  await mailchimp.lists.updateListMember(mc.list_id, subscriber_hash(email), {
+    email_address: email,
+    status: 'pending',
   });
 };
 
 const do_register = async (email: string): Promise<LambdaResponse> => {
-  const mc = await mailchimp.get();
+  const mc = await mailchimp_client.get();
   try {
-    await mc.api.post({
-      path: `/lists/${mc.list_id}/members`,
-      body: {
-        email_address: email,
-        status: 'pending',
-      },
+    await mailchimp.lists.addListMember(mc.list_id, {
+      email_address: email,
+      status: 'pending',
     });
   } catch (err) {
     const error = err as MailchimpError;

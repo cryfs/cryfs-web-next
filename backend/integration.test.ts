@@ -5,7 +5,7 @@
 
 jest.mock('@aws-sdk/client-ssm');
 jest.mock('@aws-sdk/client-ses');
-jest.mock('mailchimp-api-v3');
+jest.mock('@mailchimp/mailchimp_marketing');
 
 import type { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 
@@ -22,9 +22,10 @@ interface MockSESClient {
 }
 
 interface MockMailchimpType {
-  __mockPost: jest.Mock;
-  __mockGet: jest.Mock;
-  __mockPut: jest.Mock;
+  __mockAddListMember: jest.Mock;
+  __mockGetListMember: jest.Mock;
+  __mockUpdateListMember: jest.Mock;
+  __mockSetConfig: jest.Mock;
 }
 
 interface NewsletterModule {
@@ -46,18 +47,19 @@ describe('Integration Tests', () => {
 
     ssmClient = await import('@aws-sdk/client-ssm') as unknown as MockSSMClient;
     sesClient = await import('@aws-sdk/client-ses') as unknown as MockSESClient;
-    const mailchimpModule = await import('mailchimp-api-v3') as unknown as { default: MockMailchimpType };
+    const mailchimpModule = await import('@mailchimp/mailchimp_marketing') as unknown as { default: MockMailchimpType };
     Mailchimp = mailchimpModule.default;
 
     ssmClient.__mockSend.mockReset();
     sesClient.__mockSend.mockReset();
-    Mailchimp.__mockPost.mockReset();
-    Mailchimp.__mockGet.mockReset();
-    Mailchimp.__mockPut.mockReset();
+    Mailchimp.__mockAddListMember.mockReset();
+    Mailchimp.__mockGetListMember.mockReset();
+    Mailchimp.__mockUpdateListMember.mockReset();
+    Mailchimp.__mockSetConfig.mockReset();
 
     ssmClient.__mockSend.mockResolvedValue({
       Parameters: [
-        { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token' },
+        { Name: 'MAILCHIMP_API_TOKEN', Value: 'mc-token-us1' },
         { Name: 'MAILCHIMP_LIST_ID', Value: 'list-id' },
       ],
     });
@@ -67,7 +69,7 @@ describe('Integration Tests', () => {
 
   describe('Newsletter Registration Flow', () => {
     test('complete successful registration flow', async () => {
-      Mailchimp.__mockPost.mockResolvedValue({ id: 'new-member' });
+      Mailchimp.__mockAddListMember.mockResolvedValue({ id: 'new-member' });
 
       const { register } = await import('./newsletter') as NewsletterModule;
 
@@ -85,12 +87,9 @@ describe('Integration Tests', () => {
 
       expect(result.headers?.['Access-Control-Allow-Origin']).toBe('https://www.cryfs.org');
 
-      expect(Mailchimp.__mockPost).toHaveBeenCalledWith({
-        path: '/lists/list-id/members',
-        body: {
-          email_address: 'newuser@example.com',
-          status: 'pending',
-        },
+      expect(Mailchimp.__mockAddListMember).toHaveBeenCalledWith('list-id', {
+        email_address: 'newuser@example.com',
+        status: 'pending',
       });
 
       expect(sesClient.__mockSend).toHaveBeenCalled();
@@ -111,7 +110,7 @@ describe('Integration Tests', () => {
       expect(result.statusCode).toBe(400);
       const body = JSON.parse(result.body) as { error: string };
       expect(body.error).toBe('Wrong token');
-      expect(Mailchimp.__mockPost).not.toHaveBeenCalled();
+      expect(Mailchimp.__mockAddListMember).not.toHaveBeenCalled();
     });
   });
 
@@ -148,7 +147,7 @@ describe('Integration Tests', () => {
 
   describe('Error Handling Flow', () => {
     test('Mailchimp error triggers error notification', async () => {
-      Mailchimp.__mockPost.mockRejectedValue({ title: 'API Error', detail: 'Service unavailable' });
+      Mailchimp.__mockAddListMember.mockRejectedValue({ title: 'API Error', detail: 'Service unavailable' });
 
       const { register } = await import('./newsletter') as NewsletterModule;
 
@@ -173,7 +172,7 @@ describe('Integration Tests', () => {
 
   describe('Secrets Loading', () => {
     test('secrets are loaded from SSM on first request', async () => {
-      Mailchimp.__mockPost.mockResolvedValue({ id: 'member' });
+      Mailchimp.__mockAddListMember.mockResolvedValue({ id: 'member' });
 
       const { register } = await import('./newsletter') as NewsletterModule;
 
