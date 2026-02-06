@@ -282,7 +282,7 @@ CryFS maintains a version tree that tracks the expected version of each block. T
 
 Each time a block is modified, its version number is incremented. CryFS stores these version numbers locally on your machine (not in the cloud), which allows it to detect if any block has been rolled back or if the version information itself has been tampered with.
 
-When you mount your filesystem, CryFS verifies that all version numbers match what it expects. If there's a mismatch, the filesystem refuses to mount and alerts you to the tampering.
+Each time a block is loaded, CryFS verifies that its version number matches what it expects. If there's a mismatch, CryFS alerts you to the tampering.
 
 ### Limitations
 
