@@ -22,8 +22,8 @@
     "deploy": "sam build && sam deploy --no-confirm-changeset --no-fail-on-empty-changeset"
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.712.0",
-    "@aws-sdk/client-ssm": "^3.712.0",
+    "@aws-sdk/client-ses": "^3.987.0",
+    "@aws-sdk/client-ssm": "^3.987.0",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "async-mutex": "^0.5.0"
   },
