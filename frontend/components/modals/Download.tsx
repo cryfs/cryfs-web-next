@@ -156,7 +156,7 @@ const tabs = (): TabDefinition[] => [
                         <a href="https://github.com/dokan-dev/dokany/releases">DokanY</a> (version 2.2.0 or later)
                     </li>
                     <li>
-                        <a href="https://aka.ms/vs/17/release/vc_redist.x64.exe">Microsoft Visual C++ Redistributable for Visual Studio 2022</a>
+                        <a href="https://visualstudio.microsoft.com/downloads/#microsoft-visual-c-redistributable-for-visual-studio-2022">Microsoft Visual C++ Redistributable for Visual Studio 2022</a>
                     </li>
                 </ul>
             </>
