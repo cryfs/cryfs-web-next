@@ -60,3 +60,16 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+/* Honeypot field: kept out of view and out of the layout/tab order for real
+   users, while still present in the DOM so spam bots fill it in. Positioned
+   off-screen rather than display:none, since some bots skip display:none. */
+.honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}

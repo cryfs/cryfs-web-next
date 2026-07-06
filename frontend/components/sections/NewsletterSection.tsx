@@ -13,10 +13,15 @@ import styles from './NewsletterSection.module.css';
 
 function NewsletterSection() {
     const [email, setEmail] = useState('');
+    const [website, setWebsite] = useState('');
     const [notification, setNotification] = useState('');
 
     const onEmailChange = (val: ChangeEvent<HTMLInputElement>) => {
         setEmail(val.target.value);
+    };
+
+    const onWebsiteChange = (val: ChangeEvent<HTMLInputElement>) => {
+        setWebsite(val.target.value);
     };
 
     const onSubmit = async () => {
@@ -30,6 +35,7 @@ function NewsletterSection() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: email,
+                    website: website,
                     token: API_AUTH_TOKEN,
                 }),
             });
@@ -64,6 +70,11 @@ function NewsletterSection() {
             </div>
             <div className={styles.registrationBox}>
                 <Form className="justify-content-center">
+                    {/* Honeypot field: hidden from real users but auto-filled by spam bots.
+                        The backend rejects any registration where this field is non-empty. */}
+                    <Form.Control type="text" name="website" tabIndex={-1} autoComplete="off"
+                        aria-hidden="true" value={website} onChange={onWebsiteChange}
+                        className={styles.honeypot ?? ''} />
                     <Row className="justify-content-center">
                         <Col md={5} lg={4}>
                             <Form.Group>

@@ -143,5 +143,15 @@ const do_register = async (email: string): Promise<LambdaResponse> => {
 };
 
 export const register = LambdaFunction(async (body) => {
+  // Honeypot spam protection: the frontend renders a hidden "website" field that
+  // real users never see and therefore leave empty. Bots that auto-fill every
+  // form field will populate it. When it's filled, pretend the request succeeded
+  // (so the bot doesn't adapt) but skip Mailchimp and the admin notification.
+  const honeypot = body['website'];
+  if (typeof honeypot === 'string' && honeypot.trim() !== '') {
+    console.log('Rejected newsletter registration: honeypot field was filled (likely a bot)');
+    return response_success;
+  }
+
   return await do_register(body['email'] as string);
 });
