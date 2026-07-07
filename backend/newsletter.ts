@@ -149,7 +149,13 @@ export const register = LambdaFunction(async (body) => {
   // (so the bot doesn't adapt) but skip Mailchimp and the admin notification.
   const honeypot = body['website'];
   if (typeof honeypot === 'string' && honeypot.trim() !== '') {
-    console.log('Rejected newsletter registration: honeypot field was filled (likely a bot)');
+    const email = body['email'];
+    console.log(`Rejected newsletter registration: honeypot field was filled (likely a bot). email=${JSON.stringify(email)}, website=${JSON.stringify(honeypot)}`);
+    await email_myself(
+      'CryFS Newsletter Registration',
+      'Blocked bot registration (honeypot)',
+      `Blocked a newsletter registration because the honeypot field was filled (likely a bot).\n\nemail: ${JSON.stringify(email)}\nwebsite (honeypot): ${JSON.stringify(honeypot)}`
+    );
     return response_success;
   }
 

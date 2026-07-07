@@ -215,7 +215,7 @@ describe('newsletter register', () => {
     expect(MockMailchimp.__mockAddListMember).not.toHaveBeenCalled();
   });
 
-  test('silently ignores registrations where the honeypot field is filled', async () => {
+  test('blocks registrations where the honeypot field is filled and notifies the admin', async () => {
     const event = {
       body: JSON.stringify({
         token: validToken,
@@ -226,12 +226,17 @@ describe('newsletter register', () => {
 
     const result = await register(event, {} as Context);
 
-    // Pretend success so the bot doesn't adapt, but don't touch Mailchimp
-    // and don't notify the admin.
+    // Pretend success so the bot doesn't adapt, and don't touch Mailchimp,
+    // but send a notification email so the admin can monitor how well the
+    // honeypot is working.
     expect(result.statusCode).toBe(200);
     expect(JSON.parse(result.body)).toEqual({ success: true });
     expect(MockMailchimp.__mockAddListMember).not.toHaveBeenCalled();
-    expect(mockedEmailMyself).not.toHaveBeenCalled();
+    expect(mockedEmailMyself).toHaveBeenCalledWith(
+      'CryFS Newsletter Registration',
+      'Blocked bot registration (honeypot)',
+      expect.stringContaining('bot@example.com')
+    );
   });
 
   test('registers normally when the honeypot field is present but empty', async () => {
