@@ -45,7 +45,7 @@ export const LambdaFunction = (
 
       const response = await implementation(body);
       response.headers = Object.assign({}, response.headers || {}, cors_headers);
-      return response as APIGatewayProxyResult;
+      return response;
     } catch (err) {
       const errMsg = err instanceof Error ? err.message : String(err);
       console.log(`Error calling function. Error message: ${errMsg}. Event: ${JSON.stringify(event)}`);

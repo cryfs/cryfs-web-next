@@ -24,7 +24,7 @@ interface MockMailchimpType {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const MockMailchimp = require('@mailchimp/mailchimp_marketing').default as MockMailchimpType;
+const MockMailchimp = (require('@mailchimp/mailchimp_marketing') as { default: MockMailchimpType }).default;
 const mockedEmailMyself = email_myself as jest.Mock;
 
 describe('newsletter register', () => {
