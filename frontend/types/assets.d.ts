@@ -16,6 +16,11 @@ declare module '*.module.scss' {
     export default classes;
 }
 
+// Global (non-module) stylesheet imports, used only for their side effects.
+// TypeScript 6 rejects side-effect imports of modules without a declaration.
+declare module '*.css';
+declare module '*.scss';
+
 // Type declarations for image imports
 declare module '*.png' {
     const content: {
