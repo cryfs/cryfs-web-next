@@ -13,4 +13,4 @@
  * It's only meant to block naive bots and scrapers who don't know about it.
  * Do not rely on this for authentication or authorization.
  */
-export const API_AUTH_TOKEN = '6BK2tEU6Cv';
+export const API_AUTH_TOKEN = 'KO0zZRwRBP';

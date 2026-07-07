@@ -9,7 +9,7 @@ import { email_myself } from './email';
 const mockedEmailMyself = email_myself as jest.Mock;
 
 describe('LambdaFunction', () => {
-  const validToken = '6BK2tEU6Cv';
+  const validToken = 'KO0zZRwRBP';
 
   beforeEach(() => {
     mockedEmailMyself.mockClear();

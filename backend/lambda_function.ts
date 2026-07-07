@@ -9,7 +9,7 @@ import { email_myself } from './email';
  * It's only meant to block naive bots and scrapers who don't know about it.
  * Do not rely on this for authentication or authorization.
  */
-const token = '6BK2tEU6Cv';
+const token = 'KO0zZRwRBP';
 
 const cors_headers = {
   'Access-Control-Allow-Origin': 'https://www.cryfs.org',
