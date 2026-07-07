@@ -215,6 +215,51 @@ describe('newsletter register', () => {
     expect(MockMailchimp.__mockAddListMember).not.toHaveBeenCalled();
   });
 
+  test('blocks registrations where the honeypot field is filled and notifies the admin', async () => {
+    const event = {
+      body: JSON.stringify({
+        token: validToken,
+        email: 'bot@example.com',
+        website: 'http://spam.example.com',
+      }),
+    } as APIGatewayProxyEvent;
+
+    const result = await register(event, {} as Context);
+
+    // Pretend success so the bot doesn't adapt, and don't touch Mailchimp,
+    // but send a notification email so the admin can monitor how well the
+    // honeypot is working.
+    expect(result.statusCode).toBe(200);
+    expect(JSON.parse(result.body)).toEqual({ success: true });
+    expect(MockMailchimp.__mockAddListMember).not.toHaveBeenCalled();
+    expect(mockedEmailMyself).toHaveBeenCalledWith(
+      'CryFS Newsletter Registration',
+      'Blocked bot registration (honeypot)',
+      expect.stringContaining('bot@example.com')
+    );
+  });
+
+  test('registers normally when the honeypot field is present but empty', async () => {
+    MockMailchimp.__mockAddListMember.mockResolvedValue({ id: 'new-member' });
+
+    const event = {
+      body: JSON.stringify({
+        token: validToken,
+        email: 'human@example.com',
+        website: '',
+      }),
+    } as APIGatewayProxyEvent;
+
+    const result = await register(event, {} as Context);
+
+    expect(result.statusCode).toBe(200);
+    expect(JSON.parse(result.body)).toEqual({ success: true });
+    expect(MockMailchimp.__mockAddListMember).toHaveBeenCalledWith('test-list-id', {
+      email_address: 'human@example.com',
+      status: 'pending',
+    });
+  });
+
   test('uses MD5 hash for subscriber lookup', async () => {
     MockMailchimp.__mockAddListMember.mockRejectedValue({ title: 'Member Exists' });
     MockMailchimp.__mockGetListMember.mockResolvedValue({ status: 'subscribed' });

@@ -54,18 +54,20 @@ test.describe('Newsletter Signup Flow', () => {
   });
 
   test('sends correct payload to API', async ({ page }) => {
-    let capturedRequest: { email: string; token: string } | null = null;
+    let capturedRequest: { email: string; website: string; token: string } | null = null;
 
     await page.route('**/newsletter/register', async (route) => {
-      capturedRequest = route.request().postDataJSON() as { email: string; token: string };
+      capturedRequest = route.request().postDataJSON() as { email: string; website: string; token: string };
       await route.fulfill({ status: 200, body: '{}' });
     });
 
     await homePage.goto();
     await homePage.submitNewsletter('user@test.com');
 
+    // The honeypot "website" field must be sent empty for a real user submission.
     expect(capturedRequest).toEqual({
       email: 'user@test.com',
+      website: '',
       token: API_AUTH_TOKEN,
     });
   });
