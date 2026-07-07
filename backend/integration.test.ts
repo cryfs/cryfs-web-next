@@ -37,7 +37,7 @@ interface ContactModule {
 }
 
 describe('Integration Tests', () => {
-  const validToken = '6BK2tEU6Cv';
+  const validToken = 'KO0zZRwRBP';
   let ssmClient: MockSSMClient;
   let sesClient: MockSESClient;
   let Mailchimp: MockMailchimpType;

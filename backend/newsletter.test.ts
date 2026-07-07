@@ -28,7 +28,7 @@ const MockMailchimp = require('@mailchimp/mailchimp_marketing').default as MockM
 const mockedEmailMyself = email_myself as jest.Mock;
 
 describe('newsletter register', () => {
-  const validToken = '6BK2tEU6Cv';
+  const validToken = 'KO0zZRwRBP';
 
   beforeEach(() => {
     jest.clearAllMocks();
