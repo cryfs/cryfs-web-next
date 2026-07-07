@@ -19,6 +19,24 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'backend/package.json'
+          cache: npm
+          cache-dependency-path: backend/package.json
+      - name: Install Dependencies
+        working-directory: backend
+        run: npm install
+      - name: Run Linter
+        working-directory: backend
+        run: npm run lint
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -60,7 +78,7 @@ jobs:
           include-hidden-files: true
 
   deploy:
-    needs: build
+    needs: [lint, build]
     if: success() && github.event_name == 'push' && github.ref == 'refs/heads/master'
     environment:
       name: backend-deploy
