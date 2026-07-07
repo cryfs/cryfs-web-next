@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import JsonLd from './JsonLdSchema';
 import type { Organization, SoftwareApplication, Article, WebSite, BreadcrumbList, HowTo } from '../types/jsonld';

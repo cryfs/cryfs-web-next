@@ -1,4 +1,3 @@
-import React from 'react';
 import Picture from 'next-export-optimize-images/picture';
 import Button from 'react-bootstrap/Button';
 import Link from "next/link";

@@ -1,23 +1,17 @@
 // @ts-check
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import eslint from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
 import tseslint from 'typescript-eslint';
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: eslint.configs.recommended,
-});
 
 export default tseslint.config(
   {
     ignores: ['node_modules/', '.next/', 'out/', 'eslint.config.mjs', 'jest.config.mjs', 'playwright.config.ts', 'next-env.d.ts', 'config/*.d.ts'],
   },
-  ...compat.extends('next/core-web-vitals'),
+  ...nextCoreWebVitals,
   tseslint.configs.recommendedTypeChecked,
   {
     languageOptions: {

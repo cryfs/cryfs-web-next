@@ -2,7 +2,7 @@ import { GoogleAnalyticsRoot, logGoogleAnalyticsPageview, logGoogleAnalyticsEven
 import { MatomoAnalyticsRoot, logMatomoAnalyticsPageview, logMatomoAnalyticsEvent } from './MatomoAnalytics';
 import { RoutingListener } from "./RoutingListener";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 // TODO Log copying the download instruction command (and check we didn't miss any other events from the old Ruby implementation)
 

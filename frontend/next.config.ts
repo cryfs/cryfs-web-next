@@ -55,6 +55,8 @@ const withMdx = mdx({
   /* mdx config */
 });
 
-const mergedConfig: NextConfig = withExportImages(withMdx(config));
+// withExportImages returns a Promise<NextConfig> (Next.js supports an async
+// config default export), so the merged config is a promise as well.
+const mergedConfig: Promise<NextConfig> = withExportImages(withMdx(config));
 
 export default mergedConfig;
