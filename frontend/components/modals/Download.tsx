@@ -92,6 +92,12 @@ const tabs = (): TabDefinition[] => [
                 <p className={styles.infoText}>
                     Many Linux distributions include CryFS in their package repositories. Check your distribution&apos;s package manager.
                 </p>
+                <p className={styles.infoText}>
+                    Note: CryFS needs libFUSE 3 and the fusermount3 helper it uses to mount, which ship in the
+                    fuse3 package on Debian, Ubuntu and Fedora. Distribution packages pull it in for you. Installing
+                    the older libFUSE 2 package, called fuse on Debian and Ubuntu, removes fuse3 and leaves CryFS
+                    unable to mount.
+                </p>
                 <h3 className={styles.sectionHeading}>Build from Source</h3>
                 <p className={styles.infoText}>
                     For the latest version, you can <a href="https://github.com/cryfs/cryfs">build CryFS from source</a>.
@@ -122,7 +128,8 @@ const tabs = (): TabDefinition[] => [
                     </ConsoleCommand>
                 </Console>
                 <p className={styles.infoText}>
-                    Note: <a href="https://osxfuse.github.io/">macFUSE</a> is required for CryFS to work on macOS.
+                    Note: <a href="https://osxfuse.github.io/">macFUSE</a> 4.10.0 or newer is required for CryFS to
+                    work on macOS. That is the first macFUSE release shipping libFUSE 3, which CryFS builds against.
                 </p>
                 <h3 className={styles.sectionHeading}>Build from Source</h3>
                 <p className={styles.infoText}>
