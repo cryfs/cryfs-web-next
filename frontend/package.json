@@ -16,7 +16,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
-    "test:e2e:chromium": "playwright test --project=chromium"
+    "test:e2e:chromium": "playwright test --project=chromium",
+    "test:links": "playwright test --config=playwright.linkcheck.config.ts"
   },
   "keywords": [],
   "author": "Sebastian Messmer",
