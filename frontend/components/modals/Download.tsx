@@ -152,11 +152,11 @@ const tabs = (): TabDefinition[] => [
                 <h3 className={styles.sectionHeading}>Download</h3>
                 <p className={styles.warningText}>Windows support is experimental. Please make regular backups of important data.</p>
                 <p>
-                    <a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi" className={styles.downloadButton}>
+                    <a href={`https://github.com/cryfs/cryfs/releases/download/${VersionNumber}/cryfs-${VersionNumber}.msi`} className={styles.downloadButton}>
                         <FontAwesomeIcon icon={faDownload} />
                         CryFS {VersionNumber} (64-bit)
                     </a>
-                    <a href="https://github.com/cryfs/cryfs/releases/download/1.0.3/cryfs-1.0.3.msi.asc" className={styles.signatureLink}>signature</a>
+                    <a href={`https://github.com/cryfs/cryfs/releases/download/${VersionNumber}/cryfs-${VersionNumber}.msi.asc`} className={styles.signatureLink}>signature</a>
                 </p>
                 <h3 className={styles.sectionHeading}>Prerequisites</h3>
                 <ul className={styles.prerequisitesList}>
@@ -164,7 +164,7 @@ const tabs = (): TabDefinition[] => [
                         <a href="https://github.com/dokan-dev/dokany/releases">DokanY</a> (version 2.2.0 or later)
                     </li>
                     <li>
-                        <a href="https://visualstudio.microsoft.com/downloads/#microsoft-visual-c-v14-redistributable">Microsoft Visual C++ Redistributable for Visual Studio 2022</a>
+                        <a href="https://visualstudio.microsoft.com/downloads/#microsoft-visual-c-v14-redistributable">Microsoft Visual C++ Redistributable</a> (latest version)
                     </li>
                 </ul>
             </>
