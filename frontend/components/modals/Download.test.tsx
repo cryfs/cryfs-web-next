@@ -232,6 +232,23 @@ describe('DownloadModal', () => {
 
       expect(screen.getByRole('link', { name: /CryFS.*64-bit/i })).toBeInTheDocument();
     });
+
+    it('points the installer and signature links at the configured version', async () => {
+      const user = userEvent.setup();
+      render(<DownloadModal />);
+
+      await user.click(screen.getByText('Windows'));
+
+      // The mocked VersionNumber is 1.0.0, so hardcoded links would fail here.
+      expect(screen.getByRole('link', { name: /CryFS.*64-bit/i })).toHaveAttribute(
+        'href',
+        'https://github.com/cryfs/cryfs/releases/download/1.0.0/cryfs-1.0.0.msi'
+      );
+      expect(screen.getByRole('link', { name: /signature/i })).toHaveAttribute(
+        'href',
+        'https://github.com/cryfs/cryfs/releases/download/1.0.0/cryfs-1.0.0.msi.asc'
+      );
+    });
   });
 
   describe('tab state management', () => {
