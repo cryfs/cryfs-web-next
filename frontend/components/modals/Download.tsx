@@ -93,10 +93,10 @@ const tabs = (): TabDefinition[] => [
                     Many Linux distributions include CryFS in their package repositories. Check your distribution&apos;s package manager.
                 </p>
                 <p className={styles.infoText}>
-                    Note: CryFS needs libFUSE 3 and the fusermount3 helper it uses to mount, which ship in the
-                    fuse3 package on Debian, Ubuntu and Fedora. Distribution packages pull it in for you. Installing
-                    the older libFUSE 2 package, called fuse on Debian and Ubuntu, removes fuse3 and leaves CryFS
-                    unable to mount.
+                    Note: Starting with CryFS 1.1.0, CryFS needs libFUSE 3 and the fusermount3 helper it uses to
+                    mount, which ship in the fuse3 package on Debian, Ubuntu and Fedora. Distribution packages pull
+                    it in for you. Installing the older libFUSE 2 package, called fuse on Debian and Ubuntu, removes
+                    fuse3 and leaves CryFS unable to mount.
                 </p>
                 <h3 className={styles.sectionHeading}>Build from Source</h3>
                 <p className={styles.infoText}>
@@ -128,8 +128,9 @@ const tabs = (): TabDefinition[] => [
                     </ConsoleCommand>
                 </Console>
                 <p className={styles.infoText}>
-                    Note: <a href="https://osxfuse.github.io/">macFUSE</a> 4.10.0 or newer is required for CryFS to
-                    work on macOS. That is the first macFUSE release shipping libFUSE 3, which CryFS builds against.
+                    Note: <a href="https://osxfuse.github.io/">macFUSE</a> is required for CryFS to work on macOS.
+                    Starting with CryFS 1.1.0 it has to be macFUSE 4.10.0 or newer, the first release shipping
+                    libFUSE 3, which CryFS builds against from that version on.
                 </p>
                 <h3 className={styles.sectionHeading}>Build from Source</h3>
                 <p className={styles.infoText}>
