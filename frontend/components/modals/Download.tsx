@@ -161,7 +161,7 @@ const tabs = (): TabDefinition[] => [
                 <h3 className={styles.sectionHeading}>Prerequisites</h3>
                 <ul className={styles.prerequisitesList}>
                     <li>
-                        <a href="https://github.com/dokan-dev/dokany/releases">DokanY</a> (version 2.2.0 or later)
+                        <a href="https://github.com/dokan-dev/dokany/releases">DokanY</a> (version 2.3.1 or later)
                     </li>
                     <li>
                         <a href="https://visualstudio.microsoft.com/downloads/#microsoft-visual-c-v14-redistributable">Microsoft Visual C++ Redistributable</a> (latest version)
